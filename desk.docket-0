@@ -1,0 +1,9 @@
+:~  title+'oger'
+    info+'pack rat'
+    color+0x59.4d5b
+    site+/apps/oger
+    base+'oger'
+    version+[0 0 1]
+    website+'https://dalten.org/'
+    license+'Get Rekt'
+==
