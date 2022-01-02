@@ -105,48 +105,70 @@
               /(scot %tas name.res.vaz)
             /noun
           ==
-        =/  myn=jam
-          (jam .^(update:store %gx (weld pax pux)))
-        ::  testing shit
-        ~&  >>>  .^(update:store %gx (weld pax pux))
-        ~&  >>   (jam .^(update:store %gx (weld pax pux)))
-        ~&  >    ;;(update:store (cue (jam .^(update:store %gx (weld pax pux)))))
-        =/  pox=path
-          ;:  welp  /=oger=/hav
-              [~.~.export-2.021.12.27-chat1-675 ~]
-              /jam
-          ==
-        ::=/  urs=jam
-        ::  .^(@ %cx pox)
-        ::~&  >    (cue urs)
-        ::
-        =+  dat=(yore now.bowl)
-        =/  jeff                                         ::  my name-a
-          ;:  (cury cat 3)  'export-'
-              `@t`(scot %ud y.-.dat)  '.'
-              `@t`(scot %ud m.dat)    '.'
-              `@t`(scot %ud d.t.dat)  '-'
-              `@t`(scot %tas name.res.vaz)
-          ==
-        :_  state
-        :~  :*
-          %pass   `path`/test
-          %agent  [our.bowl %hood]
-          %poke   %drum-put
-          !>([/(scot %ta jeff)/jam myn])
-        ==  ==
+        =/  upd=update:store  .^(update:store %gx (weld pax pux))
+        ?+    -.q.upd  `state
+            %add-graph
+          =+  par=(sort ~(tap by graph.q.upd) |=([a=[@ node] b=[@ node]] (gth -.a -.b)))
+          =+  [cop=*(list card) pag=1 dat=(yore now.bowl)]
+          =/  coz=(list card)
+            |-
+            =/  jeff                                         ::  my name-a
+              ;:  (cury cat 3)  'export-'
+                  `@t`(scot %tas name.res.vaz)  '-'
+                  `@t`(scot %ud y.-.dat)  '.'
+                  `@t`(scot %ud m.dat)    '.'
+                  `@t`(scot %ud d.t.dat)  '-'
+                  `@t`(scot %ud pag)
+              ==
+            ?:  (lth (lent par) 5)
+              %+  welp  cop
+              :~  :*
+                %pass   `path`/oger/and/out/(scot %ud pag)/(scot %da now.bowl)
+                %agent  [our.bowl %hood]
+                %poke   %drum-put
+                !>([/(scot %tas name.res.vaz)/(scot %ta jeff)/jam (jam par)])
+              ==  ==
+            =+  pej=(scag 5 par)
+            %=    $
+                par
+              (oust [0 5] par)
+            ::
+                pag
+              +(pag)
+            ::
+                cop
+              %+  welp  cop
+              :~  :*
+                %pass   `path`/oger/and/out/(scot %ud pag)/(scot %da now.bowl)
+                %agent  [our.bowl %hood]
+                %poke   %drum-put
+                !>([/(scot %tas name.res.vaz)/(scot %ta jeff)/jam (jam pej)])
+              ==  ==
+            ==
+          [coz state]
+        ==
       ==
     ::
         %import
       ~&  >  [%initiating %import]
-      =/  urs=update:store
-        ;;(update:store (cue .^(@ %cx fil.vaz)))
-      ?+    -.q.urs  !!
-          %add-graph
-        =/  old=graph  graph.q.urs
-        =/  new=(list card)
-          (~(rep by old) ~(renu perk res.vaz))
-        [new state]
+      =/  arc=arch
+          .^(arch %cy fil.vaz)
+      =/  bak=(list p=path q=*)
+        ~(tap in dir.arc)
+      =+  cop=*(list card)
+      |-
+      ?~  bak
+        [cop state]
+      =/  old=graph  
+        %-  malt
+        ;;((list [atom node]) (cue .^(@ %cx :(weld fil.vaz p.i.bak /jam))))
+      %=    $
+          bak
+        t.bak
+      ::
+          cop
+        %+  welp  cop
+        (~(rep by old) ~(renu perk res.vaz))
       ==
     ==
   [cards this]
