@@ -1,11 +1,13 @@
 ::
 ::  oger sur file
 ::
-/-  store=graph-store
+/-  store=graph-store, metas=metadata-store
 ::
+^?
 |%
 ::
-++  resource  resource:store
+++  resource   resource:store
+++  md-config  md-config:metas
 ::
 ::  oger's actions
 ::
@@ -27,4 +29,10 @@
       ==
   ==
 ::
+::  oger's facts
+::
++$  fritter
+  $%  [%hav rez=(set [resource ?(%chat %link %publish)])]
+      [%kil res=resource]
+  ==
 --
