@@ -9,6 +9,14 @@
 ++  resource   resource:store
 ++  md-config  md-config:metas
 ::
+::  state
+::
++$  state-1
+  $:  resources=(set resource)
+      permits=(set ship)
+      known=(jug ship [res=resource typ=?(%chat %link %publish)])
+  ==
+::
 ::  oger's actions
 ::
 +$  horde
@@ -25,7 +33,8 @@
       ==
       $:  %remake                                        ::  remakes a remote or local resource
           wat=(each resource [ship resource])            ::  - which resource to remake, local or remote
-          wer=term                                       ::  - where to make it (just the name you want locally)
+          gro=resource                                   ::  - group in which to place the new resource
+          wer=term                                       ::  - new resource name - we'll make it for you
       ==
   ==
 ::

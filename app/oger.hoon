@@ -6,25 +6,23 @@
     res=resource,
     store=graph-store,
     metas=metadata-store
-/+  default-agent, dbug, res-lib=resource
+/+  default-agent, dbug, res-lib=resource, rudder, server
+/~  pages  (page:rudder state-1 horde)  /app/oger
 ::
 |%
+::
+::    state-one
+::  - resources (equivalent to ser)
+::  - permits   (ships permitted to see your resources)
+::  - known     (jug of ship [resource type] for %search-ed ships)
+::
++$  state-one   [%1 state-1]
++$  state-zero  [%0 ser=(set resource)]
+::
 +$  versioned-state
     $%  state-zero
         state-one
     ==
-::
-::    state-one adds per, which simply is a set of ships
-::  who are allowed to ask you about your resources and
-::  to clone them.
-::
-+$  state-one
-  $:  %1 
-      resources=(set resource)
-      permits=(set ship)
-      known=(jug ship [res=resource typ=?(%chat %link %publish)])
-  ==
-+$  state-zero  [%0 ser=(set resource)]
 ::
 +$  card      card:agent:gall
 +$  content   content:post
@@ -47,7 +45,10 @@
   ^-  (quip card _this)
   %-  (slog leaf+"%oger-init" ~)
   :_  this
-  [%pass /oger/keys %agent [our.bowl %graph-store] %watch /keys]~
+  :~  :^  %pass  /eyre/connect  %arvo
+      [%e %connect [[~ [%apps %oger ~]] dap.bowl]]
+      [%pass /oger/keys %agent [our.bowl %graph-store] %watch /keys]
+  ==
 ::
 ++  on-save
   ^-  vase
@@ -83,13 +84,26 @@
 ++  on-poke
   |=  [=mark =vase]
   ^-  (quip card _this)
-  ?>  =(mark %oger-horde)
+  ?>  (team:title our.bowl src.bowl)
+  ?:  =(%handle-http-request mark)
+    =;  out=(quip card state-1)
+      [-.out this(state [%1 +.out])]
+    %.  [bowl !<(order:rudder vase) +.state]
+    %:  (steer:rudder state-1 horde)
+      pages
+    ::
+      endor:steer:hc
+      golem:steer:hc
+      djinn:steer:hc
+    ==
+  ?>  =(%oger-horde mark)
   =/  vaz  !<(horde vase)
   ?-    -.vaz
       %export
     ?.  (~(has in resources) res.vaz)                    :: does the resource to be exported exist?
       %.  `this  %-  slog
       :~  leaf+"%oger-export"
+          leaf+"-export-failed"
           leaf+"-unknown-resource"
       ==
     =*  ent  (scot %p entity.res.vaz)                    :: then get the resource ready
@@ -98,15 +112,15 @@
     ?~  ass=~(assoc scry:hc (en-path:res-lib res.vaz))   :: could we find an association in metadata
       %.  `this  %-  slog
       :~  leaf+"%oger-export"
+          leaf+"-export-failed"
           leaf+"-no-metadata-found"
-          leaf+"-report-to-management"
       ==
       ::
     ?.  ?=(%graph -.config.metadatum.u.ass)              :: this product only works on graph modules as of the present
       %.  `this  %-  slog
       :~  leaf+"%oger-export"
+          leaf+"-export-failed"
           leaf+"-strange-request"
-          leaf+"-report-to-management"
       ==
     =*  app  (scot %tas %graph)                          :: if we're a graph, we know the app and type now
     =*  typ  (scot %tas module.config.metadatum.u.ass)
@@ -115,8 +129,8 @@
     ?.  ?=(%add-graph -.q.upd)
       %.  `this  %-  slog
       :~  leaf+"%oger-export"
+          leaf+"-export-failed"
           leaf+"-strange-display"
-          leaf+"-report-to-management"
       ==
     ::
     ::  export will now form a list of cards to drum put
@@ -157,104 +171,223 @@
         !>([/(scot %tas nam)/(scot %tas jeff)/jam (jam (scag 50 par))])
       ==  ==
     ==
-    ::
-        %import
-      ?.  ~(exist scry:hc fol.vaz)                       :: do we have a folder where we expect?
-        %.  `this  %-  slog
-        :~  leaf+"%oger-import"
-            leaf+"-import-failed"
-            leaf+"-invalid-folder-path {<fol.vaz>}"
-            leaf+"-no-jam-files"
-        ==
-        ::
-      ?:  (~(has in resources) [our.bowl wer.vaz])       :: does an identical resource already exist?
-        %.  `this  %-  slog
-        :~  leaf+"%oger-import"
-            leaf+"-import-failed"
-            leaf+"-invalid-resource [{(scow %p our.bowl)} {(scow %tas wer.vaz)}]"
-            leaf+"-already-extant!"
-        ==
-        ::
-      ?.  %.  gro.vaz                                    :: does the specified group exist?
-          %~  has  in
-          %~  group  scry:hc
-          /(scot %p our.bowl)/group-store/(scot %da now.bowl)/groups
-        %.  `this  %-  slog
-        :~  leaf+"%oger-import"
-            leaf+"-import-failed"
-            leaf+"-invalid-group {<gro.vaz>}"
-        ==
-        ::
-      ?~  sha=~(shape scry:hc fol.vaz)                   :: can we determine the shape of the validator for the imprt graph?
-        %.  `this  %-  slog
-        :~  leaf+"%oger-import"
-            leaf+"-import-failed"
-            leaf+"-indeterminate-shape"
-            leaf+"-call-your-mother!"
-        ==
-      ::
-      ::  import will now form a list of cards to graph-store
-      ::
-      =|  cop=(list card)
-      =/  bak=(list p=path q=*)  ~(notes scry:hc fol.vaz)
-      |-
-      ?~  bak
-        %-  %-  slog
-            :~  leaf+"%oger-import"
-                leaf+"-import-starting"
-                leaf+"-group: {<gro.vaz>}"
-                leaf+"-resource: [{(scow %p our.bowl)} {<wer.vaz>}]"
-            ==
-        :_  this
-        :-  (graph:make:hc wer.vaz u.sha)
-        [(metadata:make:hc wer.vaz gro.vaz u.sha) cop]
-      =/  old=graph:store
-        %-  malt
-        ;;  (list [atom node:store])
-        (cue .^(@ %cx :(weld fol.vaz p.i.bak /jam)))
-      %=    $
-        bak  t.bak
-        cop  (welp cop (~(rep by old) ~(renu perk [our.bowl wer.vaz])))
-      ==
-    ::
-        %permit
-      =.  permits
-        (~(uni in permits) per.vaz)
+  ::
+      %import
+    ?.  ~(exist scry:hc fol.vaz)                       :: do we have a folder where we expect?
       %.  `this  %-  slog
-      :~  leaf+"%oger-permit"
-          leaf+"permitted ships: {<permits>}"
-          leaf+"added ships: {<per.vaz>}"
+      :~  leaf+"%oger-import"
+          leaf+"-import-failed"
+          leaf+"-invalid-folder-path {<fol.vaz>}"
+          leaf+"-no-jam-files"
       ==
-    ::
-        %remove
-      =.  permits
-        (~(del in permits) per.vaz)
+      ::
+    ?:  (~(has in resources) [our.bowl wer.vaz])       :: does an identical resource already exist?
       %.  `this  %-  slog
-      :~  leaf+"%oger-permit"
-          leaf+"permitted ships: {<permits>}"
-          leaf+"removed ships: {<per.vaz>}"
+      :~  leaf+"%oger-import"
+          leaf+"-import-failed"
+          leaf+"-invalid-resource [{(scow %p our.bowl)} {(scow %tas wer.vaz)}]"
+      ==
+      ::
+    ?.  %.  gro.vaz                                    :: does the specified group exist?
+        %~  has  in
+        %~  group  scry:hc
+        /(scot %p our.bowl)/group-store/(scot %da now.bowl)/groups
+      %.  `this  %-  slog
+      :~  leaf+"%oger-import"
+          leaf+"-import-failed"
+          leaf+"-invalid-group {<gro.vaz>}"
+      ==
+      ::
+    ?~  sha=~(shape scry:hc fol.vaz)                   :: can we determine the shape of the validator for the imprt graph?
+      %.  `this  %-  slog
+      :~  leaf+"%oger-import"
+          leaf+"-import-failed"
+          leaf+"-indeterminate-shape"
+          leaf+"-call-your-mother!"
       ==
     ::
-        %search
+    ::  import will now form a list of cards to graph-store
+    ::
+    =|  cop=(list card)
+    =/  bak=(list p=path q=*)  ~(notes scry:hc fol.vaz)
+    |-
+    ?~  bak
+      %-  %-  slog
+          :~  leaf+"%oger-import"
+              leaf+"-import-starting"
+              leaf+"-group: {<gro.vaz>}"
+              leaf+"-resource: [{(scow %p our.bowl)} {<wer.vaz>}]"
+          ==
       :_  this
-      %+  murn  ~(tap in ser.vaz)
-      |=  s=ship
-      ?:  %-  ~(has in wex.bowl)                         ::  do we have a subscription already?
-          :_  [%.y /search]                              ::  - if so?  ignore
-          [[%oger %search (scot %p s) ~] s %oger]        ::  - if not? subscribe
-        ~
-      :-  ~
-      :+  %pass  /oger/search/(scot %p s)
-      [%agent [s %oger] %watch /search]
-    ::
-        %remake
-      `this
+      :-  (graph:make:hc wer.vaz u.sha)
+      [(metadata:make:hc wer.vaz gro.vaz u.sha) cop]
+    =/  old=graph:store
+      %-  malt
+      ;;  (list [atom node:store])
+      (cue .^(@ %cx :(weld fol.vaz p.i.bak /jam)))
+    %=    $
+      bak  t.bak
+      cop  (welp cop (~(rep by old) ~(renu perk:hc [our.bowl wer.vaz])))
     ==
+  ::
+      %permit
+    =.  permits
+      (~(uni in permits) per.vaz)
+    %.  `this  %-  slog
+    :~  leaf+"%oger-permit"
+        leaf+"permitted ships: {<permits>}"
+        leaf+"added ships: {<per.vaz>}"
+    ==
+  ::
+      %remove
+    =.  permits
+      (~(del in permits) per.vaz)
+    %.  `this  %-  slog
+    :~  leaf+"%oger-permit"
+        leaf+"permitted ships: {<permits>}"
+        leaf+"removed ships: {<per.vaz>}"
+    ==
+  ::
+      %search
+    :_  this
+    %+  murn  ~(tap in ser.vaz)
+    |=  s=ship
+    ?:  %-  ~(has in wex.bowl)                         ::  do we have a subscription already?
+        :_  [%.y /search]                              ::  - if so?  ignore
+        [[%oger %search (scot %p s) ~] s %oger]        ::  - if not? subscribe
+      ~
+    :-  ~
+    :+  %pass  /oger/search/(scot %p s)
+    [%agent [s %oger] %watch /search]
+  ::
+      %remake
+    ?:  (~(has in resources) [our.bowl wer.vaz])
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake"
+          leaf+"-remake-failed"
+          leaf+"-duplicate-destination"
+      ==
+      ::
+    ?.  %.  gro.vaz                                    :: does the specified group exist?
+        %~  has  in
+        %~  group  scry:hc
+        /(scot %p our.bowl)/group-store/(scot %da now.bowl)/groups
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake"
+          leaf+"-remake-failed"
+          leaf+"-invalid-group {<gro.vaz>}"
+      ==
+    ?.  ?=(%.y -.wat.vaz)
+      ::
+      ::  handle remote case
+      ::
+      =*  sip  `ship`+<.wat.vaz
+      =*  res  `resource`+>.wat.vaz
+      =/  mud=(map resource ?(%chat %link %publish))
+        %-  malt
+        ;;  (list [resource ?(%chat %link %publish)])
+        ~(tap in (~(get ju known) sip))
+      ?.  (~(has by mud) res)
+        %.  `this  %-  slog
+        :~  leaf+"%oger-remake-remote"
+            leaf+"-remake-failed"
+            leaf+"-unknown-resource"
+        ==
+      :_  this
+      =-  [%pass -> %agent [sip %oger] %watch -<]~
+      :-  /remake/(scot %p entity.res)/(scot %tas name.res)
+      ;:  weld
+        /remake
+        /(scot %tas wer.vaz)
+        /(scot %tas (~(got by mud) res))
+        /(scot %p -.gro.vaz)/(scot %tas +.gro.vaz)
+      ==
+    ::
+    ::  handle local case
+    ::
+    =*  res  `resource`+.wat.vaz
+    ?.  (~(has in resources) res)                        :: does the resource to be exported exist?
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake-local"
+          leaf+"-remake-failed"
+          leaf+"-unknown-resource"
+      ==
+    =*  ent  (scot %p entity.res)                        :: then get the resource ready
+    =*  nam  (scot %tas name.res)
+    ::
+    ?~  ass=~(assoc scry:hc (en-path:res-lib res))       :: could we find an association in metadata
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake-local"
+          leaf+"-remake-failed"
+          leaf+"-no-metadata-found"
+      ==
+      ::
+    ?.  ?=(%graph -.config.metadatum.u.ass)              :: this product only works on graph modules as of the present
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake-local"
+          leaf+"-remake-failed"
+          leaf+"-strange-request"
+      ==
+    =*  app  (scot %tas %graph)                          :: if we're a graph, we know the app and type now
+    =*  typ  (scot %tas module.config.metadatum.u.ass)
+    ::
+    =/  upd=update:store  ~(graph scry:hc [ent nam ~])   :: does our scry give us what we expect
+    ?.  ?=(%add-graph -.q.upd)
+      %.  `this  %-  slog
+      :~  leaf+"%oger-remake-local"
+          leaf+"-remake-failed"
+          leaf+"-strange-display"
+      ==
+    ::
+    ::  export will now form a list of cards to graph-store
+    ::
+    %-  %-  slog
+        :~  leaf+"%oger-remake-local"
+            leaf+"-remake-starting"
+            leaf+"-group: {<gro.vaz>}"
+            leaf+"-resource: [{(scow %p our.bowl)} {<wer.vaz>}]"
+        ==
+    :_  this
+    =-  :-  %-  graph:make:hc
+            [wer.vaz ;;(?(%chat %link %publish) typ)]
+        :_  -
+        %-  metadata:make:hc 
+        [wer.vaz gro.vaz ;;(?(%chat %link %publish) typ)]
+    (~(rep by graph.q.upd) ~(renu perk:hc [our.bowl wer.vaz]))
+  ==
 ::
 ++  on-agent
   |=  [=wire =sign:agent:gall]
   ^-  (quip card _this)
   ?+    wire  `this
+      [%remake @ @ @ @ ~]
+    =/  res=resource  [our.bowl (slav %tas +<.wire)]
+    =/  typ=?(%chat %link %publish)
+      ;;(?(%chat %link %publish) (slav %tas +>-.wire))
+    =/  gro=resource
+      [(slav %p +>+<.wire) (slav %tas +>+>-.wire)]
+    ::
+    ?>  !(~(has in resources) res)
+    ?>  %.  gro
+        %~  has  in
+        %~  group  scry:hc
+        /(scot %p our.bowl)/group-store/(scot %da now.bowl)/groups
+    ?+    -.sign  `this
+      %kick  `this
+    ::
+        %fact
+      ?.  ?=(%jam p.cage.sign)  `this
+      =/  gra=graph:store
+        ;;(graph:store (cue !<(@ q.cage.sign)))
+      :_  this
+      =-  :-  %-  graph:make:hc
+              [name.res ;;(?(%chat %link %publish) typ)]
+          :_  -
+          %-  metadata:make:hc 
+          [name.res gro ;;(?(%chat %link %publish) typ)]
+      (~(rep by gra) ~(renu perk:hc [our.bowl name.res]))
+    ==
+  ::
       [%oger %keys ~]
     ?+    -.sign  `this
         %kick
@@ -349,6 +482,21 @@
     %-  silt
     ^-  (list [resource ?(%chat %link %publish)])
     (murn ~(tap in resources) hav:make:hc)
+  ::
+      [%remake @ @ ~]
+    ?>  (~(has in permits) src.bowl)
+    =/  res=resource
+      [(slav %p +<.path) (slav %tas +>-.path)]
+    ?>  (~(has in resources) res)
+    ::
+    =/  upd=update:store
+      %~  graph  scry:hc
+      [(scot %p -.res) (scot %tas +.res) ~]
+    ?>  ?=(%add-graph -.q.upd)
+    :_  this
+    :~  [%give %fact ~ [%jam !>(`@`(jam graph.q.upd))]]
+        [%give %kick ~[path] `src.bowl]
+    ==
   ==
 ++  on-arvo  on-arvo:def
 ++  on-fail  on-fail.def
@@ -454,5 +602,35 @@
       %link     `;;(?(%chat %link %publish) typ)
       %publish  `;;(?(%chat %link %publish) typ)
     ==
+  --
+++  steer
+  |%
+  ++  endor
+    |=  =trail:rudder
+    ^-  (unit place:rudder)
+    ?~  site=(decap:rudder /apps/oger site.trail)  ~
+    ?+  u.site  ~
+      ~                 `[%page & %main]
+      [%$ ~]            `[%away /apps/oger]
+      [%about ~]        `[%page & %main]
+      [%about %$ ~]     `[%away /apps/oger/about]
+      [%search ~]       `[%page & %main]
+      [%search %$ ~]    `[%away /apps/oger/search]
+      [%search @ ~]     `[%page & %main]
+      [%search @ %$ ~]  `[%away /apps/oger/search/(scot %p +<.u.site)]
+      [%export ~]       `[%page & %main]
+      [%export %$ ~]    `[%away /apps/oger/export]
+      [%import ~]       `[%page & %main]
+      [%import %$ ~]    `[%away /apps/oger/import]
+    ==
+  ++  golem
+    |=  =order:rudder
+    ^-  [[(unit reply:rudder) (list card)] state-1]
+    =;  msg=@t  [[`[%code 404 msg] ~] +.state]
+    (rap 3 ~['%oger page ' url.request.order ' not found'])
+  ++  djinn
+    |=  =act=horde
+    ^-  $@(@t [brief:rudder (list card) state-1])
+    'testing'
   --
 --
