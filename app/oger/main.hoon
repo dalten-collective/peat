@@ -68,10 +68,11 @@
               ;div(class "sub-panel")
                 ;div(class "panel-buttons")
                   ;div(class "panel-form")
-                    ;form(class "panel-form-buttons")
-                      ;a
+                    ;form(class "panel-form-buttons", method "get")
+                      ;button
                         =class  "button-tile"
-                        =href   "../apps/oger/search"
+                        =name   "name"
+                        =value  "value"
                         ; Search 🔍
                       ==
                       ;a
