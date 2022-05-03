@@ -73,7 +73,6 @@
   |=  [headers=header-list:http body=(unit octs)]
   ^-  $@(brief:rudder horde)
   =+  notes=?~(body ~ (frisk:rudder q.u.body))
-  ~&  >>  [-:!>(notes) notes]
   ::
   ::  check-arguments
   ::
@@ -326,7 +325,7 @@
                         =class  "button-tile"
                         =type   "submit"
                         =name   "act"
-                        =value  "Remove"
+                        =value  "permit"
                         ; Remove 🚫
                       ==
                     ==
@@ -564,7 +563,6 @@
 ::
   ++  sear
     |=  [beeps=(unit [gud=? txt=@t]) peeps=(unit @p)]
-    ~&  >  peeps
     |^
     ^-  manx
     ;html
@@ -1010,7 +1008,6 @@
               ;=  ;p(class "no-friends"):"No Friends?"
               ==
         ==
-      ~&  >>>  ~(tap in permits)
       %+  murn  ~(tap in permits)
       |=  sip=ship
       :-  ~
