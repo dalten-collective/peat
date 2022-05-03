@@ -1,5 +1,51 @@
 ::
-::  control-plane for oger
+::  main for oger - by Quartus Corporation
+::
+::
+::    developer notes:
+::
+::  - Navigation
+::  This file is rather long, no?
+::  It's actually serving 6 "separate" pages that reuse
+::  some elements. All this routing happens off of query
+::  string parameters @ the end of the URL, and that,
+::  in turn, is handled in +build.
+::
+::  In short:
+::    - A ?act=<action> query parameter will yield
+::        CASE         PAGE
+::      %export        +expo
+::      %import        +impo
+::      %search        +sear
+::      %remake        +sear
+::      %permit        +perm
+::      %remove        +perm
+::      %digest        +abou
+::      %return        +main
+::
+::  - Helper Core
+::  It also contains a helper core (hc) which has the
+::  following scry functions, all of which are inside
+::  a +scry door that takes a path:
+::   Function     Expected Path     Result
+::  - curve         clay path       arch
+::  - exist         clay path       is path directory w/ files?
+::  - notes         clay path       (list [p=path q=*]) of files in directory
+::  - group       (empty path)      (set resource) of groups on ship
+::  - groups      (empty path)      (list resource) where we are amdin  
+::  - graph       (en-path res)     `update:store` of a graph
+::  - assoc       (en-path res)     Metadata about a graph
+::  - shape         clay path       Validator "shape" from .jam file
+::
+::  - Good to Know
+::  Lastly, it employs a core, +re, for re-used sail elements
+::  but that's not very complicated. +re mostly returns 
+::  manx or marls but sometimes has gates that are intended
+::  to be 'murn'ed (std-lib function maybe-turn) to 
+::  maybe-produce a list of manx (a marl).
+::  One such function in particular requires being called
+::  by an instruction first:
+::    e.g. (murn ~(list) (murn-expo-list %chat))
 ::
 /-  *oger, 
     resource,
@@ -68,6 +114,9 @@
       /hav
       /(scot %tas fol)
     ==
+  ::
+    ::  %remake
+    ::?.  ?&  (~(has by notes) 'rest-wat')
   ==
       
 ++  build
@@ -82,9 +131,11 @@
   ::
   ::  mono-page affordances
   ::
-  ?+    get=(~(got by notes) 'act')  [%code 404 'Error: Unrecognized Function Call']
+  ?+    get=(~(got by notes) 'act')
+    [%code 404 'Error: Unrecognized Function Call']
+  ::
       %export
-    [%page (expo beeps)]    ::  expo
+    [%page (expo beeps)]                                 ::  expo
   ::
       %import
     [%page (impo beeps)]                                 ::  impo
@@ -98,13 +149,13 @@
     [%page (sear beeps `our.bol)]                        ::  sear
   ::
       %permit
-    [%page (main beeps)]                                 ::  perm
+    [%page (perm beeps)]                                 ::  perm
   ::
-      %reject
-    [%page (main beeps)]                                 ::  perm
+      %remove
+    [%page (perm beeps)]                                 ::  perm
   ::
       %digest
-    [%page (main beeps)]                                 ::  abou
+    [%page (abou beeps)]                                 ::  abou
   ::
       %return
     [%page (main beeps)]                                 ::  main
@@ -117,6 +168,7 @@
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -206,8 +258,8 @@
                         =class  "button-tile"
                         =type   "submit"
                         =name   "act"
-                        =value  "reject"
-                        ; Reject 🚫
+                        =value  "Remove"
+                        ; Remove 🚫
                       ==
                     ==
                   ==
@@ -241,6 +293,7 @@
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -259,13 +312,15 @@
         ::
           ;div(class "main")
             ;div(class "chat-table")
+              ;p(class "table-label"):"Chat Graphs"      ::  export chats
+            ::
               ;div(class "table-header-three")
                 ;div(class "table-header-title")
                   ;p(class "table-title"):"Host"
                 ==
               ::
                 ;div(class "table-header-title")
-                  ;p(class "table-title"):"Chat"
+                  ;p(class "table-title"):"Chat Graph"
                 ==
               ::
                 ;div(class "table-header-title")
@@ -277,13 +332,15 @@
               ;div(class "table-body")
                 ;*  ;;  marl
                     =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Chats"
+                        ;=  ;p(class "empty-table"):"No Chat Graphs"
                         ==
                     (murn ~(tap in resources) (murn-expo-list:re %chat))
               ==
             ==
           ::
             ;div(class "link-table")
+              ;p(class "table-label"):"Link Libraries"   ::  export links
+            ::
               ;div(class "table-header-three")
                 ;div(class "table-header-title")
                   ;p(class "table-title"):"Host"
@@ -309,13 +366,15 @@
             ==
           ::
             ;div(class "publish-table")
+              ;p(class "table-label"):"Notebook Graphs"  ::  export notebooks
+            ::
               ;div(class "table-header-three")
                 ;div(class "table-header-title")
                   ;p(class "table-title"):"Host"
                 ==
               ::
                 ;div(class "table-header-title")
-                  ;p(class "table-title"):"Notebook"
+                  ;p(class "table-title"):"Notebook Graph"
                 ==
               ::
                 ;div(class "table-header-title")
@@ -328,7 +387,7 @@
                 ;*  ;;  marl
                     =-
                       ?.  ?=(~ -)  -
-                      ;=  ;p(class "empty-table"):"No Notebooks"
+                      ;=  ;p(class "empty-table"):"No Notebook Graphs"
                       ==
                     %+  murn  ~(tap in resources)
                     (murn-expo-list:re %publish)
@@ -358,6 +417,7 @@
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -442,6 +502,7 @@
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -523,7 +584,170 @@
       ==
     ::
       ;div(class "rest-search-form-wrap")
-        ;p:"form"
+        ;div(class "link-table")
+          ;div(class "table-header-three")
+            ;p(class "table-label"):"Chats"              ::  remake chats
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Host"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Chat Graph"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Export"
+            ==
+          ==
+        ::
+          ;div(class "table-body")
+            ;form(class "line-form-button", method "POST")
+              ;div(class "list-line-new")
+                ;p(class "table-tip"):"New Resource Name"
+              ::
+                ;input
+                  =type         "text"
+                  =name         "rest-ship"
+                  =placeholder  "my-new-resource";
+              ==
+            ::
+              ;div(class "list-line-group")
+                ;+  group-select:re
+              ==
+            ::
+              ;*  ;;  marl
+                  ?.  =(our.bol sip)
+                    =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Chat Graphs"
+                        ==
+                    %-  murn  :_  (make-remake %chat)
+                    ;;  (list [resource (unit ?(%chat %link %publish))])
+                    %+  turn  ~(tap in (~(get ju known) sip))
+                    |=([res=resource typ=?(%chat %link %publish)] [res `typ])
+                  =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Chat Graphs"
+                        ==
+                  %-  murn  :_  (make-remake %chat)
+                  %+  turn  ~(tap in resources)
+                  |=  res=resource
+                  ;;  $:  resource
+                          (unit ?(%chat %link %publish))
+                      ==
+                  [res ~]
+            ==
+          ==
+        ==
+      ::
+        ;div(class "link-table")
+          ;div(class "table-header-three")
+            ;p(class "table-label"):"Link Libraries"     ::  remake links
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Host"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Link Library"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Export"
+            ==
+          ==
+        ::
+          ;div(class "table-body")
+            ;form(class "line-form-button", method "POST")
+              ;div(class "list-line-new")
+                ;p(class "table-tip"):"New Resource Name"
+              ::
+                ;input
+                  =type         "text"
+                  =name         "rest-ship"
+                  =placeholder  "my-new-resource";
+              ==
+            ::
+              ;div(class "list-line-group")
+                ;+  group-select:re
+              ==
+            ::
+              ;*  ;;  marl
+                  ?.  =(our.bol sip)
+                    =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Link Libraries"
+                        ==
+                    %-  murn  :_  (make-remake %link)
+                    ;;  (list [resource (unit ?(%chat %link %publish))])
+                    %+  turn  ~(tap in (~(get ju known) sip))
+                    |=([res=resource typ=?(%chat %link %publish)] [res `typ])
+                  =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Link Libraries"
+                        ==
+                  %-  murn  :_  (make-remake %link)
+                  %+  turn  ~(tap in resources)
+                  |=  res=resource
+                  ;;  $:  resource
+                          (unit ?(%chat %link %publish))
+                      ==
+                  [res ~]
+            ==
+          ==
+        ==
+      ::
+        ;div(class "link-table")
+          ;div(class "table-header-three")
+            ;p(class "table-label"):"Notebooks"          ::  remake notebooks
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Host"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Notebook Graph"
+            ==
+          ::
+            ;div(class "table-header-title")
+              ;p(class "table-title"):"Export"
+            ==
+          ==
+        ::
+          ;div(class "table-body")
+            ;form(class "line-form-button", method "POST")
+              ;div(class "list-line-new")
+                ;p(class "table-tip"):"New Resource Name"
+              ::
+                ;input
+                  =type         "text"
+                  =name         "rest-ship"
+                  =placeholder  "my-new-resource";
+              ==
+            ::
+              ;div(class "list-line-group")
+                ;+  group-select:re
+              ==
+            ::
+              ;*  ;;  marl
+                  ?.  =(our.bol sip)
+                    =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Notebook Graphs"
+                        ==
+                    %-  murn  :_  (make-remake %publish)
+                    ;;  (list [resource (unit ?(%chat %link %publish))])
+                    %+  turn  ~(tap in (~(get ju known) sip))
+                    |=([res=resource typ=?(%chat %link %publish)] [res `typ])
+                  =-  ?.  ?=(~ -)  -
+                        ;=  ;p(class "empty-table"):"No Notebook Graphs"
+                        ==
+                  %-  murn  :_  (make-remake %publish)
+                  %+  turn  ~(tap in resources)
+                  |=  res=resource
+                  ;;  $:  resource
+                          (unit ?(%chat %link %publish))
+                      ==
+                  [res ~]
+            ==
+          ==
+        ==
       ==
     ==
   ++  search-form
@@ -548,7 +772,8 @@
     ==
   ::
   ++  no-friends
-    ;=  ;p(class "no-friends"):"No Friends!"
+    ;=  ;p(class "no-friends"):"No Friends?"
+        ;p(class "no-friends"):"We'll be your friend"
     ==
   ++  friend-list
     |=  sip=ship
@@ -571,17 +796,62 @@
         ==
       ==
     ==
+  ::
+  ++  make-remake
+    |=  typ=?(%chat %link %publish)
+    |=  [res=resource tip=(unit ?(%chat %link %publish))]
+    ^-  (unit manx)
+    ?~  ass=~(assoc scry:hc (en-path:res-lib res))  ~  :: could we find an association in metadata
+    ?.  ?=(%graph -.config.metadatum.u.ass)  ~         :: this product only works on graph modules as of the present
+    =*  fon  ?~(tip module.config.metadatum.u.ass u.tip)
+    ?.  =(typ fon)  ~
+    :-  ~
+    ;div(class "list-line")
+      ;div(class "list-line-host")
+        ;p(class "ship-name"):"{(scow %p entity.res)}"
+      ==
+    ::
+      ;div(class "list-line-name")
+        ;p(class "resource-name"):"{(scow %tas name.res)}"
+      ==
+    ::
+      ;div(class "list-line-expo")
+        ;div(class "list-line-form-button")
+          ;input
+            =style  "display: none"
+            =type   "text"
+            =name   "rest-ship"
+            =value  (scow %p entity.res);
+        ::
+          ;input
+            =style  "display: none"
+            =type   "text"
+            =name   "rest-name"
+            =value  (scow %tas name.res);
+        ::
+          ;button
+            =class  "table-button"
+            =type   "submit"
+            =name   "post"
+            =value  "remake"
+            ; Remake 📡
+          ==
+        ==
+      ==
+    ==
   --
 ::
 ::  perm page
 ::
   ++  perm
     |=  beeps=(unit [gud=? txt=@t])
+    |^
     ^-  manx
     ;html
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -599,7 +869,34 @@
           ==
         ::
           ;div(class "main")
-            ;p:"expo"
+            ;div(class "perm-add")
+              ;div(class "perm-wrap", id "ship-search")
+                ;div(class "perm-guts")
+                  ;div(class "perm-search")
+                    ;form(class "search-form", method "POST")
+                      ;input
+                        =class        "text-planet"
+                        =name         "ship"
+                        =type         "text"
+                        =required     ""
+                        =placeholder  "~sampel-palnet";
+                    ::
+                      ;button
+                        =class  "search-button"
+                        =type   "submit"
+                        =name   "post"
+                        =value  "search"
+                        ; Permit ☑️
+                      ==
+                    ==
+                  ==
+                ==
+              ==
+            ==
+          ::
+            ;div(class "perm-del")
+              ;+  remover
+            ==
           ==
         ::
           ;div(class "menu")
@@ -614,6 +911,37 @@
         ==
       ==
     ==
+    ::
+    ++  remover
+      ^-  manx
+      =;  murl=marl
+        ;div(class "friends")
+          ;*  ?.  =(~ murl)  murl
+              ;=  ;p(class "no-friends"):"No Friends?"
+              ==
+        ==
+      ~&  >>>  ~(tap in permits)
+      %+  murn  ~(tap in permits)
+      |=  sip=ship
+      :-  ~
+      ;div(class "permit-line-form-button")
+        ;form(class "permit-form-button", method "POST")
+          ;input
+            =style  "display: none"
+            =type   "text"
+            =name   "-ship"
+            =value  (scow %p sip);
+        ::
+          ;button
+            =class  "table-button"
+            =type   "submit"
+            =name   "post"
+            =value  "remove"
+            {(scow %p sip)} 🚫
+          ==
+        ==
+      ==
+    --
 ::
 ::  abou page
 ::
@@ -624,6 +952,7 @@
       ;head
         ;title:"Oger Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
+        ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
@@ -641,7 +970,9 @@
           ==
         ::
           ;div(class "main")
-            ;p:"expo"
+            ;div(class "explain-contain")
+              ;+  abou-explainer:re
+            ==
           ==
         ::
           ;div(class "menu")
@@ -698,17 +1029,17 @@
       ;div(class "explainer")
         ;p(class "explainer-head"):"Import From Disk"
         ;p(class "explainer-body"):"The Import From Disk Utility assumes you have:"
-        ;p(class "explainer-body"):" - A mounted desk called 'oger'"
-        ;p(class "explainer-body"):" - A directory in the 'oger' desk's '/hav' directory with a name you know"
-        ;p(class "explainer-body"):" - A series of .jam files in the known, aforementioned directory created using the export function"
-        ;p(class "explainer-body"):" - A pre-existing group for which you are an admin"
-        ;p(class "explainer-body"):" - A name of a group"
+        ;p(class "explainer-buon"):" - A mounted desk called 'oger'"
+        ;p(class "explainer-buon"):" - A directory in the 'oger' desk's '/hav' directory with a name you know"
+        ;p(class "explainer-buon"):" - A series of .jam files in the known, aforementioned directory created using the export function"
+        ;p(class "explainer-buon"):" - A pre-existing group for which you are an admin"
+        ;p(class "explainer-buon"):" - A name of a group"
         ;p(class "explainer-body"):"To import a resource:"
-        ;p(class "explainer-body"):" - Enter the name of that aforementioned, known directory"
+        ;p(class "explainer-buon"):" - Enter the name of that aforementioned, known directory"
         ;p(class "explainer-note"):"   (this folder should contain jam files appurtenant to the archive you're trying to import)"
         ;p(class "explainer-note"):"   (to create an archive, navigate to the Export Disk Utility, from the main menu)"
-        ;p(class "explainer-body"):" - Select a group from the list of those you manage"
-        ;p(class "explainer-body"):" - Enter a name for Oger to use while creating a new, local resource to house the imported graph"
+        ;p(class "explainer-buon"):" - Select a group from the list of those you manage"
+        ;p(class "explainer-buon"):" - Enter a name for Oger to use while creating a new, local resource to house the imported graph"
         ;p(class "explainer-note"):"   (Use letters, numbers, and hyphens only. No spaces!)"
       ==
     ::
@@ -717,8 +1048,8 @@
         ;p(class "explainer-head"):"Search for Graphs"
         ;p(class "explainer-body"):"You do not currently have any friends. You can make some by asking them to permit you, then searching for them here."
         ;p(class "explainer-body"):"Having friends in Oger will:"
-        ;p(class "explainer-body"):" - Let you search for them and track graphs that they're aware of"
-        ;p(class "explainer-body"):" - Remotely request and locally duplicate graphs that your friends possess"
+        ;p(class "explainer-buon"):" - Let you search for them and track graphs that they're aware of"
+        ;p(class "explainer-buon"):" - Remotely request and locally duplicate graphs that your friends possess"
         ;p(class "explainer-body"):"You wont be able to search for anyone's graphs until they've authorized you, and we can't tell from here if that's happen. Go talk to someone in EScape for a while until they offer you access to their secrets!"
         ;p(class "explainer-body"):"If you know that you should have access to someone's graphs, enter their @p below and click Search."
       ==
@@ -731,13 +1062,13 @@
             ^-  (list manx)
             :~  ;p(class "explainer-body"):"We didn't quite catch that - want to search again?"
                 ;p(class "explainer-body"):"You must be new here - Welcome!"
-                ;p(class "explainer-body"):"Aren't you glad I didn't explode your ship by trying to encode Zalgo text here?"
-                ;p(class "explainer-body"):"Remember to garner enthusiastic consent before Searching your friends."
+                ;p(class "explainer-body"):"Dad says \"Remember to never encode Zalgo text into your Sail interfaces.\""
+                ;p(class "explainer-body"):"Remember to garner enthusiastic consent before Searching your friends on OgerTalk™️."
                 ;p(class "explainer-body"):"Oger is brought to you by Quartus Corporation"
                 ;p(class "explainer-body"):"l̸̨̢̨̛͍̤̺̝͉̱̳̭̣͍͕̬̖̈́͛̃̆͒̒̉̅̒̏̂̈̚̚ǒ̵̞̣̝̭̳̭̯̘̗̰͓̟̭̫̗͊̂̀̋͒͌̎̉̈́̽̈́͂̑̀̎͜l̸̛̜̜̘̰̥̼̥͔̪̮̫̝̝̫̦̺̓͐̔͊̓̀̾̉̈́̎̎͂̕͝͠ ̶̡̙̪͉̲̲͕͔̦̺̳͖͔̣̳͕̋͂̓͐̀̀́͛͊̌͗͘͝͝͝I̶̡̬͎͇̦̻̘̲͎͎̱̪͒̉̓̍͌͋̿̽͋̀̍̚͜͝͠ͅ ̶̡̠͍̲̝̜̠͔͙͇̩̗͉̝̀͒̆̉͗̑̅̌͛̽̈́̆̅̚͘͜ḏ̸̡̨̭͙̙̗͉̦͖̘̠͎́̏̓͊́̀̊̓̈́̀͒̎̈́́̂͜i̶̗̰͔̝̩̺̲̪̬͚͖͎̼̅̃̀̄̈́͋͗͋̂̐͗̈́̕͠ͅḑ̵̧̛̛͔̞̺̣̗͈͚̻͔̙̪̙̲͍̌͑̀̀̍̓̂̆̋̈́̍͘͠ ̸̨̧͔̩̟̹̝̺̠̩̮̝͎͖͚̔͐͒͊̽͗̈́̃̒͋͌͘̚͘͘ͅt̶̛̛͍̩̭̟̯̰̪͍̳̼͔͙͕̫̔̏̌̔͋̊̔͂͂̀̆͘͜͝ͅř̵̡̡̛̦̰͖̪̣̮͔̖͕̼͖̭̊̏͊̈͛̈́̀͐̌͒̈̕͝ͅy̴̗͔̘̮͖̜͚͔̤̖̩̰̻̺͋̈̄̃̎̈̀͐͐̈́͛̎̓̉͛͘ ̴̨̢̺̪̝̲̗͉̖̖̙͖̘̤̘͖̔̈́̆͊̇̌̓̌͐̌̊̌͒̇̈́̕ę̶͙̦͇͎̬͔̗̫̯̞̯̦̳̗̼̐́̋͛͗̐̄̐͆̌̓̑̕͝͠n̶̛̛̥̣̞̲̦̳̠̠̖̻̘͍̜̬̣̽̉̽̈̾̑̀͋̈́͋͑͌̊͜͝ç̷̲͙̺͎̟̠̬͎̬̜͓̩̝̯̝̄̀͊̇̊̌͋̏́̿̽̄͛̑̅̽ò̶̹̤̝͈̼̮̖̬̱͍͚̻͚͉̾̈͑̀̉͆̈́̆̇́̂́̇́͜d̷̨͙̙̪̦̠͇͍̥̖̦̦͖̹̎͒͋̇̐̍̓̓̐̋̄̈́͘͘͘͝i̶̡̡̡̛͍̟͓͙̯͎̮̲̟̰̮̤̩̎̃̌̊͆̎́̔̎͘͘̚͠͝n̴͈̙͔̹̝̺̘̠͚̖͕͎͍̑̀̾͋̂̋͌̑̃̾̊̃̐̓͘͜͝ͅg̸̙̘͖̙͖̭̥̪̦̗͇͙̲̯̐̈́̔̾͌̒̾͋͐̿́̀́͝ͅ ̴̢̨̫͕̲̺͉̻̭̣͓̹̯̗͇̗̀͐̍͒̎̈́́͛̑̉͛̚̕̕z̶̨̙͇̼͚͇͓͕̯͖͙̳͈̤̙̀̽͒̍̈́̌͆̇̋̊̊̐̓͠͝͝a̸̧̨̛̘͚̻̣̱̱̠͔̟̬̜̱̯͒̀͂͋̄̽̈́́̍̈͐͒̇̽ͅl̷̡̛̺̰̙̞̜̱̰̲̲͍̮̱̼̞̾̔̓͂͑̍͂͋̃̔͘̕͝͝͝ͅĝ̷̛̙̮̠̝̪̼̺̲̜̥̫̬̩̮̜͕͋̄͋̈̔͐̈͐͌͘̚͝͝ö̸̢̢̨̰͓̳̳͚̲̦̺̣̲́́́͒́̊̉̄̌̂͂̓̎͜͜͝"
-                ;p(class "explainer-body"):"Backing up graphs is now easy, and fun!"
-                ;p(class "explainer-body"):"If you're enjoying using Oger, you should try Keep - our agent that backs up other agents!"
-                ;p(class "explainer-body"):"Try clicking on your friends name, on your right."
+                ;p(class "explainer-body"):"With OgerTalk™️, backing up Graphs on Urbit is easy and fun!"
+                ;p(class "explainer-body"):"If you're enjoying using Oger, you should try Keep - Quartus Corporation's agent that backs up other agents!"
+                ;p(class "explainer-body"):"Try clicking on your OgerTalk™️ friends name, on your right."
                 ;p(class "explainer-body"):"We couldn't find that friend, but we did have some suggestions, on the right."
             ==
       ==
@@ -745,10 +1076,37 @@
       ;div(class "explainer")
         ;p(class "explainer-head"):"Recreate Graphs"
         ;p(class "explainer-body"):"To recreate a resource"
-        ;p(class "explainer-body"):" - Select a group from the list of those you manage"
-        ;p(class "explainer-body"):" - Enter a name for Oger to use while creating a new, local resource to house the recreated graph"
+        ;p(class "explainer-buon"):" - Enter a name for Oger to use while creating a new, local resource to house the recreated graph"
         ;p(class "explainer-note"):"   (Use letters, numbers, and hyphens only. No spaces!)"
-        ;p(class "explainer-body"):" - Select a resource from one of the lists below to recreate"
+        ;p(class "explainer-buon"):" - Click Remake 📡 next to the appropriate resource to create a new resource in the specified group and copy the graph contents over."
+      ==
+    ++  abou-explainer
+      ;div(class "explainer")
+        ;p(class "explainer-head"):"Oger Graph Backup and Restoration Utility - About Us"
+        ;p(class "explainer-body"):"Starting a group on Urbit is easy. You have a field of interest, find some like-minded friends, form a group and put some chats in it."
+        ;p(class "explainer-body"):"Running a successful group on Urbit is slightly harder. You must:"
+        ;p(class "explainer-buon"):" - Maintain engagement"
+        ;p(class "explainer-buon"):" - Compete with other groups discussing the same subject matter"
+        ;p(class "explainer-note"):"   (Quartus Corporation produces a product called Orca that helps link similar-subject-matter chats)"
+        ;p(class "explainer-buon"):" - Manage your user base"
+        ;p(class "explainer-note"):"   (Quartus Corporation produces a product called Expo that helps with group management activities)"
+        ;p(class "explainer-body"):"But - by far, the most difficult part of running a group presently is backing up your data. And, in an environment where you are your own data steward, this can be a serious challenge."
+        ;br;
+        ;p(class "explainer-gold"):"Enter Oger"
+        ;br;
+        ;p(class "explainer-body"):"Oger by Quartus Corporation is an Urbit utility for locally and remotely backing up graphs. Oger is capable of:"
+        ;p(class "explainer-buon"):" - Disk Utilities"
+        ;p(class "explainer-buto"):"   * Exporting Graphs to Disk"
+        ;p(class "explainer-buto"):"   * Importing Graphs from Disk"
+        ;p(class "explainer-buon"):" - On-Line Utilities"
+        ;p(class "explainer-buto"):"   * Duplicating an existing graph that your ship has access to, on your ship"
+        ;p(class "explainer-buto"):"   * Copying an existing graph that a ship you're friends with has access to, on your ship"
+        ;p(class "explainer-buon"):" - OgerTalk™️ Permissions"
+        ;p(class "explainer-buto"):"   * OgerTalk™️ is Oger's On-Line™️ Networking Protocol"
+        ;p(class "explainer-buto"):"   * OgerTalk™️ enables one-thousand new vistas for Oger users including remote backup and restoration of graphs"
+        ;p(class "explainer-buto"):"   * Managing your OgerTalk™️ permissions is easy - visit the Permissions page from the main menu"
+        ;br;
+        ;p(class "explainer-body"):"If you have questions about Oger, head on 'oger' to ~mister-hilper-dozzod-dalten/quartus and submit a ticket. One of our friendly engineers will be with you shortly."
       ==
     ::
     ++  about

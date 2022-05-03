@@ -361,11 +361,10 @@
     =+  curve
     ?~  dis=dir.-  ~
     ?~  nos=(rush p:(head dis) ;~((glue bar) sym sym sym dem))  ~
-    =+  typ=+>-.u.nos
-    ?+  typ  ~
-      %chat     `;;(?(%chat %link %publish) typ)
-      %link     `;;(?(%chat %link %publish) typ)
-      %publish  `;;(?(%chat %link %publish) typ)
+    ?+  +>-.u.nos  ~
+      %chat     `;;(?(%chat %link %publish) +>-.u.nos)
+      %link     `;;(?(%chat %link %publish) +>-.u.nos)
+      %publish  `;;(?(%chat %link %publish) +>-.u.nos)
     ==
   --
 ++  steer
