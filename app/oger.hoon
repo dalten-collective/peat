@@ -1,5 +1,5 @@
 ::
-:: oger - a pack rat
+:: oger - a pack rat - by Quartus Corporation
 ::
 /-  *oger,
     post,

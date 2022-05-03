@@ -26,7 +26,7 @@
 ::  - Helper Core
 ::  It also contains a helper core (hc) which has the
 ::  following scry functions, all of which are inside
-::  a +scry door that takes a path:
+::  a +scry door that takes a path (many unused):
 ::   Function     Expected Path     Result
 ::  - curve         clay path       arch
 ::  - exist         clay path       is path directory w/ files?
@@ -73,11 +73,50 @@
   |=  [headers=header-list:http body=(unit octs)]
   ^-  $@(brief:rudder horde)
   =+  notes=?~(body ~ (frisk:rudder q.u.body))
+  ~&  >>  [-:!>(notes) notes]
   ::
   ::  check-arguments
   ::
+  ::  - 'post' argument
+  ::    Always included. Specifies which Horde.
+  ::    additional data specified w/ strange names, as
+  ::    below:
+  ::
+  ::  - Post Expectations
+  ::    * %export - needs 'expo-ship', 'expo-name'
+  ::    * %import - needs 'impo-folder', 'group-select', 'impo-name'
+  ::    * %permit - needs 'ship'
+  ::    * %remove - needs 'ship'
+  ::    * %search - needs 'ship'
+  ::    * %remake - needs 'rest-reso', 'rest-ship', 'rest-name', 'rest-sour', 'group-select'
+  ::  
   ?.  (~(has by notes) 'post')         'Error: Unrecognized Function Call'
   ?+    pact=(~(got by notes) 'post')  'Error: Unrecognized Function Call'
+      %permit
+    ?.  (~(has by notes) 'ship')
+      'Error: Missing Data in Function Call'
+    =-  
+      ?.  ?=(~ -)  `horde`[%permit (sy ~[u.-])]
+      'Sorry, we didn\'t recognize that ship name - please try again'
+    (slaw %p (~(got by notes) 'ship'))
+
+  ::
+      %remove
+    ?.  (~(has by notes) 'ship')
+      'Error: Missing Data in Function Call'
+    =-  
+      ?.  ?=(~ -)  `horde`[%permit (sy ~[u.-])]
+      'Sorry, we didn\'t recognize that ship name - please try again'
+    (slaw %p (~(got by notes) 'ship'))
+  ::
+      %search
+    ?.  (~(has by notes) 'ship')
+      'Error: Missing Data in Function Call'
+    =-  
+      ?.  ?=(~ -)  `horde`[%permit (sy ~[u.-])]
+      'Sorry, we didn\'t recognize that ship name - please try again'
+    (slaw %p (~(got by notes) 'ship'))
+  ::
       %export
     ?.  ?&  (~(has by notes) 'expo-ship')
             (~(has by notes) 'expo-name')
@@ -115,8 +154,37 @@
       /(scot %tas fol)
     ==
   ::
-    ::  %remake
-    ::?.  ?&  (~(has by notes) 'rest-wat')
+      %remake
+    ?.  ?&  (~(has by notes) 'rest-reso')
+            (~(has by notes) 'rest-sour')
+            (~(has by notes) 'rest-ship')
+            (~(has by notes) 'rest-name')
+            (~(has by notes) 'group-select')
+        ==
+      'Error: Missing Data in Function Call'
+    ?~  new=(slaw %tas (~(got by notes) 'rest-reso'))
+      'Error: Specify New-Resource Name'
+    ?:  (~(has in resources) [our.bol u.new])
+      'Error: Invalid New-Resource Name - Already In Use'
+    =/  maybe-dime-tape=(unit [dime tape])
+      %+  rush  (~(got by notes) 'group-select')
+      ;~(pfix sig ;~((glue bar) crub:so (star next)))
+    ?~  dt=maybe-dime-tape  'Error: Invalid Group Selection'
+    ?.  ?=(%p -<.u.dt)      'Error: Something Went Wrong - Sorry!'
+    ?~  sip=(slaw %p (~(got by notes) 'rest-ship'))
+      'Error: Invalid Resource Selection'
+    ?~  nam=(slaw %tas (~(got by notes) 'rest-name'))
+      'Error: Invalid Resource Selection'
+    ?~  who=(slaw %p (~(got by notes) 'rest-sour'))
+      'Error: Invalid Resource Selection'
+    ?.  ?:  =(our.bol u.who)  (~(has in resources) [u.sip u.nam])
+        %.  [u.sip u.nam]  %~  has  in  %~  key  by
+        (malt ~(tap in (~(get ju known) u.who)))
+      %^  cat  3  'Error: Invalid Resource Selection - '
+      'Maybe you asked for something that no-longer is available?'
+    =-  `horde`[%remake - [->.u.dt (crip +.u.dt)] u.new]
+    ;;  (each resource [ship resource])
+    ?:(=(our.bol u.who) [%.y [u.sip u.nam]] [%.n [u.who [u.sip u.nam]]])
   ==
       
 ++  build
@@ -146,7 +214,7 @@
     ?~(sil=(~(get by notes) 'ship') ~ (slaw %p u.sil))
   ::
       %remake
-    [%page (sear beeps `our.bol)]                        ::  sear
+    [%page (sear beeps ~)]                               ::  sear
   ::
       %permit
     [%page (perm beeps)]                                 ::  perm
@@ -496,6 +564,7 @@
 ::
   ++  sear
     |=  [beeps=(unit [gud=? txt=@t]) peeps=(unit @p)]
+    ~&  >  peeps
     |^
     ^-  manx
     ;html
@@ -603,12 +672,19 @@
         ::
           ;div(class "table-body")
             ;form(class "line-form-button", method "POST")
+            ::  hidden input to specify what ship
+              ;input
+                =name  "rest-sour"
+                =type  "text"
+                =style  "display: none"
+                =value  "{(scow %p sip)}";
+            ::
               ;div(class "list-line-new")
                 ;p(class "table-tip"):"New Resource Name"
               ::
                 ;input
                   =type         "text"
-                  =name         "rest-ship"
+                  =name         "rest-reso"
                   =placeholder  "my-new-resource";
               ==
             ::
@@ -658,12 +734,19 @@
         ::
           ;div(class "table-body")
             ;form(class "line-form-button", method "POST")
+            ::  hidden input to specify what ship
+              ;input
+                =name  "rest-sour"
+                =type  "text"
+                =style  "display: none"
+                =value  "{(scow %p sip)}";
+            ::
               ;div(class "list-line-new")
                 ;p(class "table-tip"):"New Resource Name"
               ::
                 ;input
                   =type         "text"
-                  =name         "rest-ship"
+                  =name         "rest-reso"
                   =placeholder  "my-new-resource";
               ==
             ::
@@ -713,12 +796,19 @@
         ::
           ;div(class "table-body")
             ;form(class "line-form-button", method "POST")
+            ::  hidden input to specify what ship
+              ;input
+                =name  "rest-sour"
+                =type  "text"
+                =style  "display: none"
+                =value  "{(scow %p sip)}";
+            ::
               ;div(class "list-line-new")
                 ;p(class "table-tip"):"New Resource Name"
               ::
                 ;input
                   =type         "text"
-                  =name         "rest-ship"
+                  =name         "rest-reso"
                   =placeholder  "my-new-resource";
               ==
             ::
@@ -885,7 +975,7 @@
                         =class  "search-button"
                         =type   "submit"
                         =name   "post"
-                        =value  "search"
+                        =value  "permit"
                         ; Permit ☑️
                       ==
                     ==
@@ -929,7 +1019,7 @@
           ;input
             =style  "display: none"
             =type   "text"
-            =name   "-ship"
+            =name   "ship"
             =value  (scow %p sip);
         ::
           ;button
