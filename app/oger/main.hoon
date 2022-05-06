@@ -917,7 +917,12 @@
     |=  typ=?(%chat %link %publish)
     |=  [res=resource tip=(unit ?(%chat %link %publish))]
     ^-  (unit manx)
-    ?.  =(typ tip)  ~
+    =/  foam=(unit ?(%chat %link %publish))
+      ?~  ass=~(assoc scry:hc (en-path:res-lib res))  tip
+      ?.  ?=(%graph -.config.metadatum.u.ass)  ~
+      `;;(?(%chat %link %publish) module.config.metadatum.u.ass)
+    ?~  foam  ~
+    ?.  =(typ u.foam)  ~
     :-  ~
     ;div(class "list-line")
       ;div(class "list-line-host")
