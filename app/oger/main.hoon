@@ -68,7 +68,33 @@
       known      known:sat
 ::
 ++  final
-  (alert:rudder '/apps/oger' build)
+  |=  [success=? =brief:rudder]
+  ^-  reply:rudder
+  ::=+  bod=body.request.inbound-request.odo
+  ::
+  ?.  success  (build ~ `[| `@t`brief])
+  =+  notes=?~(bod=body.request.odo ~ (frisk:rudder q.u.bod))
+  ?.  (~(has by notes) 'post')  [%next '/apps/oger' brief]
+  ~&  >>  (~(got by notes) 'post')
+  =;  buckslip=brief:rudder
+    [%next '/apps/oger' buckslip]
+  ?+  (~(got by notes) 'post')  brief
+    %export  (cat 3 brief '&act=export')
+    %import  (cat 3 brief '&act=import')
+    %permit  (cat 3 brief '&act=permit')
+    %remove  (cat 3 brief '&act=permit')
+  ::  
+      %search
+    ?~  who=(~(get by notes) 'rest-sour')  
+      (cat 3 brief '&act=search')
+    (rap 3 ~[brief '&ship=' u.who '&act=search'])
+  ::
+      %remake
+    ?~  who=(~(get by notes) 'rest-sour')  
+      (cat 3 brief '&act=search')
+    (rap 3 ~[brief '&ship=' u.who '&act=search'])
+  ==
+::
 ++  argue
   |=  [headers=header-list:http body=(unit octs)]
   ^-  $@(brief:rudder horde)
@@ -104,7 +130,9 @@
     ?.  (~(has by notes) 'ship')
       'Error: Missing Data in Function Call'
     =-  
-      ?.  ?=(~ -)  `horde`[%permit (sy ~[u.-])]
+      ?.  ?=(~ -)  ::`horde`[%remove (sy ~[u.-])]
+      ~&  >>>  `horde`[%remove (sy ~[u.-])]
+      `horde`[%remove (sy ~[u.-])]
       'Sorry, we didn\'t recognize that ship name - please try again'
     (slaw %p (~(got by notes) 'ship'))
   ::
@@ -112,7 +140,7 @@
     ?.  (~(has by notes) 'ship')
       'Error: Missing Data in Function Call'
     =-  
-      ?.  ?=(~ -)  `horde`[%permit (sy ~[u.-])]
+      ?.  ?=(~ -)  `horde`[%search (sy ~[u.-])]
       'Sorry, we didn\'t recognize that ship name - please try again'
     (slaw %p (~(got by notes) 'ship'))
   ::
@@ -841,7 +869,7 @@
   ++  search-form
     ^-  manx
     ;div(class "sear-search-form-wrap")
-      ;form(class "sear-search-form", method "GET")
+      ;form(class "sear-search-form", method "POST")
         ;input
           =class        "text-planet"
           =name         "ship"
@@ -852,7 +880,7 @@
         ;button
           =class  "sear-search-button"
           =type   "submit"
-          =name   "act"
+          =name   "post"
           =value  "search"
           ; Search 🔍
         ==
@@ -889,10 +917,7 @@
     |=  typ=?(%chat %link %publish)
     |=  [res=resource tip=(unit ?(%chat %link %publish))]
     ^-  (unit manx)
-    ?~  ass=~(assoc scry:hc (en-path:res-lib res))  ~  :: could we find an association in metadata
-    ?.  ?=(%graph -.config.metadatum.u.ass)  ~         :: this product only works on graph modules as of the present
-    =*  fon  ?~(tip module.config.metadatum.u.ass u.tip)
-    ?.  =(typ fon)  ~
+    ?.  =(typ tip)  ~
     :-  ~
     ;div(class "list-line")
       ;div(class "list-line-host")
@@ -1250,7 +1275,7 @@
                 =type   "submit"
                 =name   "act"
                 =value  "search"
-                ; Search 🔍
+                ; Search Friends 🔍
               ==
             ==
           ==

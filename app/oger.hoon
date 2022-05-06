@@ -226,6 +226,7 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
+  ~&  >  "being-watched"
   ?+    path  (on-watch:def path)
     [%http-response *]  `this
   ::
@@ -553,7 +554,7 @@
   ::
       %remove
     =.  permits
-      (~(del in permits) per.vaz)
+      (~(dif in permits) per.vaz)
     %.  `state  %-  slog
     :~  leaf+"%oger-permit"
         leaf+"permitted ships: {<permits>}"
