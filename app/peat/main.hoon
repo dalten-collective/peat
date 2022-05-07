@@ -1,5 +1,5 @@
 ::
-::  main for oger - by Quartus Corporation
+::  /app/peat/main - a UI - by Quartus Corporation
 ::
 ::
 ::    developer notes:
@@ -47,7 +47,7 @@
 ::  by an instruction first:
 ::    e.g. (murn ~(list) (murn-expo-list %chat))
 ::
-/-  *oger, 
+/-  *peat, 
     resource,
     grope=group,
     store=graph-store,
@@ -74,10 +74,10 @@
   ::
   ?.  success  (build ~ `[| `@t`brief])
   =+  notes=?~(bod=body.request.odo ~ (frisk:rudder q.u.bod))
-  ?.  (~(has by notes) 'post')  [%next '/apps/oger' brief]
+  ?.  (~(has by notes) 'post')  [%next '/apps/peat' brief]
   ~&  >>  (~(got by notes) 'post')
   =;  buckslip=brief:rudder
-    [%next '/apps/oger' buckslip]
+    [%next '/apps/peat' buckslip]
   ?+  (~(got by notes) 'post')  brief
     %export  (cat 3 brief '&act=export')
     %import  (cat 3 brief '&act=import')
@@ -175,7 +175,7 @@
     ^-  path
     ;:  welp
       /(scot %p our.bol)
-      /oger
+      /peat
       /(scot %da now.bol)
       /hav
       /(scot %tas fol)
@@ -229,11 +229,12 @@
   ?+    get=(~(got by notes) 'act')
     [%code 404 'Error: Unrecognized Function Call']
   ::
-      %export
-    [%page (expo beeps)]                                 ::  expo
-  ::
-      %import
-    [%page (impo beeps)]                                 ::  impo
+    %export  [%page (expo beeps)]                        ::  expo
+    %import  [%page (impo beeps)]                        ::  impo
+    %permit  [%page (perm beeps)]                        ::  perm
+    %remove  [%page (perm beeps)]                        ::  perm
+    %digest  [%page (abou beeps)]                        ::  abou
+    %return  [%page (main beeps)]                        ::  main
   ::
       %search
     =-  [%page (sear beeps -)]                           ::  sear
@@ -241,139 +242,101 @@
     ?~(sil=(~(get by notes) 'ship') ~ (slaw %p u.sil))
   ::
       %remake
-    [%page (sear beeps ~)]                               ::  sear
-  ::
-      %permit
-    [%page (perm beeps)]                                 ::  perm
-  ::
-      %remove
-    [%page (perm beeps)]                                 ::  perm
-  ::
-      %digest
-    [%page (abou beeps)]                                 ::  abou
-  ::
-      %return
-    [%page (main beeps)]                                 ::  main
-  ::
+    =-  [%page (sear beeps -)]                           ::  sear
+    ^-  (unit @p)
+    ?~(sil=(~(get by notes) 'ship') ~ (slaw %p u.sil))
   ==
   ++  main
     |=  beeps=(unit [gud=? txt=@t])
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
       ;body
-        ;div(class "page")
-          ;div(class "header")
-            ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
+        ;header
+          ;div(class "title")
+            ;h1:"Peat Graph Backup and Restoration Utility"
+          ==
+          ;div(class "status-message")
+            ;+  ?~  beeps  :/"" 
+                (status:re u.beeps)
+          ==
+        ==
+      ::
+        ;main
+          ;h2:"Disk Utilities"
+        ::
+          ;form(class "main-menu", method "GET")
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "export"
+              ; Export 📥
             ==
-            ;div(class "status-message")
-              ;+  ?~  beeps  :/"" 
-                  (status:re u.beeps)
+          ::
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "import"
+              ; Import 📤
             ==
           ==
         ::
-          ;div(class "main")
-            ;div(class "panels")
-              ;div(class "sub-panel")
-                ;div(class "panel-buttons")
-                  ;div(class "panel-form")
-                    ;form(class "panel-form-buttons", method "GET")
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "export"
-                        ; Export 📥
-                      ==
-                    ::
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "import"
-                        ; Import 📤
-                      ==
-                    ==
-                  ==
-                ::
-                  ;div(class "panel-tip")
-                    ;h2:"Disk Utilities"
-                  ==
-                ==
-              ==
-            ::
-              ;div(class "sub-panel")
-                ;div(class "panel-buttons")
-                  ;div(class "panel-form")
-                    ;form(class "panel-form-buttons", method "GET")
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "search"
-                        ; Search 🔍
-                      ==
-                    ::
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "remake"
-                        ; Remake 📡
-                      ==
-                    ==
-                  ==
-                ::
-                  ;div(class "panel-tip")
-                    ;h2:"On-Line Utilities"
-                  ==
-                ==
-              ==
-            ::
-              ;div(class "sub-panel")
-                ;div(class "panel-buttons")
-                  ;div(class "panel-form")
-                    ;form(class "panel-form-buttons")
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "permit"
-                        ; Permit ☑️
-                      ==
-                    ::
-                      ;button
-                        =class  "button-tile"
-                        =type   "submit"
-                        =name   "act"
-                        =value  "permit"
-                        ; Remove 🚫
-                      ==
-                    ==
-                  ==
-                ::
-                  ;div(class "panel-tip")
-                    ;h2:"OgerTalk Permissions"
-                  ==
-                ==
-              ==
+          ;h2:"On-Line Utilities"
+        ::
+          ;form(class "main-menu", method "GET")
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "search"
+              ; Search 🔍
             ==
-            ;div(class "menu")
-              ;+  about:re
-              ;+  main:re
-              ;+  search:re
+          ::
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "remake"
+              ; Remake 📡
+            ==
+          ==
+        ::
+          ;h2:"OgerTalk™️ Permissions"
+        ::
+          ;form(class "main-menu")
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "permit"
+              ; Permit ☑️
+            ==
+          ::
+            ;button
+              =class  "button-tile"
+              =type   "submit"
+              =name   "act"
+              =value  "remove"
+              ; Remove 🚫
             ==
           ==
         ==
       ::
-        ;div(class "footer")
+        ;nav
+          ;+  what:re
+          ;+  home:re
+          ;+  find:re
+        ==
+      ::
+        ;footer
           ;+  quartus-footer:re
         ==
       ==
@@ -386,119 +349,99 @@
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
+    ::
       ;body
-        ;div(class "page")
-          ;div(class "header")
-            ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
-            ==
-          ::
-            ;div(class "status-message")
-              ;+  ?~  beeps  :/"" 
-                  (status:re u.beeps)
-            ==
+        ;header
+          ;div(class "title")
+            ;h1:"Peat Graph Backup and Restoration Utility"
           ==
         ::
-          ;div(class "main")
-            ;div(class "chat-table")
-              ;p(class "table-label"):"Chat Graphs"      ::  export chats
+          ;div(class "status-message")
+            ;+  ?~  beeps  :/"" 
+                (status:re u.beeps)
+          ==
+        ==
+      ::
+        ;main
+          ;div(class "expo-wrap")
+            ;h2:"Chat Graphs"                            ::  export chats
+          ::
+            ;div(class "table-header-three")
+              ;h3:"Host"
             ::
-              ;div(class "table-header-three")
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Host"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Chat Graph"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Export"
-                ==
-              ::
-              ==
+              ;h3:"Chat Graph"
             ::
-              ;div(class "table-body")
-                ;*  ;;  marl
-                    =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Chat Graphs"
-                        ==
-                    (murn ~(tap in resources) (murn-expo-list:re %chat))
-              ==
+              ;h3:"Export"
             ==
           ::
-            ;div(class "link-table")
-              ;p(class "table-label"):"Link Libraries"   ::  export links
-            ::
-              ;div(class "table-header-three")
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Host"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Link Library"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Export"
-                ==
-              ::
-              ==
-            ::
-              ;div(class "table-body")
-                ;*  ;;  marl
-                    =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Link Libraries"
-                        ==
-                    (murn ~(tap in resources) (murn-expo-list:re %link))
-              ==
-            ==
-          ::
-            ;div(class "publish-table")
-              ;p(class "table-label"):"Notebook Graphs"  ::  export notebooks
-            ::
-              ;div(class "table-header-three")
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Host"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Notebook Graph"
-                ==
-              ::
-                ;div(class "table-header-title")
-                  ;p(class "table-title"):"Export"
-                ==
-              ::
-              ==
-            ::
-              ;div(class "table-body")
-                ;*  ;;  marl
-                    =-
-                      ?.  ?=(~ -)  -
-                      ;=  ;p(class "empty-table"):"No Notebook Graphs"
+            ;div(class "table-body-three")
+              ;*  ;;  marl
+                  =-  ?.  ?=(~ -)  -
+                      ;=  ;p(class "empty"):"No Chat Graphs"
                       ==
-                    %+  murn  ~(tap in resources)
-                    (murn-expo-list:re %publish)
-              ==
+                  %+  murn  ~(tap in resources)
+                  (murn-expo-list:re %chat)
             ==
           ==
         ::
-          ;div(class "menu")
-            ;+  about:re
-            ;+  main:re
-            ;+  search:re
+          ;div(class "expo-wrap")
+            ;h2:"Link Libraries"                         ::  export links
+          ::
+            ;div(class "table-header-three")
+              ;h3:"Host"
+            ::
+              ;h3:"Link Library"
+            ::
+              ;h3:"Export"
+            ==
+          ::
+            ;div(class "table-body-three")
+              ;*  ;;  marl
+                  =-  ?.  ?=(~ -)  -
+                      ;=  ;p(class "empty"):"No Link Libraries"
+                      ==
+                  %+  murn  ~(tap in resources)
+                  (murn-expo-list:re %link)
+            ==
           ==
         ::
-          ;div(class "footer")
-            ;+  quartus-footer:re
+          ;div(class "expo-wrap")
+            ;h2:"Notebook Graphs"                        ::  export notebooks
+          ::
+            ;div(class "table-header-three")
+              ;h3:"Host"
+            ::
+              ;h3:"Notebook Graph"
+            ::
+              ;h3:"Export"
+            ==
+          ::
+            ;div(class "table-body-three")
+              ;*  ;;  marl
+                  =-
+                    ?.  ?=(~ -)  -
+                    ;=  ;p(class "empty"):"No Notebook Graphs"
+                    ==
+                  %+  murn  ~(tap in resources)
+                  (murn-expo-list:re %publish)
+            ==
           ==
+        ==
+      ::
+        ;nav
+          ;+  what:re
+          ;+  home:re
+          ;+  find:re
+        ==
+      ::
+        ;footer
+          ;+  quartus-footer:re
         ==
       ==
     ==
@@ -510,79 +453,78 @@
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
+    ::
       ;body
-        ;div(class "page")
-          ;div(class "header")
-            ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
-            ==
-          ::
-            ;div(class "status-message")
-              ;+  ?~  beeps  :/"" 
-                  (status:re u.beeps)
-            ==
+        ;header
+          ;div(class "title")
+            ;h1:"Peat Graph Backup and Restoration Utility"
           ==
         ::
-          ;div(class "main")
-            ;div(class "explain-contain")
-              ;+  impo-explainer:re
-            ==
-          ::
-            ;div(class "impo-wrapper")
-              ;div(class "impo-form-wrap")
-                ;form(class "impo-form", method "POST")
-                  ;div(class "impo-prefix-wrap")
-                    ;p(class "prefix"):"{(trip (spat /(scot %p our.bol)/oger/(scot %da now.bol)/hav))}/"
-                  ::
-                    ;input
-                      =class        "text-folder"
-                      =name         "impo-folder"
-                      =type         "text"
-                      =required     ""
-                      =placeholder  "my-chat-123";
-                  ==
-                ::
-                  ;div(class "impo-group-wrap")
-                    ;+  group-select:re
-                  ==
-                ::
-                  ;div(class "impo-name-wrap")
-                    ;input
-                      =class        "text-name"
-                      =name         "impo-name"
-                      =type         "text"
-                      =required     ""
-                      =placeholder  "my-new-chat";
-                  ==
-                ::
-                  ;div(class "impo-button-wrap")
-                    ;button
-                      =class  "button-tile"
-                      =name   "post"
-                      =value  "import"
-                      ; Import 📤
+          ;div(class "status-message")
+            ;+  ?~  beeps  :/"" 
+                (status:re u.beeps)
+          ==
+        ==
+      ::
+        ;main
+          ;div(class "explain-contain")
+            ;+  impo-explainer:re
+          ==
+        ::
+          ;div(class "impo-wrapper")
+            ;form(class "impo-form", method "POST")
+              ;h3
+                {(trip (spat /(scot %p our.bol)/peat/(scot %da now.bol)/hav))}
+              ==
+            ::
+              ;select
+                =name      "impo-folder"
+                =required  ""
+                ;*  =-  ?~  haz=~(tap in dir:-)
+                          ;=  ;option(value "", hidden ""):"No Archives Detected"
+                          ==
+                        %-  %-  lead
+                          ;option(value "", hidden ""):"Select An Archive"
+                        %+  turn  haz
+                        |=([@ta ~] ;option(value "{(trip -.+<)}"):"/{(trip -.+<)}")
+                    .^  arch  %cy
+                      /(scot %p our.bol)/peat/(scot %da now.bol)/hav
                     ==
-                  ==
-                ==
+              ==
+            ::
+              ;+  group-select:re
+            ::
+              ;input
+                =class        "text-name"
+                =name         "impo-name"
+                =type         "text"
+                =required     ""
+                =placeholder  "my-new-chat";
+            ::
+              ;button
+                =class  "button-tile"
+                =name   "post"
+                =value  "import"
+                ; Import 📤
               ==
             ==
           ==
-        ::
-          ;div(class "menu")
-            ;+  about:re
-            ;+  main:re
-            ;+  search:re
-          ==
-        ::
-          ;div(class "footer")
-            ;+  quartus-footer:re
-          ==
+        ==
+      ::
+        ;nav
+          ;+  what:re
+          ;+  home:re
+          ;+  find:re
+        ==
+      ::
+        ;footer
+          ;+  quartus-footer:re
         ==
       ==
     ==
@@ -595,54 +537,70 @@
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
         ;meta(name "viewport", content "width=device-width, initial-scale=1");
       ==
       ;body
-        ;div(class "page")
-          ;div(class "header")
-            ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
-            ==
-          ::
-            ;div(class "status-message")
-              ;+  ?~  beeps  :/"" 
-                  (status:re u.beeps)
-            ==
+        ;header
+          ;div(class "title")
+            ;h1:"Peat Graph Backup and Restoration Utility"
           ==
         ::
-          ;div(class "main")
-            ;div(class "sear-left")
-              ;+  ;;  manx
-                  ?~  peeps
-                    ?~  sil=~(tap in ~(key by known))
-                    no-maidens  (some-maiden ~zod)
-                  =-  ?.  -  (some-maiden u.peeps)
-                      (that-maiden u.peeps)
-                  ?|  =(our.bol u.peeps)
-                      (~(has in ~(key by known)) u.peeps)
-                  ==
-            ==
-          ::
-            ;div(class "sear-right")
-              ;*  ;;  marl
+          ;div(class "status-message")
+            ;+  ?~  beeps  :/"" 
+                (status:re u.beeps)
+          ==
+        ==
+      ::
+        ;main
+          ;div(class "sear-left")
+            ;+  ;;  manx
+                ?~  peeps
                   ?~  sil=~(tap in ~(key by known))
-                  no-friends  (murn sil friend-list)
+                  no-maidens  (some-maiden ~zod)
+                =-  ?.  -  (some-maiden u.peeps)
+                    (that-maiden u.peeps)
+                ?|  =(our.bol u.peeps)
+                    (~(has in ~(key by known)) u.peeps)
+                ==
+          ==
+        ::
+          ;div(class "sear-right")
+            ;*  ;;  marl
+                ?~  sil=~(tap in ~(key by known))
+                no-friends  (murn sil friend-list)
+          ::
+            ;div(class "friend-list-tile")
+              ;form(class "friend-list", method "GET")
+                ;input
+                  =name  "ship"
+                  =type  "text"
+                  =style  "display: none"
+                  =value  "{(scow %p our.bol)}";
+              ::
+                ;button
+                  =class  "friend-name"
+                  =type   "submit"
+                  =name   "act"
+                  =value  "search"
+                  {(scow %p our.bol)}
+                ==
+              ==
             ==
           ==
-        ::
-          ;div(class "menu")
-            ;+  about:re
-            ;+  main:re
-            ;+  search:re
-          ==
-        ::
-          ;div(class "footer")
-            ;+  quartus-footer:re
-          ==
+        ==
+      ::
+        ;nav
+          ;+  what:re
+          ;+  home:re
+          ;+  find:re
+        ==
+      ::
+        ;footer
+          ;+  quartus-footer:re
         ==
       ==
     ==
@@ -673,42 +631,32 @@
   ++  that-maiden
     |=  sip=@p
     ^-  manx
-    ;div(class "rest-search-wrap")
+    ;div(class "sear-search-wrap")
       ;div(class "explain-contain")
         ;+  rest-explainer:re
       ==
     ::
       ;div(class "rest-search-form-wrap")
-        ;div(class "link-table")
-          ;div(class "table-header-three")
-            ;p(class "table-label"):"Chats"              ::  remake chats
+        ;div(class "expo-wrap")
+          ;h2:"Chats"                                    ::  remake chats
+        ::
+          ;div(class "table-head-three")
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Host"
-            ==
+            ;h3:"Host"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Chat Graph"
-            ==
+            ;h3:"Chat Graph"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Export"
-            ==
+            ;h3:"Export"
           ==
         ::
           ;div(class "table-body")
             ;form(class "line-form-button", method "POST")
-            ::  hidden input to specify what ship
-              ;input
-                =name  "rest-sour"
-                =type  "text"
-                =style  "display: none"
-                =value  "{(scow %p sip)}";
             ::
               ;div(class "list-line-new")
-                ;p(class "table-tip"):"New Resource Name"
+                ;label(for "new-chat"):"New Resource Name"
               ::
                 ;input
+                  =id           "new-chat"
                   =type         "text"
                   =name         "rest-reso"
                   =placeholder  "my-new-resource";
@@ -717,18 +665,24 @@
               ;div(class "list-line-group")
                 ;+  group-select:re
               ==
+            ::  hidden input to specify what ship
+              ;input
+                =style  "display: none"
+                =name  "rest-sour"
+                =type  "text"
+                =value  "{(scow %p sip)}";
             ::
               ;*  ;;  marl
                   ?.  =(our.bol sip)
                     =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Chat Graphs"
+                        ;=  ;p(class "empty"):"No Chat Graphs"
                         ==
                     %-  murn  :_  (make-remake %chat)
                     ;;  (list [resource (unit ?(%chat %link %publish))])
                     %+  turn  ~(tap in (~(get ju known) sip))
                     |=([res=resource typ=?(%chat %link %publish)] [res `typ])
                   =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Chat Graphs"
+                        ;=  ;p(class "empty"):"No Chat Graphs"
                         ==
                   %-  murn  :_  (make-remake %chat)
                   %+  turn  ~(tap in resources)
@@ -741,21 +695,16 @@
           ==
         ==
       ::
-        ;div(class "link-table")
-          ;div(class "table-header-three")
-            ;p(class "table-label"):"Link Libraries"     ::  remake links
+        ;div(class "expo-wrap")
+          ;h2:"Link Libraries"                           ::  remake links
+        ::
+          ;div(class "table-head-three")
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Host"
-            ==
+            ;h3:"Host"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Link Library"
-            ==
+            ;h3:"Link Library"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Export"
-            ==
+            ;h3:"Export"
           ==
         ::
           ;div(class "table-body")
@@ -768,9 +717,10 @@
                 =value  "{(scow %p sip)}";
             ::
               ;div(class "list-line-new")
-                ;p(class "table-tip"):"New Resource Name"
+                ;label(for "new-link"):"New Resource Name"
               ::
                 ;input
+                  =id           "new-link"
                   =type         "text"
                   =name         "rest-reso"
                   =placeholder  "my-new-resource";
@@ -779,18 +729,24 @@
               ;div(class "list-line-group")
                 ;+  group-select:re
               ==
+            ::  hidden input to specify what ship
+              ;input
+                =style  "display: none"
+                =name  "rest-sour"
+                =type  "text"
+                =value  "{(scow %p sip)}";
             ::
               ;*  ;;  marl
                   ?.  =(our.bol sip)
                     =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Link Libraries"
+                        ;=  ;p(class "empty"):"No Link Libraries"
                         ==
                     %-  murn  :_  (make-remake %link)
                     ;;  (list [resource (unit ?(%chat %link %publish))])
                     %+  turn  ~(tap in (~(get ju known) sip))
                     |=([res=resource typ=?(%chat %link %publish)] [res `typ])
                   =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Link Libraries"
+                        ;=  ;p(class "empty"):"No Link Libraries"
                         ==
                   %-  murn  :_  (make-remake %link)
                   %+  turn  ~(tap in resources)
@@ -803,21 +759,16 @@
           ==
         ==
       ::
-        ;div(class "link-table")
-          ;div(class "table-header-three")
-            ;p(class "table-label"):"Notebooks"          ::  remake notebooks
+        ;div(class "expo-wrap")
+          ;h2:"Notebooks"                                ::  remake notebooks
+        ::
+          ;div(class "table-head-three")
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Host"
-            ==
+            ;h3:"Host"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Notebook Graph"
-            ==
+            ;h3:"Notebook Graph"
           ::
-            ;div(class "table-header-title")
-              ;p(class "table-title"):"Export"
-            ==
+            ;h3:"Export"
           ==
         ::
           ;div(class "table-body")
@@ -830,9 +781,10 @@
                 =value  "{(scow %p sip)}";
             ::
               ;div(class "list-line-new")
-                ;p(class "table-tip"):"New Resource Name"
+                ;label(for "new-note"):"New Resource Name"
               ::
                 ;input
+                  =id           "new-note"
                   =type         "text"
                   =name         "rest-reso"
                   =placeholder  "my-new-resource";
@@ -841,18 +793,24 @@
               ;div(class "list-line-group")
                 ;+  group-select:re
               ==
+            ::  hidden input to specify what ship
+              ;input
+                =style  "display: none"
+                =name  "rest-sour"
+                =type  "text"
+                =value  "{(scow %p sip)}";
             ::
               ;*  ;;  marl
                   ?.  =(our.bol sip)
                     =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Notebook Graphs"
+                        ;=  ;p(class "empty"):"No Notebook Graphs"
                         ==
                     %-  murn  :_  (make-remake %publish)
                     ;;  (list [resource (unit ?(%chat %link %publish))])
                     %+  turn  ~(tap in (~(get ju known) sip))
                     |=([res=resource typ=?(%chat %link %publish)] [res `typ])
                   =-  ?.  ?=(~ -)  -
-                        ;=  ;p(class "empty-table"):"No Notebook Graphs"
+                        ;=  ;p(class "empty"):"No Notebook Graphs"
                         ==
                   %-  murn  :_  (make-remake %publish)
                   %+  turn  ~(tap in resources)
@@ -883,13 +841,23 @@
           =name   "post"
           =value  "search"
           ; Search 🔍
+      ::
+        ==
+        ;button
+          =class  "button-tile"
+          =type   "submit"
+          =name   "act"
+          =value  "remake"
+          ; Remake 📡
         ==
       ==
     ==
   ::
   ++  no-friends
-    ;=  ;p(class "no-friends"):"No Friends?"
-        ;p(class "no-friends"):"We'll be your friend"
+    ;=  ;dl
+          ;dt:"No Friends?"
+          ;dd:" - You always have yourself!"
+        ==
     ==
   ++  friend-list
     |=  sip=ship
@@ -925,35 +893,29 @@
     ?.  =(typ u.foam)  ~
     :-  ~
     ;div(class "list-line")
-      ;div(class "list-line-host")
-        ;p(class "ship-name"):"{(scow %p entity.res)}"
-      ==
+      ;p(class "ship-name"):"{(scow %p entity.res)}"
     ::
-      ;div(class "list-line-name")
-        ;p(class "resource-name"):"{(scow %tas name.res)}"
-      ==
+      ;p(class "resource-name"):"{(scow %tas name.res)}"
     ::
-      ;div(class "list-line-expo")
-        ;div(class "list-line-form-button")
-          ;input
-            =style  "display: none"
-            =type   "text"
-            =name   "rest-ship"
-            =value  (scow %p entity.res);
-        ::
-          ;input
-            =style  "display: none"
-            =type   "text"
-            =name   "rest-name"
-            =value  (scow %tas name.res);
-        ::
-          ;button
-            =class  "table-button"
-            =type   "submit"
-            =name   "post"
-            =value  "remake"
-            ; Remake 📡
-          ==
+      ;div(class "list-line-remake")
+        ;input
+          =style  "display: none"
+          =type   "text"
+          =name   "rest-ship"
+          =value  (scow %p entity.res);
+      ::
+        ;input
+          =style  "display: none"
+          =type   "text"
+          =name   "rest-name"
+          =value  (scow %tas name.res);
+      ::
+        ;button
+          =class  "table-button"
+          =type   "submit"
+          =name   "post"
+          =value  "remake"
+          ; Remake 📡
         ==
       ==
     ==
@@ -967,7 +929,7 @@
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
@@ -975,9 +937,9 @@
       ==
       ;body
         ;div(class "page")
-          ;div(class "header")
+          ;header
             ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
+              ;h1:"Peat Graph Backup and Restoration Utility"
             ==
           ::
             ;div(class "status-message")
@@ -986,7 +948,12 @@
             ==
           ==
         ::
-          ;div(class "main")
+          ;main
+            ;div(class "explain-contain")
+              ;+  ?.  =([~ 'remove'] (~(get by notes) 'act'))
+                  perm-explainer-a:re  perm-explainer-b:re
+            ==
+          ::
             ;div(class "perm-add")
               ;div(class "perm-wrap", id "ship-search")
                 ;div(class "perm-guts")
@@ -1017,13 +984,13 @@
             ==
           ==
         ::
-          ;div(class "menu")
-            ;+  about:re
-            ;+  main:re
-            ;+  search:re
+          ;nav
+            ;+  what:re
+            ;+  home:re
+            ;+  find:re
           ==
         ::
-          ;div(class "footer")
+          ;footer
             ;+  quartus-footer:re
           ==
         ==
@@ -1067,7 +1034,7 @@
     ^-  manx
     ;html
       ;head
-        ;title:"Oger Graph Backup and Restoration Utility"
+        ;title:"Peat Graph Backup and Restoration Utility"
         ;style:"form \{ display: inline-block; }"
         ;style:"{(trip style)}"
         ;meta(charset "utf-8");
@@ -1075,9 +1042,9 @@
       ==
       ;body
         ;div(class "page")
-          ;div(class "header")
+          ;header
             ;div(class "title")
-              ;h1:"Oger Graph Backup and Restoration Utility"
+              ;h1:"Peat Graph Backup and Restoration Utility"
             ==
           ::
             ;div(class "status-message")
@@ -1086,19 +1053,19 @@
             ==
           ==
         ::
-          ;div(class "main")
+          ;main
             ;div(class "explain-contain")
               ;+  abou-explainer:re
             ==
           ==
         ::
-          ;div(class "menu")
-            ;+  about:re
-            ;+  main:re
-            ;+  search:re
+          ;nav
+            ;+  what:re
+            ;+  home:re
+            ;+  find:re
           ==
         ::
-          ;div(class "footer")
+          ;footer
             ;+  quartus-footer:re
           ==
         ==
@@ -1144,62 +1111,120 @@
     ::
     ++  impo-explainer
       ;div(class "explainer")
-        ;p(class "explainer-head"):"Import From Disk"
-        ;p(class "explainer-body"):"The Import From Disk Utility assumes you have:"
-        ;p(class "explainer-buon"):" - A mounted desk called 'oger'"
-        ;p(class "explainer-buon"):" - A directory in the 'oger' desk's '/hav' directory with a name you know"
-        ;p(class "explainer-buon"):" - A series of .jam files in the known, aforementioned directory created using the export function"
-        ;p(class "explainer-buon"):" - A pre-existing group for which you are an admin"
-        ;p(class "explainer-buon"):" - A name of a group"
-        ;p(class "explainer-body"):"To import a resource:"
-        ;p(class "explainer-buon"):" - Enter the name of that aforementioned, known directory"
-        ;p(class "explainer-note"):"   (this folder should contain jam files appurtenant to the archive you're trying to import)"
-        ;p(class "explainer-note"):"   (to create an archive, navigate to the Export Disk Utility, from the main menu)"
-        ;p(class "explainer-buon"):" - Select a group from the list of those you manage"
-        ;p(class "explainer-buon"):" - Enter a name for Oger to use while creating a new, local resource to house the imported graph"
-        ;p(class "explainer-note"):"   (Use letters, numbers, and hyphens only. No spaces!)"
+        ;h2:"Disk Utilities: Import"
+      ::
+        ;dl
+          ;dt:"The Import From Disk Utility assumes you have:"
+        ::
+          ;dd:" - A mounted desk called 'peat'"
+          ;dd:" - A directory in the 'peat' desk's '/hav' directory with a name you know"
+          ;dd:" - A series of .jam files in the known, aforementioned directory created using the export function"
+          ;dd:" - A pre-existing group for which you are an admin"
+          ;dd:" - A name of a group"
+        ==
+      ::
+        ;dl
+          ;dt:"Importing a Resource"
+        ::
+          ;dd
+            ; - Enter the name of that aforementioned, known directory
+            ;ul
+              ;li:"(this folder should contain jam files appurtenant to the archive you're trying to import)"
+              ;li:"(to create an archive, navigate to the Export Disk Utility, from the main menu)"
+            ==
+          ==
+          ;dd:" - Select a group from the list of those you manage"
+          ;dd
+            ; - Enter a name for Peat to use while creating a new, local resource to house the imported graph
+            ;ul
+              ;li:"(Use letters, numbers, and hyphens only. No spaces!)"
+            ==
+          ==
+        ==
       ==
     ::
+    ++  perm-explainer-a
+      ;div(class "explainer")
+        ;h2:"OgerTalk™️: Permit"
+      ::
+        ;dl(class "explainer-list")
+          ;dt:"Adding Friends on OgerTalk™️"
+          ;dd:" - Enter the Friend's @p in the field, below"
+          ;dd:" - Click Permit ☑️"
+        ::
+          ;dt:"Removing Friends from OgerTalk™️"
+          ;dd:" - Click the button with @p of the Friend you want to remove, on the right"
+        ==
+      ==
+    ++  perm-explainer-b
+      ;div(class "explainer")
+        ;h2:"OgerTalk™️: Remove"
+      ::
+        ;dl(class "explainer-list")
+          ;dt:"Removing Friends from OgerTalk™️"
+          ;dd:" - Click the button with @p of the Friend you want to remove, on the right"
+        ::
+          ;dt:"Adding Friends on OgerTalk™️"
+          ;dd:" - Enter the Friend's @p in the field, below"
+          ;dd:" - Click Permit ☑️"
+        ==
+      ==
     ++  sear-explainer-a
       ;div(class "explainer")
-        ;p(class "explainer-head"):"Search for Graphs"
-        ;p(class "explainer-body"):"You do not currently have any friends. You can make some by asking them to permit you, then searching for them here."
-        ;p(class "explainer-body"):"Having friends in Oger will:"
-        ;p(class "explainer-buon"):" - Let you search for them and track graphs that they're aware of"
-        ;p(class "explainer-buon"):" - Remotely request and locally duplicate graphs that your friends possess"
-        ;p(class "explainer-body"):"You wont be able to search for anyone's graphs until they've authorized you, and we can't tell from here if that's happen. Go talk to someone in EScape for a while until they offer you access to their secrets!"
-        ;p(class "explainer-body"):"If you know that you should have access to someone's graphs, enter their @p below and click Search."
+        ;h2:"OgerTalk™️: Search"
+      ::
+        ;dl(class "explainer-list")
+          ;dt:"Frisking your Friends"
+          ;dd:" - Peat's OgerTalk™️ Search requires enthusiastic consent from your friends."
+          ;dd:" - If one of your friends has Peat installed, they'll need to navigate to the OgerTalk™️ Permissions page and add you before you can use this feature in relation to their ship."
+        ::
+          ;dt:"Having friends in Peat will:"
+          ;dd:" - Let you search for them and track graphs that they're aware of"
+          ;dd:" - Remotely request and locally duplicate graphs that your friends possess"
+        ::
+          ;dt:"No Friends?"
+          ;dd:" - You wont be able to search for anyone's graphs until they've authorized you, and we can't tell from here if that's happened."
+          ;dd:" - If you know that you should have access to someone's graphs, enter their @p below and click Search."
+        ==
       ==
     ++  sear-explainer-b
       ;div(class "explainer")
-        ;p(class "explainer-head"):"Search for Graphs"
+        ;h2:"Search for Graphs"
       ::
         ;+  ;;  manx
             %+  snag  (~(rad og eny.bol) 9)
             ^-  (list manx)
-            :~  ;p(class "explainer-body"):"We didn't quite catch that - want to search again?"
-                ;p(class "explainer-body"):"You must be new here - Welcome!"
-                ;p(class "explainer-body"):"Dad says \"Remember to never encode Zalgo text into your Sail interfaces.\""
-                ;p(class "explainer-body"):"Remember to garner enthusiastic consent before Searching your friends on OgerTalk™️."
-                ;p(class "explainer-body"):"Oger is brought to you by Quartus Corporation"
-                ;p(class "explainer-body"):"l̸̨̢̨̛͍̤̺̝͉̱̳̭̣͍͕̬̖̈́͛̃̆͒̒̉̅̒̏̂̈̚̚ǒ̵̞̣̝̭̳̭̯̘̗̰͓̟̭̫̗͊̂̀̋͒͌̎̉̈́̽̈́͂̑̀̎͜l̸̛̜̜̘̰̥̼̥͔̪̮̫̝̝̫̦̺̓͐̔͊̓̀̾̉̈́̎̎͂̕͝͠ ̶̡̙̪͉̲̲͕͔̦̺̳͖͔̣̳͕̋͂̓͐̀̀́͛͊̌͗͘͝͝͝I̶̡̬͎͇̦̻̘̲͎͎̱̪͒̉̓̍͌͋̿̽͋̀̍̚͜͝͠ͅ ̶̡̠͍̲̝̜̠͔͙͇̩̗͉̝̀͒̆̉͗̑̅̌͛̽̈́̆̅̚͘͜ḏ̸̡̨̭͙̙̗͉̦͖̘̠͎́̏̓͊́̀̊̓̈́̀͒̎̈́́̂͜i̶̗̰͔̝̩̺̲̪̬͚͖͎̼̅̃̀̄̈́͋͗͋̂̐͗̈́̕͠ͅḑ̵̧̛̛͔̞̺̣̗͈͚̻͔̙̪̙̲͍̌͑̀̀̍̓̂̆̋̈́̍͘͠ ̸̨̧͔̩̟̹̝̺̠̩̮̝͎͖͚̔͐͒͊̽͗̈́̃̒͋͌͘̚͘͘ͅt̶̛̛͍̩̭̟̯̰̪͍̳̼͔͙͕̫̔̏̌̔͋̊̔͂͂̀̆͘͜͝ͅř̵̡̡̛̦̰͖̪̣̮͔̖͕̼͖̭̊̏͊̈͛̈́̀͐̌͒̈̕͝ͅy̴̗͔̘̮͖̜͚͔̤̖̩̰̻̺͋̈̄̃̎̈̀͐͐̈́͛̎̓̉͛͘ ̴̨̢̺̪̝̲̗͉̖̖̙͖̘̤̘͖̔̈́̆͊̇̌̓̌͐̌̊̌͒̇̈́̕ę̶͙̦͇͎̬͔̗̫̯̞̯̦̳̗̼̐́̋͛͗̐̄̐͆̌̓̑̕͝͠n̶̛̛̥̣̞̲̦̳̠̠̖̻̘͍̜̬̣̽̉̽̈̾̑̀͋̈́͋͑͌̊͜͝ç̷̲͙̺͎̟̠̬͎̬̜͓̩̝̯̝̄̀͊̇̊̌͋̏́̿̽̄͛̑̅̽ò̶̹̤̝͈̼̮̖̬̱͍͚̻͚͉̾̈͑̀̉͆̈́̆̇́̂́̇́͜d̷̨͙̙̪̦̠͇͍̥̖̦̦͖̹̎͒͋̇̐̍̓̓̐̋̄̈́͘͘͘͝i̶̡̡̡̛͍̟͓͙̯͎̮̲̟̰̮̤̩̎̃̌̊͆̎́̔̎͘͘̚͠͝n̴͈̙͔̹̝̺̘̠͚̖͕͎͍̑̀̾͋̂̋͌̑̃̾̊̃̐̓͘͜͝ͅg̸̙̘͖̙͖̭̥̪̦̗͇͙̲̯̐̈́̔̾͌̒̾͋͐̿́̀́͝ͅ ̴̢̨̫͕̲̺͉̻̭̣͓̹̯̗͇̗̀͐̍͒̎̈́́͛̑̉͛̚̕̕z̶̨̙͇̼͚͇͓͕̯͖͙̳͈̤̙̀̽͒̍̈́̌͆̇̋̊̊̐̓͠͝͝a̸̧̨̛̘͚̻̣̱̱̠͔̟̬̜̱̯͒̀͂͋̄̽̈́́̍̈͐͒̇̽ͅl̷̡̛̺̰̙̞̜̱̰̲̲͍̮̱̼̞̾̔̓͂͑̍͂͋̃̔͘̕͝͝͝ͅĝ̷̛̙̮̠̝̪̼̺̲̜̥̫̬̩̮̜͕͋̄͋̈̔͐̈͐͌͘̚͝͝ö̸̢̢̨̰͓̳̳͚̲̦̺̣̲́́́͒́̊̉̄̌̂͂̓̎͜͜͝"
-                ;p(class "explainer-body"):"With OgerTalk™️, backing up Graphs on Urbit is easy and fun!"
-                ;p(class "explainer-body"):"If you're enjoying using Oger, you should try Keep - Quartus Corporation's agent that backs up other agents!"
-                ;p(class "explainer-body"):"Try clicking on your OgerTalk™️ friends name, on your right."
-                ;p(class "explainer-body"):"We couldn't find that friend, but we did have some suggestions, on the right."
+            :~  ;h3:"We didn't quite catch that - want to search again?"
+                ;h3:"You must be new here - Welcome!"
+                ;h3:"Dad says \"Remember to never encode Zalgo text into your Sail interfaces.\""
+                ;h3:"Remember to garner enthusiastic consent before Searching your friends on OgerTalk™️."
+                ;h3:"Peat is brought to you by Quartus Corporation"
+                ;h3:"l̸̨̢̨̛͍̤̺̝͉̱̳̭̣͍͕̬̖̈́͛̃̆͒̒̉̅̒̏̂̈̚̚ǒ̵̞̣̝̭̳̭̯̘̗̰͓̟̭̫̗͊̂̀̋͒͌̎̉̈́̽̈́͂̑̀̎͜l̸̛̜̜̘̰̥̼̥͔̪̮̫̝̝̫̦̺̓͐̔͊̓̀̾̉̈́̎̎͂̕͝͠ ̶̡̙̪͉̲̲͕͔̦̺̳͖͔̣̳͕̋͂̓͐̀̀́͛͊̌͗͘͝͝͝I̶̡̬͎͇̦̻̘̲͎͎̱̪͒̉̓̍͌͋̿̽͋̀̍̚͜͝͠ͅ ̶̡̠͍̲̝̜̠͔͙͇̩̗͉̝̀͒̆̉͗̑̅̌͛̽̈́̆̅̚͘͜ḏ̸̡̨̭͙̙̗͉̦͖̘̠͎́̏̓͊́̀̊̓̈́̀͒̎̈́́̂͜i̶̗̰͔̝̩̺̲̪̬͚͖͎̼̅̃̀̄̈́͋͗͋̂̐͗̈́̕͠ͅḑ̵̧̛̛͔̞̺̣̗͈͚̻͔̙̪̙̲͍̌͑̀̀̍̓̂̆̋̈́̍͘͠ ̸̨̧͔̩̟̹̝̺̠̩̮̝͎͖͚̔͐͒͊̽͗̈́̃̒͋͌͘̚͘͘ͅt̶̛̛͍̩̭̟̯̰̪͍̳̼͔͙͕̫̔̏̌̔͋̊̔͂͂̀̆͘͜͝ͅř̵̡̡̛̦̰͖̪̣̮͔̖͕̼͖̭̊̏͊̈͛̈́̀͐̌͒̈̕͝ͅy̴̗͔̘̮͖̜͚͔̤̖̩̰̻̺͋̈̄̃̎̈̀͐͐̈́͛̎̓̉͛͘ ̴̨̢̺̪̝̲̗͉̖̖̙͖̘̤̘͖̔̈́̆͊̇̌̓̌͐̌̊̌͒̇̈́̕ę̶͙̦͇͎̬͔̗̫̯̞̯̦̳̗̼̐́̋͛͗̐̄̐͆̌̓̑̕͝͠n̶̛̛̥̣̞̲̦̳̠̠̖̻̘͍̜̬̣̽̉̽̈̾̑̀͋̈́͋͑͌̊͜͝ç̷̲͙̺͎̟̠̬͎̬̜͓̩̝̯̝̄̀͊̇̊̌͋̏́̿̽̄͛̑̅̽ò̶̹̤̝͈̼̮̖̬̱͍͚̻͚͉̾̈͑̀̉͆̈́̆̇́̂́̇́͜d̷̨͙̙̪̦̠͇͍̥̖̦̦͖̹̎͒͋̇̐̍̓̓̐̋̄̈́͘͘͘͝i̶̡̡̡̛͍̟͓͙̯͎̮̲̟̰̮̤̩̎̃̌̊͆̎́̔̎͘͘̚͠͝n̴͈̙͔̹̝̺̘̠͚̖͕͎͍̑̀̾͋̂̋͌̑̃̾̊̃̐̓͘͜͝ͅg̸̙̘͖̙͖̭̥̪̦̗͇͙̲̯̐̈́̔̾͌̒̾͋͐̿́̀́͝ͅ ̴̢̨̫͕̲̺͉̻̭̣͓̹̯̗͇̗̀͐̍͒̎̈́́͛̑̉͛̚̕̕z̶̨̙͇̼͚͇͓͕̯͖͙̳͈̤̙̀̽͒̍̈́̌͆̇̋̊̊̐̓͠͝͝a̸̧̨̛̘͚̻̣̱̱̠͔̟̬̜̱̯͒̀͂͋̄̽̈́́̍̈͐͒̇̽ͅl̷̡̛̺̰̙̞̜̱̰̲̲͍̮̱̼̞̾̔̓͂͑̍͂͋̃̔͘̕͝͝͝ͅĝ̷̛̙̮̠̝̪̼̺̲̜̥̫̬̩̮̜͕͋̄͋̈̔͐̈͐͌͘̚͝͝ö̸̢̢̨̰͓̳̳͚̲̦̺̣̲́́́͒́̊̉̄̌̂͂̓̎͜͜͝"
+                ;h3:"With OgerTalk™️, backing up Graphs on Urbit is easy and fun!"
+                ;h3:"If you're enjoying using Peat, you should try Keep - Quartus Corporation's agent that backs up other agents!"
+                ;h3:"Try clicking on your OgerTalk™️ friends name, on your right."
+                ;h3:"We couldn't find that friend, but we did have some suggestions, on the right."
             ==
       ==
     ++  rest-explainer
       ;div(class "explainer")
-        ;p(class "explainer-head"):"Recreate Graphs"
-        ;p(class "explainer-body"):"To recreate a resource"
-        ;p(class "explainer-buon"):" - Enter a name for Oger to use while creating a new, local resource to house the recreated graph"
-        ;p(class "explainer-note"):"   (Use letters, numbers, and hyphens only. No spaces!)"
-        ;p(class "explainer-buon"):" - Click Remake 📡 next to the appropriate resource to create a new resource in the specified group and copy the graph contents over."
+        ;h2:"OgerTalk™️: Remake"
+      ::
+        ;dl
+          ;dt:"To recreate a resource"
+          ;dd
+            ; - Enter a name for Peat to use while creating a new, local resource to house the recreated graph
+            ;ul
+              ;li:"   (Use letters, numbers, and hyphens only. No spaces!)"
+            ==
+          ==
+        ::
+          ;dd:" - Click Remake 📡 next to the appropriate resource to create a new resource in the specified group and copy the graph contents over."
+        ==
       ==
     ++  abou-explainer
       ;div(class "explainer")
-        ;p(class "explainer-head"):"Oger Graph Backup and Restoration Utility - About Us"
+        ;h2:"Peat Graph Backup and Restoration Utility - About Us"
         ;p(class "explainer-body"):"Starting a group on Urbit is easy. You have a field of interest, find some like-minded friends, form a group and put some chats in it."
         ;p(class "explainer-body"):"Running a successful group on Urbit is slightly harder. You must:"
         ;p(class "explainer-buon"):" - Maintain engagement"
@@ -1209,9 +1234,9 @@
         ;p(class "explainer-note"):"   (Quartus Corporation produces a product called Expo that helps with group management activities)"
         ;p(class "explainer-body"):"But - by far, the most difficult part of running a group presently is backing up your data. And, in an environment where you are your own data steward, this can be a serious challenge."
         ;br;
-        ;p(class "explainer-gold"):"Enter Oger"
+        ;p(class "explainer-gold"):"Enter Peat"
         ;br;
-        ;p(class "explainer-body"):"Oger by Quartus Corporation is an Urbit utility for locally and remotely backing up graphs. Oger is capable of:"
+        ;p(class "explainer-body"):"Peat by Quartus Corporation is an Urbit utility for locally and remotely backing up graphs. Peat is capable of:"
         ;p(class "explainer-buon"):" - Disk Utilities"
         ;p(class "explainer-buto"):"   * Exporting Graphs to Disk"
         ;p(class "explainer-buto"):"   * Importing Graphs from Disk"
@@ -1219,14 +1244,14 @@
         ;p(class "explainer-buto"):"   * Duplicating an existing graph that your ship has access to, on your ship"
         ;p(class "explainer-buto"):"   * Copying an existing graph that a ship you're friends with has access to, on your ship"
         ;p(class "explainer-buon"):" - OgerTalk™️ Permissions"
-        ;p(class "explainer-buto"):"   * OgerTalk™️ is Oger's On-Line™️ Networking Protocol"
-        ;p(class "explainer-buto"):"   * OgerTalk™️ enables one-thousand new vistas for Oger users including remote backup and restoration of graphs"
+        ;p(class "explainer-buto"):"   * OgerTalk™️ is Peat's On-Line™️ Networking Protocol"
+        ;p(class "explainer-buto"):"   * OgerTalk™️ enables one-thousand new vistas for Peat users including remote backup and restoration of graphs"
         ;p(class "explainer-buto"):"   * Managing your OgerTalk™️ permissions is easy - visit the Permissions page from the main menu"
         ;br;
-        ;p(class "explainer-body"):"If you have questions about Oger, head on 'oger' to ~mister-hilper-dozzod-dalten/quartus and submit a ticket. One of our friendly engineers will be with you shortly."
+        ;p(class "explainer-body"):"If you have questions about Peat, head on 'peat' to ~mister-hilper-dozzod-dalten/quartus and submit a ticket. One of our friendly engineers will be with you shortly."
       ==
     ::
-    ++  about
+    ++  what
       ^-  manx
       ;div(id "about")
         ;div(class "menu-guts")
@@ -1244,7 +1269,7 @@
         ==
       ==
     ::
-    ++  main
+    ++  home
       ^-  manx
       ;div(class "menu-wrap", id "about")
         ;div(class "menu-guts")
@@ -1262,7 +1287,7 @@
         ==
       ==
     ::
-    ++  search
+    ++  find
       ^-  manx
       ;div(class "menu-wrap", id "ship-search")
         ;div(class "menu-guts")

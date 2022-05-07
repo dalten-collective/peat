@@ -1,5 +1,5 @@
 ::
-::  oger sur file
+::  /sur/peat - a series of tubes - by Quartus Corporation
 ::
 /-  store=graph-store, metas=metadata-store
 ::
@@ -17,11 +17,10 @@
       known=(jug ship [res=resource typ=?(%chat %link %publish)])
   ==
 ::
-::  oger's actions
+::  peat's actions - user interface
 ::
 +$  horde
-  $%  ::[%printf res=resource]                             ::  printf graph depricated
-      [%export res=resource]                             ::  export files
+  $%  [%export res=resource]                             ::  export files
       [%permit per=(set ship)]                           ::  permit subscribers
       [%remove per=(set ship)]                           ::  remove subscribers
       [%search ser=(set ship)]                           ::  request information from ships about their resources
@@ -38,10 +37,12 @@
       ==
   ==
 ::
-::  oger's facts
+::  peat's facts - agent interface
 ::
 +$  fritter
-  $%  [%hav rez=(set [resource ?(%chat %link %publish)])]
-      [%kil res=resource]
+  $%  [%kil res=resource]                                ::  remove a resource from available set
+    $:  %hav                                             ::  update, added resources/all resources
+        rez=(set [resource ?(%chat %link %publish)])
+    ==
   ==
 --
