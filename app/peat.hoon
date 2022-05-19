@@ -226,12 +226,11 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
-  ~&  >  "being-watched"
   ?+    path  (on-watch:def path)
     [%http-response *]  `this
   ::
       [%search ~]
-    ?>  (~(has in permits) src.bowl)
+    ?>  |((~(has in permits) src.bowl) (team:title our.bowl src.bowl))
     :_  this
     =-  [%give %fact ~ [%peat-fritter !>(`fritter`[%hav -])]]~
     %-  silt

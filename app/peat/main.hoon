@@ -75,7 +75,6 @@
   ?.  success  (build ~ `[| `@t`brief])
   =+  notes=?~(bod=body.request.odo ~ (frisk:rudder q.u.bod))
   ?.  (~(has by notes) 'post')  [%next '/apps/peat' brief]
-  ~&  >>  (~(got by notes) 'post')
   =;  buckslip=brief:rudder
     [%next '/apps/peat' buckslip]
   ?+  (~(got by notes) 'post')  brief
@@ -130,9 +129,7 @@
     ?.  (~(has by notes) 'ship')
       'Error: Missing Data in Function Call'
     =-  
-      ?.  ?=(~ -)  ::`horde`[%remove (sy ~[u.-])]
-      ~&  >>>  `horde`[%remove (sy ~[u.-])]
-      `horde`[%remove (sy ~[u.-])]
+      ?.  ?=(~ -)  `horde`[%remove (sy ~[u.-])]
       'Sorry, we didn\'t recognize that ship name - please try again'
     (slaw %p (~(got by notes) 'ship'))
   ::
