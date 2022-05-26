@@ -7,7 +7,7 @@
 ^?
 |%
 ::    state-zero
-::  - saved  (map resource [index @dr]) - resources that are being auto-saved
+::  - saved  (map resource [@da @dr]) - resources that are being auto-saved
 ::  - given  (jag ship shape resource) - resources shared with you
 ::  - doled  (jag ship shape resource) - resources you've shared out
 ::  - known  (jag shape (unit resource) resource)
@@ -36,14 +36,14 @@
           wer=term                                       ::  - new resource name - we'll make it for you
       ==
     ::
-      [%permit per=(set ship) rys=resources]             ::  permit subscribers
-      [%record ~]                                        ::  - on permit
-      [%remove per=(set ship) rys=resources]             ::  remove subscribers
-      [%depart per=(set ship)]                           ::  remove a subscription
+      [%permit per=(set ship) rys=resources]             ::  permit subscribers to some resources
+      [%record ~]                                        ::  - on permit, subscribe
+      [%remove per=(set ship) rys=resources]             ::  remove subscribers from some resources
+      [%depart p=ship]                                   ::  remove a subscription you have
     ::
       $:  %remake                                        ::  remakes a remote or local resource
-          wat=(each resource [ship resource])            ::  - which resource to remake, local or remote
-          gro=resource                                   ::  - group in which to place the new resource
+          wat=(each resource [p=ship q=shape r=resource])::  - which resource to remake, local or remote
+          gro=(each resource term)                       ::  - group in which to place the new resource
           wer=term                                       ::  - new resource name - we'll make it for you
       ==
   ==

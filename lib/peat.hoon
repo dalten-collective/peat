@@ -138,6 +138,26 @@
   --
 ++  biz
   |%
+  ++  add-to-old-group
+    |=  [r=resource s=shape gr=resource]                 ::  graph shape group
+    ?.  (~(has in groups:pek) gr)                       ::  - are we a group admin?
+      ~_(leaf+"%peat-fail -bad-group-remake" !!)
+    :~  (graph name.r s)
+        (metas r s gr)
+        (pushy name.gr %graph-push-hook)
+    ==
+  ++  add-to-new-group
+    |=  [r=resource s=shape n=term]                      ::  graph shape group-name
+    :~  (group n)
+        (pushy n %group-push-hook)
+        (metag n)
+        (pushy n %metadata-push-hook)
+        (pushy n %contact-push-hook)
+        (graph name.r s)
+        (metas r s [our.bol n])
+        (pushy n %graph-push-hook)
+        (joins n)
+    ==
   ++  group
     |=  n=term
     ^-  card
