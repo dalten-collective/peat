@@ -212,33 +212,70 @@
         ?+    t.t.t.t.wire  (on-agent:def wire sign)     ::  finish path parsing, from above
             ~
           :_  this
+          %-  snoc
+          :_
+            :^  %pass  /import/[+.n]/(scot %da now.bol)  %agent
+            :^  [our.bol %graph-store]  %poke  %graph-update-3
+            !>  ^-  update:store
+            :^  (add now.bol ~s1)  %add-nodes  n
+            ^-  (map index node:store)
+            %-  ~(rep by gra)
+            |=  [[a=atom n=node:store] q=(map index node:store)]
+            ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
           ^-  (list card)
           ;:  welp
-            ^-  (list card)
-            (~(rep by gra) ~(renew cod:pl n))
-          ::
-            ^-  (list card)
             (add-to-new-group:biz:pl n s (slav %tas i.t.t.t.wire))
           ::
             =-  [%give %fact ~[/website] json+!>(`json`-)]~
-            %+  frond  'status-msg'
-            s+(crip "%peat-success -remade-{(trip (scot %tas +.n))}")
+            %+  frond  'diff-remake'
+            %-  pairs
+            :~  :-  'group'
+                %-  pairs
+                :~  entity+s+(scot %p our.bowl)
+                    name+s+(scot %tas i.t.t.t.wire)
+                ==
+              ::
+                :-  'resource'
+                %-  pairs
+                :~  entity+s+(scot %p our.bowl)
+                    name+s+(scot %tas name.n)
+                ==
+            ==
           ==
         ::
             [@ ~]
           :_  this
+          %-  snoc
+          :_
+            :^  %pass  /import/[+.n]/(scot %da now.bol)  %agent
+            :^  [our.bol %graph-store]  %poke  %graph-update-3
+            !>  ^-  update:store
+            :^  (add now.bol ~s1)  %add-nodes  n
+            ^-  (map index node:store)
+            %-  ~(rep by gra)
+            |=  [[a=atom n=node:store] q=(map index node:store)]
+            ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
+          ^-  (list card)
           ;:  welp
-            ^-  (list card)
-            (~(rep by gra) ~(renew cod:pl n))
-          ::
-            ^-  (list card)
             %^  add-to-old-group:biz:pl  n  s
             :-  (slav %p i.t.t.t.wire)
             (slav %tas i.t.t.t.t.wire)
           ::
             =-  [%give %fact ~[/website] json+!>(`json`-)]~
-            =-  (frond status-msg+s+(crip -))
-            "%peat-success -remade-{(trip (scot %tas +.n))}"
+            %+  frond  'diff-remake'
+            %-  pairs
+            :~  :-  'group'
+                %-  pairs
+                :~  entity+s+i.t.t.t.wire
+                    name+s+i.t.t.t.t.wire
+                ==
+              ::
+                :-  'resource'
+                %-  pairs
+                :~  entity+s+(scot %p our.bowl)
+                    name+s+(scot %tas name.n)
+                ==
+            ==
           ==
         ==
       ==
@@ -345,6 +382,8 @@
     =*  frond  frond:enjs:format
     =*  pairs  pairs:enjs:format
     ?+    path  (on-peek:def path)
+      ::  supporting cast
+    ::
       ::  wholes
     ::  saved all
         [%x %saved ~]
@@ -449,22 +488,30 @@
           %+  turn  ~(tap in av)
           |=  [n=@tas l=@ud]
           %-  pairs
-          ~[resource+s+(scot %tas n) length+(numb:enjs:format l)]
+          :~  resource+s+(scot %tas n)
+              length+(numb:enjs:format l)
+          ==
       ==
     ==
   ++  on-arvo
     |=  [=wire sign=sign-arvo]
     ^-  (quip card _this)
+    ~&  >>  "{<wire>} received"
     ?.  ?=([%peat @ @ @ ~] wire)  (on-arvo:def wire sign)
     =*  ent  (slav %p i.t.wire)
     =*  nam  (slav %tas i.t.t.wire)
     =*  fre  (slav %dr i.t.t.t.wire)
+    ~&  fre
     ?.  ?=([%behn %wake *] sign)  (on-arvo:def wire sign)
     ?~  error.sign
-      ?.  (~(has by saved) [ent nam])  `this
+      ?~  hab=(~(get by saved) [ent nam])  `this
+      ?.  =(fre +.u.hab)  ~&  >>>  "not firing"  `this
+      ~&  >  "firing"
       =^  cards  state
-        (export:pete:hc [ent nam] `fre)
-      [cards this]
+        (export:pete:hc [ent nam] ~)
+      :_  this
+      :_  cards
+      [%pass wire %arvo %b [%wait (add now.bowl fre)]]
     =.  saved
       (~(del by saved) [ent nam])
     %.  `this  %-  slog
@@ -583,7 +630,8 @@
     |=  [r=resource b=(unit @dr)]
     |^  ^-  (quip card _state)
       ?>  (~(has in llaves:pek:pl) r)                    ::  the resource must exist
-      =/  last=(unit time)
+      =/  last=time
+        %-  need
         ;;  (unit time)
         =-  (gra-s:pek:pl * -)
         ;:  welp
@@ -595,16 +643,23 @@
       ?~  b
         [(put-file r) state]
       =?    u.b
-          (lth u.b ~d1)
-        ~d1
-      =.  saved
-        (~(put by saved) r [?>(?=(^ last) u.last) u.b])
+          (lth u.b ~h12)
+        ~h12
+      ?~  rep=(~(get by saved) r)
+        ~&  >>>  "how are we here?"
+        =.  saved
+          (~(put by saved) r [last u.b])
+        [(set-behn r u.b)^(put-file r) state]
       ::
+      ~&  [u.b +.u.rep]
+      ?<  =(u.b +.u.rep)
+      =.  saved
+        (~(put by saved) r [last u.b])
       [(set-behn r u.b)^(put-file r) state]
     ++  web-card
       |=  [r=resource l=@da rec=(unit @dr)]
       =-  [%give %fact ~[/website] json+!>(`json`-)]~
-      %+  frond:enjs:format  'new-save'
+      %+  frond:enjs:format  'diff-export'
       %-  pairs:enjs:format
       :~  last+(sect:enjs:format l)
         :-  'resource'
@@ -614,7 +669,7 @@
           ==
         ::
           :-  'frequency'
-          ?~  rec  s+'never'
+          ?~  rec  s+'once'
           =+  yep=(yell u.rec)
           %-  pairs:enjs:format
           :~  ['days' n+(scot %ud d.yep)]
@@ -690,7 +745,7 @@
     =.  saved  (~(del by saved) r)
     :_  state
     =-  [%give %fact ~[/website] json+!>(`json`-)]~
-    %+  frond:enjs:format  'diff-cancel-save'
+    %+  frond:enjs:format  'diff-cancel-export'
     %-  pairs:enjs:format
     :~  entity+s+(scot %p entity.r)
         name+s+(scot %tas name.r)
@@ -704,44 +759,94 @@
       ?>  !?=(~ dir.arc)
       =+  dis=~(tap in dir.arc)
       ?~  nos=(rush p:(head dis) ;~((glue bar) sym sym sym dem))
-        ~_(leaf+"%peat-fail -indeterminate-shape" !!)
+       ~_(leaf+"%peat-fail -indeterminate-shape" !!)
       =/  sap=shape
-        ?+  +>-.u.nos  !!
-          %dm       ;;(?(%chat %link %publish %dm) +>-.u.nos)
-          %chat     ;;(?(%chat %link %publish %dm) +>-.u.nos)
-          %link     ;;(?(%chat %link %publish %dm) +>-.u.nos)
-          %publish  ;;(?(%chat %link %publish %dm) +>-.u.nos)
-        ==
+       ?+  +>-.u.nos  !!
+         %dm       ;;(?(%chat %link %publish %dm) +>-.u.nos)
+         %chat     ;;(?(%chat %link %publish %dm) +>-.u.nos)
+         %link     ;;(?(%chat %link %publish %dm) +>-.u.nos)
+         %publish  ;;(?(%chat %link %publish %dm) +>-.u.nos)
+       ==
       :_  state
+      ^-  (list card)
       ?.  ?=(%.y -.g)
-        ?<  (~(has in groups:pek:pl) [our.bol p.g])
-        %+  welp
-          (add-to-new-group:biz:pl [our.bol n] sap p.g)
-        (imp-do dis [our.bol p.g] [our.bol n])  
-        ::
+       ?<  (~(has in groups:pek:pl) [our.bol p.g])
+       ;:  welp
+         (add-to-new-group:biz:pl [our.bol n] sap p.g)
+         (web-do [our.bol p.g] [our.bol n] f)
+         (imp-do dis [our.bol p.g] [our.bol n])
+        ==
+       ::
       ?>  (~(has in groups:pek:pl) p.g)
-      %+  welp  (add-to-old-group:biz:pl [our.bol n] sap p.g)
-      (imp-do dis p.g [our.bol n])
+      ;:  welp
+        (add-to-old-group:biz:pl [our.bol n] sap p.g)
+        (web-do p.g [our.bol n] f)
+        (imp-do dis p.g [our.bol n])
+      ==
+    ++  web-do
+      |=  [g=resource r=resource f=path]
+      ^-  (list card)
+      =/  pat=path
+        %-  weld  :_  f
+        /(scot %p our.bol)/peat/(scot %da now.bol)/hav
+      =-  [%give %fact ~[/website] json+!>(`json`-)]~
+      %+  frond:enjs:format  'diff-import'
+      %-  pairs:enjs:format
+      :~  path+(path:enjs:format pat)
+          :-  'group'
+          %-  pairs:enjs:format
+          :~  entity+s+(scot %p entity.g)
+              name+s+(scot %tas name.g)
+          ==
+        ::
+          :-  'resource'
+          %-  pairs:enjs:format
+          :~  entity+s+(scot %p entity.r)
+              name+s+(scot %tas name.r)
+          ==
+      ==
     ++  imp-do
-      |=  [p=(list [p=@ta q=~]) g=resource r=resource]
-      =|  cop=(list card)
+      |=  [p=(list [p=@t q=~]) g=resource r=resource]
+      ^-  (list card)
+      =|  q=(map index node:store)
       |-
       ?~  p
-        %-  %-  slog
-            :~  leaf+"%peat-import"
-                leaf+"-import-starting"
-                leaf+"-group: [{<entity.g>} %{<name.g>}]"
-                leaf+"-resource: [{<entity.r>} %{<name.r>}]"
+        %.  :~
+              :+  %pass  /import/[+.r]/(scot %da now.bol)
+              :+  %agent  [our.bol %graph-store]
+              :+  %poke  %graph-update-3
+              !>  ^-  update:store
+              [now.bol %add-nodes r q]
             ==
-        cop
-      =/  old=graph:store
-        %-  malt
-        ;;  (list [atom node:store])
-        (cue .^(@ %cx :(weld f /[p.i.p] /jam)))
-      %=    $
-        p  t.p
-        cop  (welp cop (~(rep by old) ~(renew cod:pl r)))
-      == 
+        %-  slog
+        :~  '%peat-import'
+            '-import-starting'
+            leaf+"-group: [{<entity.g>} %{<name.g>}]"
+            leaf+"-resource: [{<entity.r>} %{<name.r>}]"
+        ==
+      =;  old=graph:store
+        %=    $
+          p  t.p
+        ::
+            q
+          ^+  q
+          %-  ~(uni by q)  ^+  q
+          %-  ~(rep by old)
+          |=  [[a=atom n=node:store] q=(map index node:store)]
+          ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
+        ==
+
+      %-  malt
+      ;;  (list [atom node:store])
+      %-  cue
+      .^  @   %cx 
+        ;:  weld
+          /(scot %p our.bol)/peat/(scot %da now.bol)/hav
+          f
+          /[p.i.p]
+          /jam
+        ==
+      ==
     --
   ::
   ++  permit
@@ -836,14 +941,30 @@
       :_  state
       ?.  ?=(%.y -.g)
         ?<  (~(has in groups:pek:pl) [our.bol p.g])
-        ^-  (list card)
-        %+  welp
+        %+  snoc
+          ^-  (list card)
           (add-to-new-group:biz:pl [our.bol n] q.mip p.g)
-        (~(rep by graph.q.upd) ~(renew cod:pl [our.bol n]))
+        =-  :^  %pass  /import/[n]/(scot %da now.bol)  %agent
+            [[our.bol %graph-store] %poke %graph-update-3 -]
+        !>  ^-  update:store
+        :^  (add now.bol ~s1)  %add-nodes  [our.bol n]
+        ^-  (map index node:store)
+        %-  ~(rep by graph.q.upd)
+        |=  [[a=atom n=node:store] q=(map index node:store)]
+        ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
         ::
       ?>  (~(has in groups:pek:pl) p.g)
-      %+  welp  (add-to-old-group:biz:pl [our.bol n] q.mip p.g)
-      (~(rep by graph.q.upd) ~(renew cod:pl [our.bol n]))
+      %+  snoc
+        ^-  (list card)
+        (add-to-old-group:biz:pl [our.bol n] q.mip p.g)
+      =-  :^  %pass  /import/[n]/(scot %da now.bol)  %agent
+          [[our.bol %graph-store] %poke %graph-update-3 -]
+      !>  ^-  update:store
+      :^  (add now.bol ~s1)  %add-nodes  [our.bol n]
+      ^-  (map index node:store)
+      %-  ~(rep by graph.q.upd)
+      |=  [[a=atom n=node:store] q=(map index node:store)]
+      ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
     ?>  %.  r.p.w                                        ::  now remote case
         ~(has in (~(gut ba-s given) p.p.w q.p.w ~))
     =*  ent  (scot %p entity.r.p.w)
@@ -854,16 +975,17 @@
     =-  [%pass -> %agent [p.p.w %peat] %watch -<]~
     :-  [%remake ent nam sap ~]
     ?.  ?=(%.y -.g)
-      =*  grn  (scot %tas p.g)
-      [%remake new sap grn ~]
-    =*  gre  (scot %p entity.p.g)
-    =*  grn  (scot %tas name.p.g)
-    [%remake new sap gre grn ~]
+      [%remake new sap (scot %tas p.g) ~]
+    [%remake new sap (scot %p entity.p.g) (scot %tas name.p.g) ~]
   ::
   ++  depart
     |=  p=ship
     ^-  (quip card _state)
     :_  state(given (~(del by given) p))
-    [%pass /ogertalk/peat/(scot %p p) %agent [p %peat] %leave ~]~
+    :~  =-  [%give %fact ~[/website] json+!>(`json`-)]
+        (frond:enjs:format diff-left+s+(scot %p p))
+      ::
+        [%pass /ogertalk/peat/(scot %p p) %agent [p %peat] %leave ~]
+    ==
   --
 --

@@ -39,19 +39,6 @@
   +$  pew-act  action:pushy
   --
 |_  bol=bowl:gall
-++  cod
-  |_  sor=resource
-  ++  renew
-    |=  [in=[a=atom n=node:store] out=(list card)]
-    ^-  (list card)
-    %+  welp  out
-    :~  :*
-      %pass   /import/(scot %da now.bol)
-      %agent  [our.bol %graph-store]
-      %poke   %graph-update-3
-      !>(`update:store`[`@da`a.in %add-nodes sor (my ~[[~[a.in] n.in]])])
-    ==  ==
-  --
 ++  pek
   |%
   ++  gra-p
@@ -64,7 +51,7 @@
   ++  arc-s                                              ::  scry an arch
     |=  pat=path
     ^-  arch
-    .^(arch %cy (welp /(scot %p our.bol)/peat/(scot %da now.bol) pat))
+    .^(arch %cy (welp /(scot %p our.bol)/peat/(scot %da now.bol)/hav pat))
   ++  gra-s                                              ::  scry a graph thing
     |*  [mol=mold pat=path]
     ^-  ,mol
@@ -133,7 +120,7 @@
     =-  ?~  gru=-  ~
         ?.((~(has in (~(get ju tags.u.gru) %admin)) our.bol) ~ `r)
     .^  (unit group:group)  %gx
-      ;:(welp gro-p (en-path:res-lib r) /noun)
+      ;:(welp gro-p /groups (en-path:res-lib r) /noun)
     ==
   --
 ++  biz
