@@ -45,6 +45,7 @@
   ::
   ++  on-init
     ^-  (quip card _this)
+    ~>  %bout.[0 'on-init-peat']
     %-  (slog leaf+"%peat-init" ~)
     ::=.  known
     ::  %.  (murn ~(tap in llaves:pek:pl) mippet:pek:pl)
@@ -60,6 +61,7 @@
   ::
   ++  on-load
     |=  ole=vase
+    ~>  %bout.[0 'on-load-peat']
     ^-  (quip card _this)
     |^  ^-  (quip card _this)
     =/  old=versioned-state  !<(versioned-state ole)
@@ -77,6 +79,7 @@
   ::
   ++  on-poke
     |=  [=mark =vase]
+    ~>  %bout.[0 'on-poke-peat']
     ^-  (quip card _this)
     ?+    mark  (on-poke:def mark vase)
        %peat-repete
@@ -341,6 +344,7 @@
   ::
   ++  on-watch
     |=  =path
+    ~>  %bout.[0 'on-watch-peat']
     ^-  (quip card _this)
     ?+    path  (on-watch:def path)
         [%ogertalk %peat ~]
@@ -378,6 +382,7 @@
   ::
   ++  on-peek
     |=  =path
+    ~>  %bout.[0 'on-peek-peat']
     ^-  (unit (unit cage))
     =*  frond  frond:enjs:format
     =*  pairs  pairs:enjs:format
@@ -495,13 +500,13 @@
     ==
   ++  on-arvo
     |=  [=wire sign=sign-arvo]
+    ~>  %bout.[0 'on-arvo-peat']
     ^-  (quip card _this)
     ~&  >>  "{<wire>} received"
     ?.  ?=([%peat @ @ @ ~] wire)  (on-arvo:def wire sign)
     =*  ent  (slav %p i.t.wire)
     =*  nam  (slav %tas i.t.t.wire)
     =*  fre  (slav %dr i.t.t.t.wire)
-    ~&  fre
     ?.  ?=([%behn %wake *] sign)  (on-arvo:def wire sign)
     ?~  error.sign
       ?~  hab=(~(get by saved) [ent nam])  `this
@@ -520,6 +525,7 @@
     ==
   ++  on-leave
     |=  =path
+    ~>  %bout.[0 'on-leave-peat']
     ^-  (quip card _this)
     ?.  ?=([%ogertalk %peat ~] path)  !!
     =.  doled
@@ -539,6 +545,7 @@
   |%
   ++  gibbs                                              ::  got a new resource from a friend
     |=  [p=@p s=shape]
+    ~>  %bout.[0 'gibbs-john']
     ^-  (list json)
     %+  turn  ~(tap in (~(get (ba _p _s resource) given) p s))
     |=  r=resource
@@ -547,6 +554,7 @@
   ++  jagon                                              ::  shorthand for turning gupps/mupps
     |=  t=?(%given %doled %known)
     |^
+    ~>  %bout.[0 'jagon-john']
       ^-  json
       ?-  t
         %given  a+(turn ~(tap ba-s given) gupps)
@@ -555,6 +563,7 @@
       ==
     ++  gupps                                            ::  translate (jag ship shape resource)
       |=  [p=@p q=shape r=resources]
+      ~>  %bout.[0 'gupps-jagon--john']
       ^-  json
       =,  enjs:format
       %+  frond  (scot %p p)
@@ -571,6 +580,7 @@
     ::
     ++  mupps                                            ::  translate (jag shape (unit resource) resource)
       |=  [q=shape g=(unit resource) r=resources]
+      ~>  %bout.[0 'mupps-jagon-john']
       ^-  json
       =,  enjs:format
       %+  frond  (scot %tas q)
@@ -597,6 +607,7 @@
     =/  shav=(list [r=resource [i=@da f=@dr]])
       ~(tap by saved)
     =|  twins=(list [@t json])
+    ~>  %bout.[0 'shave-john']
     |-
     ?~  shav  (pairs twins)
     =+  yep=(yell f.i.shav)
@@ -629,6 +640,7 @@
   ++  export
     |=  [r=resource b=(unit @dr)]
     |^  ^-  (quip card _state)
+    ~>  %bout.[0 'export-pete']
       ?>  (~(has in llaves:pek:pl) r)                    ::  the resource must exist
       =/  last=time
         %-  need
@@ -644,20 +656,19 @@
         [(put-file r) state]
       =?    u.b
           (lth u.b ~h12)
-        ~h12
+        ~m1
       ?~  rep=(~(get by saved) r)
-        ~&  >>>  "how are we here?"
         =.  saved
           (~(put by saved) r [last u.b])
         [(set-behn r u.b)^(put-file r) state]
       ::
-      ~&  [u.b +.u.rep]
       ?<  =(u.b +.u.rep)
       =.  saved
         (~(put by saved) r [last u.b])
       [(set-behn r u.b)^(put-file r) state]
     ++  web-card
       |=  [r=resource l=@da rec=(unit @dr)]
+      ~>  %bout.[0 'web-card-export-pete']
       =-  [%give %fact ~[/website] json+!>(`json`-)]~
       %+  frond:enjs:format  'diff-export'
       %-  pairs:enjs:format
@@ -679,6 +690,7 @@
       ==
     ++  set-behn
       |=  [r=resource t=@dr]
+      ~>  %bout.[0 'set-behn-export-pete']
       ^-  card
       =/  pat=path
         ;:  welp
@@ -690,17 +702,19 @@
       [%pass pat %arvo %b [%wait (add now.bol t)]]
     ++  put-file
       |=  r=resource
+      ~>  %bout.[0 'put-file-export-pete']
       ^-  (list card)
       =*  ent  (scot %p entity.r)                        :: then get the resource ready
       =*  nam  (scot %tas name.r)
-      =+  pat=/metadata/graph/ship/[ent]/[nam]
-      =+  ass=(met-s:pek:pl (unit association:metas) pat):: could we find an association in metadata
-      ?>  ?&  ?=(^ ass)
-              ?=(%graph -.config.metadatum.u.ass)        :: this product only works on graph modules as of the present
-          ==
-        ::
-      =*  app  (scot %tas %graph)                        :: if we're a graph, we know the app and type now
-      =*  typ  (scot %tas module.config.metadatum.u.ass)
+      =+  ^=  ass                                        :: check metadata association
+        %+  met-s:pek:pl  (unit association:metas)
+        /metadata/graph/ship/[ent]/[nam]
+      =+  ^=  [app=@t typ=@t]
+        ?~  ass  
+          (scot %tas %dm)^(scot %tas %dm)                :: if we're not in metas, we're a dm
+        ?>  ?=(%graph -.config.metadatum.u.ass)          :: if we're a graph, we know the app and type
+        :-  (scot %tas %graph)
+        (scot %tas module.config.metadatum.u.ass)
       ::
       =/  upd=update:store
         (gra-s:pek:pl update:store /graph/[ent]/[nam])   :: does our scry give us what we expect
@@ -724,10 +738,9 @@
                leaf+"-check-directory /pier/.urb/put"
                leaf+"-expected-file-count {<pag>}"
            ==
-      =/  pat=path
-        /peat/export/(scot %ud pag)/(scot %da now.bol)
         %+  welp  cop
-        =-  [%pass pat %agent [our.bol %hood] %poke %drum-put -]~
+        =-  [%pass -< %agent [our.bol %hood] %poke %drum-put ->]~
+        :-  /peat/export/(scot %ud pag)/(scot %da now.bol)
         !>([/(scot %tas nam)/(scot %tas jeff)/jam (jam par)])
       %=    $
         par  (oust [0 500] par)
@@ -735,12 +748,15 @@
       ::
           cop
         %+  welp  cop
-        =-  [%pass pat %agent [our.bol %hood] %poke %drum-put -]~
-        !>([/(scot %tas nam)/(scot %tas jeff)/jam (jam (scag 500 par))])
+        =-  [%pass -< %agent [our.bol %hood] %poke %drum-put ->]~
+        :-  /peat/export/(scot %ud pag)/(scot %da now.bol)
+        !>  :_  (jam (scag 500 par))
+            /(scot %tas nam)/(scot %tas jeff)/jam
       ==
     --
   ++  cancel
     |=  r=resource
+    ~>  %bout.[0 'cancel-pete']
     ^-  (quip card _state)
     =.  saved  (~(del by saved) r)
     :_  state
@@ -754,6 +770,7 @@
   ++  import
     |=  [f=path g=(each resource @tas) n=@tas]
     |^  ^-  (quip card _state)
+    ~>  %bout.[0 'import-pete']
       =/  arc=arch  (arc-s:pek:pl f)
       ?<  (~(has in llaves:pek:pl) [our.bol n])
       ?>  !?=(~ dir.arc)
@@ -769,6 +786,8 @@
        ==
       :_  state
       ^-  (list card)
+      ?:  ?=(%dm sap)
+        (add-dm dis)
       ?.  ?=(%.y -.g)
        ?<  (~(has in groups:pek:pl) [our.bol p.g])
        ;:  welp
@@ -785,6 +804,7 @@
       ==
     ++  web-do
       |=  [g=resource r=resource f=path]
+      ~>  %bout.[0 'web-do-import-pete']
       ^-  (list card)
       =/  pat=path
         %-  weld  :_  f
@@ -805,16 +825,63 @@
               name+s+(scot %tas name.r)
           ==
       ==
+    ++  add-dm                                           ::  reconcile dms (slide in)
+      |=  p=(list [p=@t q=~])
+      ~>  %bout.[0 'add-do-import-pete']
+      =|  q=(map index node:store)
+      |-
+      ?~  p
+        %.  :~
+              :+  %pass   /import/dm-inbox/(scot %da now.bol)
+              :+  %agent  [our.bol %graph-store]
+              :+  %poke   %graph-update-3
+              !>  ^-  update:store
+              [now.bol %add-nodes [our.bol %dm-inbox] q]
+            ==
+        %-  slog
+        :~  '%peat-import'
+            '-reconciling-dms'
+            leaf+"-imported-dms"
+        ==
+      =;  old=graph:store
+        %=    $
+          p  t.p
+        ::
+            q
+          ^+  q
+          %-  ~(uni by q)  ^+  q
+          %-  ~(rep by old)
+          |=  [[a=atom n=node:store] q=(map index node:store)]
+          ?.  ?=(%.y -.post.n)  q
+          ?:  %+  gra-s:pek:pl  ?
+              %+  weld
+                /graph/(scot %p our.bol)/dm-inbox/node/exists
+              (turn index.p.post.n (cury scot %ud))
+            q
+          (~(put by q) index.p.post.n n)
+        ==
+      %-  malt
+      ;;  (list [atom node:store])
+      %-  cue
+      .^  @   %cx 
+        ;:  weld
+          /(scot %p our.bol)/peat/(scot %da now.bol)/hav
+          f
+          /[p.i.p]
+          /jam
+        ==
+      ==
     ++  imp-do
       |=  [p=(list [p=@t q=~]) g=resource r=resource]
+      ~>  %bout.[0 'imp-do-import-pete']
       ^-  (list card)
       =|  q=(map index node:store)
       |-
       ?~  p
         %.  :~
-              :+  %pass  /import/[+.r]/(scot %da now.bol)
+              :+  %pass   /import/[+.r]/(scot %da now.bol)
               :+  %agent  [our.bol %graph-store]
-              :+  %poke  %graph-update-3
+              :+  %poke   %graph-update-3
               !>  ^-  update:store
               [now.bol %add-nodes r q]
             ==
@@ -851,6 +918,7 @@
   ::
   ++  permit
     |=  [pr=(set ship) rs=(set resource)]
+    ~>  %bout.[0 'permit-pete']
     ^-  (quip card _state)
     =/  nugiv=(jug shape resource)
       %-  ~(rep in rs)
@@ -880,12 +948,14 @@
   ::
   ++  record
     ^-  (quip card _state)
+    ~>  %bout.[0 'record-pete']
     :_  state
     =-  [%pass /ogertalk/peat/(scot %p src.bol) -]~
     [%agent [src.bol %peat] %watch /ogertalk/peat]
   ::
   ++  remove
     |=  [pr=(set ship) rs=(set resource)]
+    ~>  %bout.[0 'remove-pete']
     ^-  (quip card _state)
     =/  nutak=(jug shape resource)
       %-  ~(rep in rs)
@@ -928,6 +998,7 @@
             g=(each resource term)
             n=term
         ==
+    ~>  %bout.[0 'remake-pete']
     ^-  (quip card _state)
     ?<  (~(has in llaves:pek:pl) [our.bol n])
     ?:  ?=(%.y -.w)                                      ::  local case first
@@ -980,6 +1051,7 @@
   ::
   ++  depart
     |=  p=ship
+    ~>  %bout.[0 'depart-pete']
     ^-  (quip card _state)
     :_  state(given (~(del by given) p))
     :~  =-  [%give %fact ~[/website] json+!>(`json`-)]

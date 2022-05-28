@@ -1,15 +1,15 @@
 ::
-::  oger-fritter mark file
+::  peat-peep mark file
 ::
 /-  *oger
-|_  latka=fritter
+|_  teet=peep
 ++  grad  %noun
 ++  grow
   |%
-  ++  noun  latka
+  ++  noun  teet
   --
 ++  grab
   |%
-  ++  noun  fritter
+  ++  noun  peep
   --
 --
