@@ -1,7 +1,7 @@
 ::
 ::  peat-peep mark file
 ::
-/-  *oger
+/-  *peat
 |_  teet=peep
 ++  grad  %noun
 ++  grow
