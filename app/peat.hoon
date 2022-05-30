@@ -388,8 +388,6 @@
     =*  frond  frond:enjs:format
     =*  pairs  pairs:enjs:format
     ?+    path  (on-peek:def path)
-      ::  supporting cast
-    ::
       ::  wholes
     ::  saved all
         [%x %saved ~]
@@ -481,6 +479,14 @@
         |=  [e=@p n=@tas]
         (pairs ~[entity+s+(scot %p e) name+s+(scot %tas n)])
       ==
+      ::  supporting cast
+    ::
+        [%x %admin ~]
+      =-  ``[%json !>(`json`(frond am-admin+a+-))]
+      %-  ~(rep in groups:pek:pl)
+      |=  [r=resource l=(list json)]
+      :_  l  %-  pairs
+      ~[entity+s+(scot %p entity.r) name+s+(scot %tas name.r)]
     ::
         [%x %hav ~]
       =-  ``[%json !>(`json`(frond available+a+-))]
