@@ -112,13 +112,14 @@
   ::
   ++  groups                                             ::  groups where I'm admin
     ^-  (set resource)
-    ?~  gros=~(tap in .^((set resource) %gy (weld gro-p /groups)))
-      *(set resource)
-    %-  sy  %+  murn  gros
-    |=  r=resource
-    ^-  (unit resource)
-    =-  ?~  gru=-  ~
-        ?.((~(has in (~(get ju tags.u.gru) %admin)) our.bol) ~ `r)
+    %-  ~(rep in .^((set resource) %gy (weld gro-p /groups)))
+    |=  [r=resource q=(set resource)]
+    =;  g=(unit group:group)
+      ~&  >>>  [r g]
+      ?~  g  q
+      ?.  (~(has in (~(get ju tags.u.g) %admin)) our.bol)
+        ~
+      (~(put in q) r)
     .^  (unit group:group)  %gx
       ;:(welp gro-p /groups (en-path:res-lib r) /noun)
     ==

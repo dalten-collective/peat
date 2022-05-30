@@ -235,52 +235,17 @@
                 ==
             ==
           ::
-            =;  sip=[(unit @tatid) (unit @tatid) =beak file=term =vase]
-              =/  pat=^path  /peat/ted/(scot %da now.bowl)
-              [%pass pat %agent [our.bowl %spider] %poke %spider-start !>(sip)]~
-            :+  ~  `(cat 3 'peat-' (scot %da now.bowl))
-            :+  byk.bowl(r da+now.bowl)  %delay
-            !>  ^-  (unit card)
-            :-  ~
-            :^  %pass  /import/[+.n]/(scot %da now.bowl)  %agent
-            :^  [our.bol %graph-store]  %poke  %graph-update-3
+            =;  [pat=^path nod=cage]
+              [%pass pat %agent [our.bowl %graph-store] %poke nod]~
+            :-  /import/[+.n]/(scot %da now.bowl)
+            :-  %graph-update-3
             !>  ^-  update:store
-            :^  (add now.bol ~s1)  %add-nodes  n
+            :^  (add now.bowl ~s1)  %add-nodes  n
             ^-  (map index node:store)
             %-  ~(rep by gra)
             |=  [[a=atom n=node:store] q=(map index node:store)]
             ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
           ==
-          :: %-  snoc
-          :: :_
-          ::   :^  %pass  /import/[+.n]/(scot %da now.bowl)  %agent
-          ::   :^  [our.bol %graph-store]  %poke  %graph-update-3
-          ::   !>  ^-  update:store
-          ::   :^  (add now.bol ~s1)  %add-nodes  n
-          ::   ^-  (map index node:store)
-          ::   %-  ~(rep by gra)
-          ::   |=  [[a=atom n=node:store] q=(map index node:store)]
-          ::   ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
-          :: ^-  (list card)
-          :: ;:  welp
-          ::   (add-to-new-group:biz:pl n s (slav %tas i.t.t.t.wire))
-          :: ::
-          ::   =-  [%give %fact ~[/website] json+!>(`json`-)]~
-          ::   %+  frond  'diff-remake'
-          ::   %-  pairs
-          ::   :~  :-  'group'
-          ::       %-  pairs
-          ::       :~  entity+s+(scot %p our.bowl)
-          ::           name+s+(scot %tas i.t.t.t.wire)
-          ::       ==
-          ::     ::
-          ::       :-  'resource'
-          ::       %-  pairs
-          ::       :~  entity+s+(scot %p our.bowl)
-          ::           name+s+(scot %tas name.n)
-          ::       ==
-          ::   ==
-          :: ==
         ::
             [@ ~]
           :_  this
@@ -305,55 +270,18 @@
                 ==
             ==
           ::
-            =;  sip=[(unit @tatid) (unit @tatid) =beak file=term =vase]
-              =/  pat=^path  /peat/ted/(scot %da now.bowl)
-              [%pass pat %agent [our.bowl %spider] %poke %spider-start !>(sip)]~
-            :+  ~  `(cat 3 'peat-' (scot %da now.bowl))
-            :+  byk.bowl(r da+now.bowl)  %delay
-            !>  ^-  (unit card)
-            :-  ~
-            :^  %pass  /import/[+.n]/(scot %da now.bowl)  %agent
-            :^  [our.bol %graph-store]  %poke  %graph-update-3
+            =;  [pat=^path nod=cage]
+              [%pass pat %agent [our.bowl %graph-store] %poke nod]~
+            :-  /import/[+.n]/(scot %da now.bowl)
+            :-  %graph-update-3
             !>  ^-  update:store
-            :^  (add now.bol ~s1)  %add-nodes  n
+            :^  (add now.bowl ~s1)  %add-nodes  n
             ^-  (map index node:store)
             %-  ~(rep by gra)
             |=  [[a=atom n=node:store] q=(map index node:store)]
             ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
           ==
-          :: %-  snoc
-          :: :_
-          ::   :^  %pass  /import/[+.n]/(scot %da now.bowl)  %agent
-          ::   :^  [our.bol %graph-store]  %poke  %graph-update-3
-          ::   !>  ^-  update:store
-          ::   :^  (add now.bol ~s1)  %add-nodes  n
-          ::   ^-  (map index node:store)
-          ::   %-  ~(rep by gra)
-          ::   |=  [[a=atom n=node:store] q=(map index node:store)]
-          ::   ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
-          :: ^-  (list card)
-          :: ;:  welp
-          ::   %^  add-to-old-group:biz:pl  n  s
-          ::   :-  (slav %p i.t.t.t.wire)
-          ::   (slav %tas i.t.t.t.t.wire)
-          :: ::
-          ::   =-  [%give %fact ~[/website] json+!>(`json`-)]~
-          ::   %+  frond  'diff-remake'
-          ::   %-  pairs
-          ::   :~  :-  'group'
-          ::       %-  pairs
-          ::       :~  entity+s+i.t.t.t.wire
-          ::           name+s+i.t.t.t.t.wire
-          ::       ==
-          ::     ::
-          ::       :-  'resource'
-          ::       %-  pairs
-          ::       :~  entity+s+(scot %p our.bowl)
-          ::           name+s+(scot %tas name.n)
-          ::       ==
-          ::   ==
-          :: ==
-        ==
+         ==
       ==
     ::
         [%peat %keys ~]
@@ -1086,6 +1014,7 @@
       ?>  ?=(%add-graph -.q.upd)
       :_  state
       ?.  ?=(%.y -.g)
+        ~&  >>>  [%test groups:pek:pl]
         ?<  (~(has in groups:pek:pl) [our.bol p.g])
         %+  snoc
           ^-  (list card)
@@ -1121,7 +1050,9 @@
     =-  [%pass -> %agent [p.p.w %peat] %watch -<]~
     :-  [%remake ent nam sap ~]
     ?.  ?=(%.y -.g)
+      ?<  (~(has in groups:pek:pl) [our.bol p.g])
       [%remake new sap (scot %tas p.g) ~]
+    ?>  (~(has in groups:pek:pl) p.g)
     [%remake new sap (scot %p entity.p.g) (scot %tas name.p.g) ~]
   ::
   ++  depart
