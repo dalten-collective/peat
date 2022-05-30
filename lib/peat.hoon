@@ -115,7 +115,6 @@
     %-  ~(rep in .^((set resource) %gy (weld gro-p /groups)))
     |=  [r=resource q=(set resource)]
     =;  g=(unit group:group)
-      ~&  >>>  [r g]
       ?~  g  q
       ?.  (~(has in (~(get ju tags.u.g) %admin)) our.bol)
         ~
