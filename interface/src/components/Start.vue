@@ -1,18 +1,25 @@
 <template>
-  <h1>Hello world</h1>
-  This is Start.vue
+  <pre>
+    Known: {{ known }}
+  </pre>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "vuex"
 
 export default defineComponent({
   mounted() {
     const deskname = "peat"
     this.startAirlock(deskname);
   },
+
   unmounted() {
     this.closeAirlocks();
+  },
+
+  computed: {
+    ...mapState("peat", ["known"]),
   },
 
   methods: {

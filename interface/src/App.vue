@@ -1,5 +1,4 @@
 <template>
-  App.vue
   <div>
     <router-view />
   </div>
