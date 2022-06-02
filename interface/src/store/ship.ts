@@ -37,6 +37,7 @@ export default {
           console.log("agentName ", agentName);
           console.log("response ", data);
           dispatch("peat/setKnown", data.known, { root: true })
+          dispatch("peat/setSaved", data.saved, { root: true })
         },
         (subscriptionNumber: number) => {
           console.log("got subscription number ", subscriptionNumber);
