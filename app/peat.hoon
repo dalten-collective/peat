@@ -3,7 +3,6 @@
 ::
 /-  *peat,
     post,
-    spider,
     res=resource,
     store=graph-store,
     metas=metadata-store
