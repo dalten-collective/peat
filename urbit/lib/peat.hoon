@@ -85,11 +85,15 @@
         (jest 'graph-validator-')
         (cook |=(@tas [;;(shape +<) b.u r]) sym)
       ==
-    :-  %+  gra-s  (unit @tas)
-        /graph/(scot %p entity.r)/(scot %tas name.r)/mark
-    =-  ?~(emc=- ~ `group.u.emc)
-    %.  `md-resource`[%graph r]
-    ~(get by (met-s:pek (map md-resource association) /associations))
+    =-  ?~  mar=-  [~ ~]
+        ?:  ?=(%graph-validator-post u.mar)  [~ ~]
+        :-  mar
+        =-  ?~(emc=- ~ `group.u.emc)
+        %.  `md-resource`[%graph r]
+        %~  get  by
+        (met-s:pek (map md-resource association) /associations)
+    %+  gra-s  (unit @tas)
+    /graph/(scot %p entity.r)/(scot %tas name.r)/mark
   ::
   ++  stacks                                             ::  what's in /hav (jug shape [name=@tas lent=@ud])
     ^-  (jug shape [name=@tas lent=@ud])
