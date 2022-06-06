@@ -489,6 +489,7 @@
     ::
         [%x %hav ~]
       =-  ``[%json !>(`json`(frond available+a+-))]
+      ~&  >  ~(tap by stacks:pek:pl)
       %+  turn  ~(tap by stacks:pek:pl)
       |=  [s=shape av=(set [n=@tas l=@ud])]
       %-  pairs
@@ -734,7 +735,7 @@
         (gth -.a -.b)
       |-
       =/  jeff                                           ::  my name-a
-        (rap 3 ~[nam '|' app '|' typ '|' (scot %ud pag)])
+        (rap 3 ~[app '_' typ '_' (scot %ud pag)])
       ?:  (lte (lent par) 500)
        %-  %-  slog
            :~  leaf+"%peat-export"
@@ -745,7 +746,7 @@
         %+  welp  cop
         =-  [%pass -< %agent [our.bol %hood] %poke %drum-put ->]~
         :-  /peat/export/(scot %ud pag)/(scot %da now.bol)
-        !>([/(scot %tas nam)/(scot %tas jeff)/jam (jam par)])
+        !>([/[nam]/[jeff]/jam (jam par)])
       %=    $
         par  (oust [0 500] par)
         pag  +(pag)
@@ -754,8 +755,7 @@
         %+  welp  cop
         =-  [%pass -< %agent [our.bol %hood] %poke %drum-put ->]~
         :-  /peat/export/(scot %ud pag)/(scot %da now.bol)
-        !>  :_  (jam (scag 500 par))
-            /(scot %tas nam)/(scot %tas jeff)/jam
+        !>([/[nam]/[jeff]/jam (jam (scag 500 par))])    
       ==
     --
   ++  cancel
@@ -779,14 +779,14 @@
       ?<  (~(has in llaves:pek:pl) [our.bol n])
       ?>  !?=(~ dir.arc)
       =+  dis=~(tap in dir.arc)
-      ?~  nos=(rush p:(head dis) ;~((glue bar) sym sym sym dem))
+      ?~  nos=(rush p:(head dis) ;~((glue cab) sym sym dem))
        ~_(leaf+"%peat-fail -indeterminate-shape" !!)
       =/  sap=shape
-       ?+  +>-.u.nos  !!
-         %dm       ;;(?(%chat %link %publish %dm) +>-.u.nos)
-         %chat     ;;(?(%chat %link %publish %dm) +>-.u.nos)
-         %link     ;;(?(%chat %link %publish %dm) +>-.u.nos)
-         %publish  ;;(?(%chat %link %publish %dm) +>-.u.nos)
+       ?+  +<.u.nos  !!
+         %dm       ;;(?(%chat %link %publish %dm) +<.u.nos)
+         %chat     ;;(?(%chat %link %publish %dm) +<.u.nos)
+         %link     ;;(?(%chat %link %publish %dm) +<.u.nos)
+         %publish  ;;(?(%chat %link %publish %dm) +<.u.nos)
        ==
       :_  state
       ^-  (list card)
