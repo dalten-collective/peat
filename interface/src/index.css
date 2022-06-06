@@ -1,3 +1,10 @@
 @tailwind base;
+@layer base {
+  button {
+    @apply border;
+    @apply rounded-md;
+    @apply p-1;
+  }
+}
 @tailwind components;
 @tailwind utilities;

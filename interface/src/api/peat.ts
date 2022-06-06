@@ -12,10 +12,34 @@ export function exportToDisk(
     .poke({
       app: "peat",
       mark: "peat-repete",
-      json: payload,
+      json: {
+        export: payload,
+      }
     })
     .then((r) => {
       console.log("res ", r);
+    })
+    .catch((e) => {
+      console.log("err ", e);
+    });
+}
+
+export function scryHav() {
+  urbitAPI
+    .scry({ app: 'peat', path: '/hav' })
+    .then((r) => {
+      console.log("scry res ", r);
+    })
+    .catch((e) => {
+      console.log("err ", e);
+    });
+}
+
+export function scryAdmin() {
+  urbitAPI
+    .scry({ app: 'peat', path: '/admin' })
+    .then((r) => {
+      console.log("scry res ", r);
     })
     .catch((e) => {
       console.log("err ", e);

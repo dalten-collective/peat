@@ -1,7 +1,13 @@
 <template>
   <input type="text" v-model="exportEntity" />
   <input type="text" v-model="exportName" />
-  <button @click="exportt">export {{ exportEntity }} {{ exportName }}</button>
+  <div>
+    <button @click="exportt">export {{ exportEntity }} {{ exportName }}</button>
+  </div>
+  <div>
+    <button @click="scryHavs">Scry havs</button>
+    <button @click="scryAdmins">Scry admin</button>
+  </div>
   <pre>
     Known: {{ known }}
   </pre>
@@ -33,15 +39,21 @@ export default defineComponent({
   },
 
   methods: {
-    startAirlock(deskname) {
+    startAirlock(deskname: string) {
       this.$store.dispatch("ship/openAirlockToAgent", deskname);
     },
     closeAirlocks() {
       this.$store.dispatch("ship/closeAgentAirlocks");
     },
 
+    scryHavs() {
+      peatAPI.scryHav();
+    },
+    scryAdmins() {
+      peatAPI.scryAdmin();
+    },
+
     exportt() {
-    console.log(peatAPI)
       peatAPI.exportToDisk({
         resource: {
           entity: this.exportEntity,
