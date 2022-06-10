@@ -7,13 +7,43 @@ export function exportToDisk(
     frequency: ExportFrequency
   }
 ) {
-  console.log(payload)
-  urbitAPI
+  // TODO: return this and then return it in the store
+  return urbitAPI
     .poke({
       app: "peat",
       mark: "peat-repete",
       json: {
         export: payload,
+      }
+    })
+    .then((r) => {
+      console.log("res ", r);
+    })
+    .catch((e) => {
+      console.log("err ", e);
+    });
+}
+
+export function importFromDisk(
+  payload: {
+    groupName: string,
+    newResourceName: string,
+    folder: string,
+  }
+) {
+  const transformedPayload = {
+    folder: `/${ payload.folder }`,
+    group: payload.groupName,
+    'new-resource-name': payload.newResourceName,
+  }
+  console.log('payload ', payload)
+  console.log('trsm payload ', transformedPayload)
+  return urbitAPI
+    .poke({
+      app: "peat",
+      mark: "peat-repete",
+      json: {
+        import: transformedPayload,
       }
     })
     .then((r) => {

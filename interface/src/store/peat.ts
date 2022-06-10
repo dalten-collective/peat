@@ -10,6 +10,8 @@ import {
   Hav,
   HavResponse,
   HavResource,
+  Entity,
+  ExportFrequency,
 } from "@/types";
 
 export default {
@@ -77,9 +79,11 @@ export default {
     setKnown({ commit }, payload: Array<Known>) {
       commit("setKnown", payload);
     },
+
     setSaved({ commit }, payload: Array<Saved>) {
       commit("setSaved", payload);
     },
+
     getHav({ commit }) {
       return peatAPI.scryHav()
         .then((havs: HavResponse) => {
@@ -88,6 +92,26 @@ export default {
         }).catch(err => {
           throw err.response
         })
-    }
+    },
+
+    importResource({commit},
+      payload: { groupName: string, newResourceName: string, folder: string }) {
+      return peatAPI.importFromDisk(payload)
+        .then((r) => {
+          return r
+        }).catch(err => {
+          throw err.response
+        })
+    },
+
+    exportResource({commit},
+      payload: { resource: Entity, frequency: ExportFrequency }) {
+      return peatAPI.exportToDisk(payload)
+        .then((r) => {
+          return r
+        }).catch(err => {
+          throw err.response
+        })
+    },
   },
 };

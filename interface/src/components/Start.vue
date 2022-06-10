@@ -63,6 +63,20 @@ export default defineComponent({
       })
     },
 
+    exportt() {
+      console.log("exporting")
+      const payload = {
+        resource: {
+          entity: this.exportEntity,
+          name: this.exportName,
+        },
+        frequency: 'fuck-you',
+      }
+      this.$store.dispatch("peat/exportResource", payload).then((r) => {
+        // TODO: do something with response?
+      })
+    }
+
   },
 
   components: {
