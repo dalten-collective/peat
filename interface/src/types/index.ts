@@ -23,6 +23,13 @@ export interface HavResource {
   length: number;
 }
 
+export interface KnownResponse {
+  known: Array<Known>;
+}
+export interface SavedResponse {
+  saved: Array<Saved>;
+}
+
 export type SavedDetails = {
   entity: Ship;
   name: string;
@@ -37,6 +44,10 @@ export type GivenDetails = {
 
 export type HavResponse = {
   available: Array<Hav>;
+}
+
+export type AdminResponse = {
+  'am-admin': Array<Entity>;
 }
 
 export type ExportFrequency = string;

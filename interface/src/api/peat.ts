@@ -58,6 +58,14 @@ export function scryHav() {
   return urbitAPI.scry({ app: 'peat', path: '/hav' })
 }
 
+export function scrySaved() {
+  return urbitAPI.scry({ app: 'peat', path: '/saved' })
+}
+
+export function scryKnown() {
+  return urbitAPI.scry({ app: 'peat', path: '/known' })
+}
+
 export function scryAdmin() {
   return urbitAPI.scry({ app: 'peat', path: '/admin' })
 }

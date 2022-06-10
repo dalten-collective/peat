@@ -1,19 +1,11 @@
 <template>
-  <input type="text" v-model="exportEntity" />
-  <input type="text" v-model="exportName" />
   <div>
-    <button @click="exportt">export {{ exportEntity }} {{ exportName }}</button>
-  </div>
-  <div>
-    <button @click="scryAdmins">Scry admin</button>
   </div>
   <div>
     <div class="flex flex-row">
-      <Known />
-
-      <pre>
-        Admins: {{ admins }}
-      </pre>
+      <Saved class="basis-1/4"/>
+      <Known class="basis-1/4"/>
+      <Admin class="basis-1/4"/>
     </div>
 
   </div>
@@ -28,14 +20,12 @@ import { mapState } from "vuex"
 import * as peatAPI from "@/api/peat"
 import Hav from "@/components/Hav.vue";
 import Known from "@/components/Known.vue";
+import Admin from "@/components/Admin.vue";
+import Saved from "@/components/Saved.vue";
 
 export default defineComponent({
   data() {
-    return {
-      exportEntity: "~zod",
-      exportName: "zodchan-2400",
-      admins: [],
-    }
+    return {}
   },
   mounted() {
     const deskname = "peat"
@@ -57,31 +47,13 @@ export default defineComponent({
       this.$store.dispatch("ship/closeAgentAirlocks");
     },
 
-    scryAdmins() {
-      peatAPI.scryAdmin().then((r) => {
-        this.admins = r
-      })
-    },
-
-    exportt() {
-      console.log("exporting")
-      const payload = {
-        resource: {
-          entity: this.exportEntity,
-          name: this.exportName,
-        },
-        frequency: 'fuck-you',
-      }
-      this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        // TODO: do something with response?
-      })
-    }
-
   },
 
   components: {
+    Admin,
     Hav,
-    Known
+    Known,
+    Saved,
   }
 })
 </script>
