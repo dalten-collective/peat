@@ -1,4 +1,6 @@
 type Ship = string;
+type ResourceName = string;
+
 export type GraphTypes = "chat" | "link" | "publish" | "dm";
 export type ShapeTypes = "%chat" | "%link" | "%publish" | "%dm";
 
@@ -16,6 +18,11 @@ export interface Graph {
   resources: Array<Entity>;
 }
 
+export interface HavResource {
+  resource: ResourceName;
+  length: number;
+}
+
 export type SavedDetails = {
   entity: Ship;
   name: string;
@@ -26,6 +33,10 @@ export type SavedDetails = {
 export type GivenDetails = {
   shape: ShapeTypes;
   resources: Array<Entity>
+}
+
+export type HavResponse = {
+  available: Array<Hav>;
 }
 
 export type ExportFrequency = string;
@@ -42,4 +53,7 @@ export type Doled = {
 export type Known = {
   [G in GraphTypes]?: Graph;
 };
-
+export type Hav = {
+  shape: GraphTypes;
+  resources: Array<HavResource>
+}

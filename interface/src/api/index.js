@@ -1,9 +1,9 @@
 import urbitAPI from "./urbitAPI";
-import * as airlock from "./airlock";
-import * as peat from "./peat";
+import * as airlockAPI from "./airlock";
+import * as peatAPI from "./peat";
 
 export default {
-  ...airlock,
-  ...peat,
+  ...airlockAPI,
+  ...peatAPI,
   ...urbitAPI,
 };

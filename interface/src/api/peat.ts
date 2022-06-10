@@ -25,24 +25,10 @@ export function exportToDisk(
 }
 
 export function scryHav() {
-  urbitAPI
-    .scry({ app: 'peat', path: '/hav' })
-    .then((r) => {
-      console.log("scry res ", r);
-    })
-    .catch((e) => {
-      console.log("err ", e);
-    });
+  return urbitAPI.scry({ app: 'peat', path: '/hav' })
 }
 
 export function scryAdmin() {
-  urbitAPI
-    .scry({ app: 'peat', path: '/admin' })
-    .then((r) => {
-      console.log("scry res ", r);
-    })
-    .catch((e) => {
-      console.log("err ", e);
-    });
+  return urbitAPI.scry({ app: 'peat', path: '/admin' })
 }
 

@@ -5,24 +5,36 @@
     <button @click="exportt">export {{ exportEntity }} {{ exportName }}</button>
   </div>
   <div>
-    <button @click="scryHavs">Scry havs</button>
     <button @click="scryAdmins">Scry admin</button>
   </div>
-  <pre>
-    Known: {{ known }}
-  </pre>
+  <div>
+    <div class="flex flex-row">
+      <Known />
+
+      <pre>
+        Admins: {{ admins }}
+      </pre>
+    </div>
+
+  </div>
+  <div class="border-2 border-dashed">
+    <Hav />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "vuex"
 import * as peatAPI from "@/api/peat"
+import Hav from "@/components/Hav.vue";
+import Known from "@/components/Known.vue";
 
 export default defineComponent({
   data() {
     return {
       exportEntity: "~zod",
       exportName: "zodchan-2400",
+      admins: [],
     }
   },
   mounted() {
@@ -35,7 +47,6 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapState("peat", ["known"]),
   },
 
   methods: {
@@ -46,23 +57,18 @@ export default defineComponent({
       this.$store.dispatch("ship/closeAgentAirlocks");
     },
 
-    scryHavs() {
-      peatAPI.scryHav();
-    },
     scryAdmins() {
-      peatAPI.scryAdmin();
-    },
-
-    exportt() {
-      peatAPI.exportToDisk({
-        resource: {
-          entity: this.exportEntity,
-          name: this.exportName
-        },
-        frequency: "fuck-you"
+      peatAPI.scryAdmin().then((r) => {
+        this.admins = r
       })
     },
+
   },
+
+  components: {
+    Hav,
+    Known
+  }
 })
 </script>
 
