@@ -13,11 +13,11 @@
           <li v-for="g in knownChatsByGroup" :key="g.group.name" class="mb-8">
             <h4 class="text-lg mb-4">Resources in <span class="font-mono">{{ g.group.name }}</span></h4>
             <ul class="my-2">
-              <li v-for="r in g.resources" :key="r.name">
+              <li v-for="r in g.resources" :key="r.name" class="my-4 border rounded-sm p-2">
                 <div>
-                  {{ r }}
-                </div>
-                <div>
+                  <span class="font-bold mr-2">{{ r.name }}</span>
+                  <span class="text-gray-400 mr-2">owned by</span>
+                  <span class="font-mono">{{ r.ship }}</span>
                   <ExportKnown :resource="r.name" :ship="r.ship" />
                 </div>
               </li>
