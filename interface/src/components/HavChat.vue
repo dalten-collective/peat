@@ -1,8 +1,9 @@
 <template>
   <div>
-    <ul class="list-disc">
+    <ul>
       <li>name: {{ resource.resource }}</li>
       <li>length: {{ resource.length }}</li>
+      <hr/>
     </ul>
     <input type="text" v-model="newGroupName" placeholder="group name"/>
     <input type="text" v-model="newResourceName" placeholder="new name"/>

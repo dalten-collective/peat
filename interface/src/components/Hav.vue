@@ -4,33 +4,42 @@
     LOADING
   </div>
   <div v-else>
-    <h3>Links</h3>
-    <ul>
-      <li v-for="l in havLinks" :key="l.resource">
-        <HavLink :resource="l" />
-      </li>
-    </ul>
 
-    <h3>Chats</h3>
-    <ul>
-      <li v-for="c in havChats" :key="c.resource">
-        <HavChat :resource="c" />
-      </li>
-    </ul>
+    <div class="p-2 m-2 border rounded-md">
+      <h3 class="text-lg">Links</h3>
+      <ul>
+        <li v-for="l in havLinks" :key="l.resource">
+          <HavLink :resource="l" />
+        </li>
+      </ul>
+    </div>
 
-    <h3>Notebooks</h3>
-    <ul>
-      <li v-for="p in havPublishes" :key="p.resource">
-        <HavPublish :resource="p" />
-      </li>
-    </ul>
+    <div class="p-2 m-2 border rounded-md">
+      <h3 class="text-lg">Chats</h3>
+      <ul>
+        <li class="mb-2" v-for="c in havChats" :key="c.resource">
+          <HavChat :resource="c" />
+        </li>
+      </ul>
+    </div>
 
-    <h3>DMs</h3>
-    <ul>
-      <li v-for="d in havDms" :key="d.resource">
-        <HavDm :resource="d" />
-      </li>
-    </ul>
+    <div class="p-2 m-2 border rounded-md">
+      <h3 class="text-lg">Notebooks</h3>
+      <ul>
+        <li v-for="p in havPublishes" :key="p.resource">
+          <HavPublish :resource="p" />
+        </li>
+      </ul>
+    </div>
+
+    <div class="p-2 m-2 border rounded-md">
+      <h3 class="text-lg">DMs</h3>
+      <ul>
+        <li v-for="d in havDms" :key="d.resource">
+          <HavDm :resource="d" />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
