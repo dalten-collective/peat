@@ -513,13 +513,17 @@
     =*  ent  (slav %p i.t.wire)
     =*  nam  (slav %tas i.t.t.wire)
     =*  fre  (slav %dr i.t.t.t.wire)
+    =/  las=time
+      %-  need  ;;  (unit time)
+      =-  (gra-s:pek:pl * -)
+      /update-log/(scot %p ent)/(scot %tas nam)/latest
     ?.  ?=([%behn %wake *] sign)  (on-arvo:def wire sign)
     ?~  error.sign
       ?~  hab=(~(get by saved) [ent nam])  `this
       ?.  =(fre +.u.hab)  `this
       =^  cards  state
         (export:pete:hc [ent nam] ~)
-      :_  this
+      :_  this(saved (~(put by saved) [ent nam] [las fre]))
       :_  cards
       [%pass wire %arvo %b [%wait (add now.bowl fre)]]
     =.  saved
