@@ -129,9 +129,9 @@ export default {
 
     getSaved({ commit }) {
       return peatAPI.scrySaved()
-        .then((saved: SavedResponse) => {
-          commit("setSaved", saved);
-          return saved;
+        .then((response: SavedResponse) => {
+          commit("setSaved", response.saved);
+          return response.saved;
         })
     },
 

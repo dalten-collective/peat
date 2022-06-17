@@ -2,6 +2,7 @@
   <div>
     <div>
       <h3>Saved</h3>
+      <button @click="getSaved">Scry Saved</button>
     </div>
     <div v-if="savedPending">
       LOADING
