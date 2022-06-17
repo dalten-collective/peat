@@ -4,6 +4,34 @@
     @apply border;
     @apply rounded-md;
     @apply p-1;
+    @apply shadow-sm;
+    @apply hover:shadow-md;
+
+    @apply bg-gray-600;
+    @apply text-white;
+    @apply font-bold;
+    @apply hover:bg-gray-700;
+
+    @apply active:bg-gray-500;
+  }
+
+  button.action {
+    @apply bg-blue-700;
+    @apply text-white;
+    @apply font-bold;
+    @apply hover:bg-blue-800;
+
+    @apply active:bg-blue-600;
+  }
+
+  select {
+    @apply rounded-md;
+    @apply py-1;
+    @apply px-2;
+    @apply cursor-pointer;
+    @apply border-transparent;
+    @apply bg-gray-200;
+    @apply focus:bg-white;
   }
 }
 @tailwind components;

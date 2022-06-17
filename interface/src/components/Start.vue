@@ -3,9 +3,9 @@
   </div>
   <div>
     <div class="flex flex-row">
-      <Saved class="basis-1/4"/>
-      <Known class="basis-1/4"/>
-      <Admin class="basis-1/4"/>
+      <Saved class="grow-0"/>
+      <Known class="grow"/>
+      <Admin class="grow"/>
     </div>
 
   </div>

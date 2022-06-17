@@ -1,19 +1,26 @@
 <template>
   <div>
-    <h3>Saved</h3>
-  </div>
-  <div v-if="savedPending">
-    LOADING
-  </div>
-  <div v-else>
-    <div v-if="saved && saved.length == 0">
+    <div>
+      <h3>Saved</h3>
+    </div>
+    <div v-if="savedPending">
+      LOADING
     </div>
     <div v-else>
-      <ul>
-        <li v-for="s in saved" :key="s">
-          {{ s }}
-        </li>
-      </ul>
+      <div v-if="saved && saved.length == 0">
+      </div>
+      <div v-else>
+        <ul>
+          <li v-for="s in saved" :key="s" class="my-4 border rounded-sm p-2">
+            <ul>
+              <li>{{ s.entity }}</li>
+              <li>{{ s.name }}</li>
+              <li>{{ s['last-index-captured'] }}</li>
+              <li>{{ s.frequency }}</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   

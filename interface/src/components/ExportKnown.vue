@@ -9,23 +9,55 @@
         <div>
           <span class="font-bold">One-time export</span>
         </div>
-        <button @click="singleExport">Export {{ ship }}'s {{ resource }} once</button>
+        <button class="action" @click="singleExport">Export {{ ship }}'s {{ resource }} once</button>
       </div>
       <hr class="my-2"/>
       <div>
         <div>
           <span class="font-bold">Recurring exports</span>
         </div>
-        <label class="block">
-          <span class="block text-sm font-medium text-blue-700">Hours</span>
-          <input type="text" placeholder="12" v-model="frequencyHours" />
-        </label>
+        <form>
+          <div class="mb-2">
+            <div class="inline-block mr-1">
+              <label>
+                <span class="block text-sm font-medium text-blue-700">Days</span>
+                <select v-model="frequencyDays">
+                  <option disabled value="">Days</option>
+                  <option v-for="o in daysOptions" :text="o" :value="o">{{ o }}</option>
+                </select>
+              </label>
+            </div>
 
-        <label class="block">
-          <span class="block text-sm font-medium text-blue-700">Days</span>
-          <input type="text" placeholder="1" v-model="frequencyDays" />
-        </label>
-        <button @click="singleExport">export {{ ship }}'s {{ resource }} {{ displayFrequency }}</button>
+            <div class="inline-block mr-1">
+              <label>
+                <span class="block text-sm font-medium text-blue-700">Hours</span>
+                <select v-model="frequencyHours">
+                    <option disabled value="">Hours</option>
+                  <option v-for="o in hoursOptions" :text="o" :value="o">{{ o }}</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="inline-block mr-1">
+              <label>
+                <span class="block text-sm font-medium text-blue-700">Minutes</span>
+                <select v-model="frequencyMinutes">
+                    <option disabled value="">Minutes</option>
+                  <option v-for="o in minutesOptions" :text="o" :value="o">{{ o }}</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="mb-1">
+            <button class="action" @click="frequentExport">export {{ ship }}'s {{ resource }}</button>
+            </div>
+            <div>
+              <span>{{ displayFrequency }}</span> <span class="text-gray-400">({{ hoonedFrequcency }})</span>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -43,21 +75,40 @@ export default defineComponent({
   data() {
     return {
       exportOpen: false,
-      frequencyHours: null,
-      frequencyDays: null,
+      frequencyDays: 0,
+      frequencyHours: 12,
+      frequencyMinutes: 30,
     }
   },
 
   computed: {
+    daysOptions(): Array<number> {
+      return [0].concat(Array(30).fill(1).map((x,y) => x + y));
+    },
+    hoursOptions(): Array<number> {
+      return [0].concat(Array(24).fill(1).map((x,y) => x + y).filter(x => x >= 12));
+    },
+    minutesOptions(): Array<number> {
+      return [0].concat(Array(60).fill(1).map((x,y) => x + y));
+    },
     displayFrequency(): string {
-      if (this.frequencyDays || this.frequencyHours) {
-        const days = this.frequencyDays ? `${ this.frequencyDays } days` : ''
-        const hours = this.frequencyHours ? `${ this.frequencyHours } hours` : ''
-        return `Every ${ days } ${ hours }`
+      if (this.frequencyDays || this.frequencyHours || this.frequencyMinutes) {
+        const days = this.frequencyDays ? `${ this.frequencyDays } day${ this.frequencyDays == 1 ? '' : 's' }` : ''
+        const hours = this.frequencyHours ? `${ this.frequencyHours } hour${ this.frequencyHours == 1 ? '' : 's' }` : ''
+        const minutes = this.frequencyMinutes ? `${ this.frequencyMinutes } minute${ this.frequencyMinutes == 1 ? '' : 's' }` : ''
+        return `Every ${ days } ${ hours } ${ minutes }`
       } else {
         return ""
       }
     },
+
+    hoonedFrequcency(): string {
+      const days = this.frequencyDays ? `${ 'd' + this.frequencyDays  }` : ''
+      const hours = this.frequencyHours ? `${ 'h' + this.frequencyHours }` : ''
+      const minutes = this.frequencyMinutes ? `${ 'm' + this.frequencyMinutes }` : ''
+      const worm = [days, hours, minutes].filter(Boolean)  // trim out empties
+      return `~${ worm.join('.') }`;
+    }
   },
 
   methods: {
@@ -83,11 +134,12 @@ export default defineComponent({
           entity: this.ship,
           name: this.resource,
         },
-        frequency: 'd1', // TODO
+        frequency: this.hoonedFrequcency,
       }
       this.$store.dispatch("peat/exportResource", payload).then((r) => {
         console.log('exported ', r);
         // TODO: do something with response?
+        // TODO: update the `saved` with this new guy?
       })
     }
   },
