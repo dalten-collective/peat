@@ -1,18 +1,23 @@
 @tailwind base;
 @layer base {
   button {
-    @apply border;
     @apply rounded-md;
     @apply p-1;
-    @apply shadow-sm;
-    @apply hover:shadow-md;
-
+    @apply px-2;
     @apply bg-gray-600;
     @apply text-white;
     @apply font-bold;
-    @apply hover:bg-gray-700;
 
-    @apply active:bg-gray-500;
+    @apply shadow-slate-300;
+    @apply shadow-lg;
+
+    @apply hover:bg-gray-700;
+    @apply hover:shadow-slate-300;
+    @apply hover:shadow-md;
+
+    @apply active:bg-gray-600;
+    @apply active:shadow-slate-300;
+    @apply active:shadow-inner;
   }
 
   button.action {
@@ -21,7 +26,7 @@
     @apply font-bold;
     @apply hover:bg-blue-800;
 
-    @apply active:bg-blue-600;
+    @apply active:bg-blue-700;
   }
 
   select {
