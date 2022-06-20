@@ -56,8 +56,7 @@ export default defineComponent({
   methods: {
     getKnown() {
       this.knownPending = true;
-      this.$store.dispatch("peat/getKnown")
-        .then((r) => {
+      this.$store.dispatch("peat/getKnown").then((r) => {
           this.knownPending = false;
           console.log('known r ', r)
         })

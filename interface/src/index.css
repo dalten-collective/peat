@@ -1,5 +1,11 @@
 @tailwind base;
 @layer base {
+  
+  form {
+    @apply my-2;
+    @apply py-2;
+  }
+
   button {
     @apply rounded-md;
     @apply p-1;
@@ -26,7 +32,7 @@
     @apply font-bold;
     @apply hover:bg-blue-800;
 
-    @apply active:bg-blue-700;
+    @apply active:bg-blue-600;
   }
 
   select {
@@ -37,7 +43,82 @@
     @apply border-transparent;
     @apply bg-gray-200;
     @apply focus:bg-white;
+    @apply focus:ring-opacity-50;
+    @apply mt-2;
   }
+  input[type="text"] {
+    @apply focus:bg-white;
+    @apply border-transparent;
+    @apply focus:border-gray-200;
+    @apply focus:ring-opacity-50;
+    @apply mt-2;
+    @apply bg-gray-100;
+    @apply rounded-md;
+    @apply py-1;
+    @apply px-2;
+    @apply w-full;
+  }
+
+  .form-label {
+    @apply block;
+    @apply text-sm;
+    @apply font-medium;
+    @apply text-blue-700;
+  }
+
+  .form-group {
+    @apply mb-2;
+  }
+
+  .form-action {
+    @apply mt-2;
+    @apply mb-2;
+    @apply text-right;
+  }
+
+  .form-status {
+    @apply shadow-md;
+    @apply p-4;
+    @apply border-gray-500;
+    @apply border-2;
+    @apply rounded-md;
+    @apply font-bold;
+    @apply bg-gray-100;
+    @apply text-gray-600;
+  }
+  .form-status.error {
+      @apply border-red-600;
+      @apply bg-red-100;
+      @apply text-red-600;
+      @apply shadow-red-100;
+  }
+  .form-status.success {
+      @apply border-green-600;
+      @apply bg-green-100;
+      @apply text-green-600;
+      @apply shadow-green-100;
+  }
+  .form-status footer {
+    @apply text-right;
+    @apply text-blue-500;
+  }
+  .form-status footer a {
+    @apply bg-white;
+    @apply rounded-md;
+    @apply shadow-md;
+    @apply p-2;
+    @apply underline;
+  }
+  /* .form-status.error:before {
+    content: "!";
+    @apply text-2xl;
+    @apply h-24;
+    @apply w-24;
+    @apply p-1;
+    @apply border-red-400;
+    @apply border-2;
+    @apply rounded-full;
+  } */
 }
 @tailwind components;
 @tailwind utilities;

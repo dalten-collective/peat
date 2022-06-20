@@ -20,7 +20,7 @@
           <div class="mb-2">
             <div class="inline-block mr-1">
               <label>
-                <span class="block text-sm font-medium text-blue-700">Days</span>
+                <span class="form-label">Days</span>
                 <select v-model="frequencyDays">
                   <option disabled value="">Days</option>
                   <option v-for="o in daysOptions" :text="o" :value="o">{{ o }}</option>
@@ -30,7 +30,7 @@
 
             <div class="inline-block mr-1">
               <label>
-                <span class="block text-sm font-medium text-blue-700">Hours</span>
+                <span class="form-label">Hours</span>
                 <select v-model="frequencyHours">
                     <option disabled value="">Hours</option>
                   <option v-for="o in hoursOptions" :text="o" :value="o">{{ o }}</option>
@@ -40,7 +40,7 @@
 
             <div class="inline-block mr-1">
               <label>
-                <span class="block text-sm font-medium text-blue-700">Minutes</span>
+                <span class="form-label">Minutes</span>
                 <select v-model="frequencyMinutes">
                     <option disabled value="">Minutes</option>
                   <option v-for="o in minutesOptions" :text="o" :value="o">{{ o }}</option>
