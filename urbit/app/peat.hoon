@@ -860,6 +860,7 @@
           %-  ~(uni by q)  ^+  q
           %-  ~(rep by old)
           |=  [[a=atom n=node:store] q=(map index node:store)]
+          ~&  >  post.n
           ?.  ?=(%.y -.post.n)  q
           ?:  %+  gra-s:pek:pl  ?
               %+  weld
@@ -885,6 +886,7 @@
       ^-  (list card)
       =|  q=(map index node:store)
       |-
+      ~&  >>>  p
       ?~  p
         %.  :~
               :+  %pass   /import/[+.r]/(scot %da now.bol)
@@ -906,9 +908,34 @@
             q
           ^+  q
           %-  ~(uni by q)  ^+  q
+        ::  If we're upset w/ our results, we could switch back to the old code
+        ::   %-  ~(rep by old)
+        ::   |=  [[a=atom n=node:store] q=(map index node:store)]
+        ::   ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
+        :: ==
           %-  ~(rep by old)
           |=  [[a=atom n=node:store] q=(map index node:store)]
-          ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
+          ?.  ?=(%.y -.post.n)  q
+          =+  pb=p.post.n
+          =/  old-rid=@tas  (slav %tas -.f)
+          =.  p.post.n
+            =-  p.post.n(contents -)
+            %+  turn  contents.p.post.n
+            |=  con=content
+            ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
+            ?.  =(old-rid +.resource.uid.reference.con)  con
+            [%reference %graph g [r index.uid.reference.con]]
+          =?    hash.p.post.n
+              !=(pb p.post.n)
+            ^-  (unit @ux)
+            :-  ~  ;;  @ux
+            (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
+          =?    signatures.p.post.n
+              ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
+                  !=(pb p.post.n)
+              ==
+            ~
+          (~(put by q) index.p.post.n n)
         ==
 
       %-  malt
@@ -1034,7 +1061,27 @@
         ^-  (map index node:store)
         %-  ~(rep by graph.q.upd)
         |=  [[a=atom n=node:store] q=(map index node:store)]
-        ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
+        ?.  ?=(%.y -.post.n)  q
+        =+  pb=p.post.n
+        =.  p.post.n
+          =-  p.post.n(contents -)
+          %+  turn  contents.p.post.n
+          |=  con=content
+          ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
+          ?.  =(+.w resource.uid.reference.con)  con
+          :^  %reference  %graph  [our.bol p.g]
+          [`resource`[our.bol ^n] index.uid.reference.con]
+        =?    hash.p.post.n
+            !=(pb p.post.n)
+          ^-  (unit @ux)
+          :-  ~  ;;  @ux
+          (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
+        =?    signatures.p.post.n
+            ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
+                !=(pb p.post.n)
+            ==
+          ~
+        (~(put by q) index.p.post.n n)
         ::
       ?>  (~(has in groups:pek:pl) p.g)
       %+  snoc
@@ -1047,7 +1094,27 @@
       ^-  (map index node:store)
       %-  ~(rep by graph.q.upd)
       |=  [[a=atom n=node:store] q=(map index node:store)]
-      ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n))
+      ?.  ?=(%.y -.post.n)  q
+      =+  pb=p.post.n
+      =.  p.post.n
+        =-  p.post.n(contents -)
+        %+  turn  contents.p.post.n
+        |=  con=content
+        ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
+        ?.  =(+.w resource.uid.reference.con)  con
+        :^  %reference  %graph  p.g
+        [`resource`[our.bol ^n] index.uid.reference.con]
+      =?    hash.p.post.n
+          !=(pb p.post.n)
+        ^-  (unit @ux)
+        :-  ~  ;;  @ux
+        (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
+      =?    signatures.p.post.n
+          ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
+              !=(pb p.post.n)
+          ==
+        ~
+      (~(put by q) index.p.post.n n)
     ?>  %.  r.p.w                                        ::  now remote case
         ~(has in (~(gut ba-s given) p.p.w q.p.w ~))
     =*  ent  (scot %p entity.r.p.w)
