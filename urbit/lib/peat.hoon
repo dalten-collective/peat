@@ -101,7 +101,7 @@
     |=  [p=[n=@ta %~] q=(jug shape [name=@tas lent=@ud])]
     ?~  dir=~(tap in dir:(arc-s:pek /[n.p]))  q
     ?~  dyt=(rush p.i.dir ;~((glue cab) sym sym dem))  q
-    (~(put ju q) ;;(shape +<.u.dyt) [n.p (lent dir)])
+    (~(put ju q) ;;(shape +<.u.dyt) [n.p +>.u.dyt])
   ::
   ++  tables                                             ::  in: (set known-resource) -> out: (set resource length)
     |=  p=resources
