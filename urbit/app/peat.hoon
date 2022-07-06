@@ -732,21 +732,29 @@
       ::  export will now form a list of cards to drum put
       ::  
       =|  cop=(list card)
-      =/  par
-        %+  sort  ~(tap by graph.q.upd)
-        |=  [a=[@ node:store] b=[@ node:store]]
-        (gth -.a -.b)
+      =+  pag=1
+      =+  par=(bap:((on @ node:store) gth) graph.q.upd)
       |-
       =/  jeff                                           ::  my name-a
-        (rap 3 ~[app '_' typ '_' (scot %ud (lent par))])
-      %-  %-  slog
-          :~  leaf+"%peat-export"
-              leaf+"-exporting-{(trip typ)}"
-              leaf+"-check-directory /pier/.urb/put/{(trip nam)}"
-          ==
-      =-  [%pass -< %agent [our.bol %hood] %poke %dill-blit ->]~
-      :-  /peat/export/(scot %da now.bol)
-      !>([%sag /[nam]/[jeff]/jam par])
+        (rap 3 ~[app '_' typ '_' (scot %ud pag)])
+      ?:  (lte (lent par) 500)
+        %-  %-  slog
+            :~  leaf+"%peat-export"
+                leaf+"-exporting-{(trip typ)}"
+                leaf+"-check-directory /pier/.urb/put/{(trip nam)}"
+            ==
+        =-  [[%pass -< %agent [our.bol %hood] %poke %dill-blit ->] cop]
+        :-  /peat/export/(scot %da now.bol)
+        !>([%sag /[nam]/[jeff]/jam par])
+      %=    $
+        pag  +(pag)
+        par  (oust [0 500] par)
+      ::
+          cop
+        =-  [[%pass -< %agent [our.bol %hood] %poke %dill-blit ->] cop]
+        :-  /peat/export/(scot %da now.bol)
+        !>([%sag /[nam]/[jeff]/jam (scag 500 par)])
+      ==
     --
   ++  cancel
     |=  r=resource
