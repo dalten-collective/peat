@@ -895,7 +895,9 @@
         ::
             q
          :_  q  
-        ::  If we're upset w/ our results, we could switch back to the old code
+        ::  If you're reading this and you're upset w/ the remapping of references
+        ::  just restore the code below and comment out the alternative, beneath.
+        ::  Also, call your mother.
         ::   %-  ~(rep by old)
         ::   |=  [[a=atom n=node:store] q=(map index node:store)]
         ::   ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
