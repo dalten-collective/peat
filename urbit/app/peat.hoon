@@ -878,35 +878,33 @@
       |=  [p=(list [p=@t q=~]) g=resource r=resource]
       :: ~>  %bout.[0 'imp-do-import-pete']
       ^-  (list card)
-      =|  q=(map index node:store)
+      =|  q=(list card)
       |-
       ~&  >>>  p
       ?~  p
-        %.  :~
-              :+  %pass   /import/[+.r]/(scot %da now.bol)
-              :+  %agent  [our.bol %graph-store]
-              :+  %poke   %graph-update-3
-              !>  ^-  update:store
-              [now.bol %add-nodes r q]
-            ==
+        %.  q
         %-  slog
         :~  '%peat-import'
             '-import-starting'
-            leaf+"-group: [{<entity.g>} %{<name.g>}]"
-            leaf+"-resource: [{<entity.r>} %{<name.r>}]"
+            leaf+"-group: [{<entity.g>} {<name.g>}]"
+            leaf+"-resource: [{<entity.r>} {<name.r>}]"
         ==
       =;  old=graph:store
         %=    $
           p  t.p
         ::
             q
-          ^+  q
-          %-  ~(uni by q)  ^+  q
+         :_  q  
         ::  If we're upset w/ our results, we could switch back to the old code
         ::   %-  ~(rep by old)
         ::   |=  [[a=atom n=node:store] q=(map index node:store)]
         ::   ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
         :: ==
+          =-  :+  %pass   /import/[+.r]/(scot %da now.bol)
+              :+  %agent  [our.bol %graph-store]
+              :+  %poke   %graph-update-3
+              !>  ^-  update:store
+              [now.bol %add-nodes r -]
           %-  ~(rep by old)
           |=  [[a=atom n=node:store] q=(map index node:store)]
           ?.  ?=(%.y -.post.n)  q
