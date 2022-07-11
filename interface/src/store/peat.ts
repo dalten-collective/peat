@@ -17,6 +17,7 @@ import {
   Entity,
   ExportFrequency,
   GroupedOptions,
+  DolePayload,
 } from "@/types";
 
 export default {
@@ -175,6 +176,15 @@ export default {
     exportResource({commit},
       payload: { resource: Entity, frequency: ExportFrequency }) {
       return peatAPI.exportToDisk(payload)
+        .then((r) => {
+          return r
+        }).catch(err => {
+          throw err.response
+        })
+    },
+
+    doleResource({commit}, payload: DolePayload) {
+      return peatAPI.doleResource(payload)
         .then((r) => {
           return r
         }).catch(err => {

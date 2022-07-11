@@ -1,4 +1,4 @@
-type Ship = string;
+export type Ship = `~${ string }`;
 type ResourceName = string;
 
 export type GraphTypes = "chat" | "link" | "publish" | "dm";
@@ -67,4 +67,13 @@ export type Known = {
 export type Hav = {
   shape: GraphTypes;
   resources: Array<HavResource>
+}
+
+// this poke works:
+// peat &peat-repete [%permit per=(sy [~sum ~]) rys=(sy [[~zod %chatty-cathies] ~])]
+
+
+export interface DolePayload {
+  ships: Array<Ship>,
+  resources: Array<Entity>
 }

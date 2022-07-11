@@ -1,5 +1,24 @@
 import urbitAPI from "./urbitAPI";
-import { Entity, ExportFrequency } from "@/types";
+import { Entity, ExportFrequency, DolePayload } from "@/types";
+
+export function doleResource(payload: DolePayload) {
+  console.log('p ', payload);
+  
+  return urbitAPI
+    .poke({
+      app: "peat",
+      mark: "peat-repete",
+      json: {
+        permit: payload
+      }
+    }).then((r) => {
+      console.log("permit res: ", r)
+      return r
+    }).catch(e => {
+      console.log('permit error: ', e)
+      return e
+    })
+}
 
 export function exportToDisk(
   payload: {
@@ -17,10 +36,10 @@ export function exportToDisk(
       }
     })
     .then((r) => {
-      console.log("res ", r);
+      console.log("export res ", r);
     })
     .catch((e) => {
-      console.log("err ", e);
+      console.log("export err ", e);
     });
 }
 

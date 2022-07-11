@@ -19,6 +19,7 @@
                   <span class="text-gray-400 mr-2">owned by</span>
                   <span class="font-mono">{{ r.ship }}</span>
                   <ExportKnown :resource="r.name" :ship="r.ship" />
+                  <DoleKnown :resource="r.name" :ship="r.ship" />
                 </div>
               </li>
             </ul>
@@ -36,6 +37,7 @@ import { defineComponent } from 'vue'
 import { mapState, mapGetters } from 'vuex';
 import * as peatAPI from "@/api/peat"
 import ExportKnown from "@/components/ExportKnown.vue"
+import DoleKnown from "@/components/DoleKnown.vue"
 
 export default defineComponent({
   data() {
@@ -68,6 +70,7 @@ export default defineComponent({
 
   components: {
     ExportKnown,
+    DoleKnown,
   },
 
 })

@@ -48,7 +48,7 @@
           :-  %permit
           %-  ot
           :~  ships+(ar (se %p)) 
-              resources+(ar (ot ~[entity+(se %p) name+so]))
+              resources+(ar (ot ~[entity+(se %p) name+(se %tas)]))
           ==
         ::
           :-  %remove

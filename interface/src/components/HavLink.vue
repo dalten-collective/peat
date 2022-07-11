@@ -21,7 +21,7 @@
       </div>
 
       <div class="form-action">
-        <button @click="importResource" :disabled="importPending">Import {{ `${ newGroupName != '' ? 'under ' + newGroupName + ' group' : '' }` }}</button>
+        <button @click="importResource" :disabled="importPending">Import {{ `as ${ newResourceName != '' ? `"${ newResourceName }"` : '' }` }} {{ `${ newGroupName != '' ? 'under ' + newGroupName + ' group' : '' }` }}</button>
       </div>
 
       <div class="form-status" :class="formStatus" v-if="importDoneShow">
