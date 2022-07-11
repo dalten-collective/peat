@@ -34,6 +34,37 @@ export default {
   },
 
   getters: {
+    knownGroups(state): Array<string> {
+      return Array.from(
+        new Set(
+          state.known.map((k: Known) => {
+            if (k.hasOwnProperty("chat")) {
+              if (k.chat.group === GroupedOptions.Ungrouped) {
+                return "ungrouped"
+              } else {
+                return k.chat.group.name
+              }
+
+            }
+            if (k.hasOwnProperty("link")) {
+              if (k.link.group === GroupedOptions.Ungrouped) {
+                return "ungrouped"
+              } else {
+                return k.link.group.name
+              }
+            }
+            if (k.hasOwnProperty("publish")) {
+              if (k.publish.group === GroupedOptions.Ungrouped) {
+                return "ungrouped"
+              } else {
+                return k.publish.group.name
+              }
+            }
+          })
+        )
+      ).filter(g => g) as Array<string> // filter out null
+    },
+
     knownChats(state): Array<Known> {
       return state.known
         .filter((k: Known) => { 
@@ -43,25 +74,122 @@ export default {
         })
     },
 
-    knownChatsByGroup(state, getters): Array<Graph> {
-      return getters.knownChats.map((k: Known) => {
-        const chat = k.chat as Graph
-        if (chat.group === GroupedOptions.Ungrouped) {
-          return {
-            group: {
-              entity: '~',
-              name: 'ungrouped'
-            },
-            resources: chat.resources as Array<Entity>
+    knownShapeByGroup: (state) => (shape: string, groupName: string | undefined): Array<Entity> => {
+      if (groupName && groupName !== '') {
+        return state.known
+          .filter((k: Known) => { 
+            if (k.hasOwnProperty(shape)) {
+              return k[shape].group.name === groupName
+            }
+          }).map(g => g[shape].resources)
+      }
+      return state.known
+        .filter((k: Known) => { 
+          if (k.hasOwnProperty("chat")) {
+            return k.chat
           }
-        } else {
-          return {
-            group: chat.group,
-            resources: chat.resources as Array<Entity>,
+        }).map(g => g.chat.resources)
+    },
+
+    knownChatsByGroup: (state) => (groupName: string | undefined): Array<Entity> => {
+      if (groupName && groupName !== '') {
+        return state.known
+          .filter((k: Known) => { 
+            if (k.hasOwnProperty("chat")) {
+              return k.chat.group.name === groupName
+            }
+          }).map(g => g.chat.resources)
+      }
+      return state.known
+        .filter((k: Known) => { 
+          if (k.hasOwnProperty("chat")) {
+            return k.chat
           }
-        }
+        }).map(g => g.chat.resources)
+    },
+
+    knownLinks(state): Array<Known> {
+      return state.known
+        .filter((k: Known) => { 
+          if (k.hasOwnProperty("link")) {
+            return k.link
+          }
+        })
+    },
+    knownPublishes(state): Array<Known> {
+      return state.known
+        .filter((k: Known) => { 
+          if (k.hasOwnProperty("publish")) {
+            return k.publish
+          }
+        })
+    },
+
+    filterResourcesByGroup: (state, getters) => (groupName: string) => {
+      // knownResourcesByGroup find where 0 == name
+      if (!groupName || groupName === '') {
+        return getters.knownResourcesByGroup
+      }
+      return getters.knownResourcesByGroup.filter((pair) => {
+        return pair[0] === groupName
       })
     },
+
+    knownResourcesByGroup(state, getters):
+      Array<
+        Array<
+          string | { chats: Array<Graph> }
+        >
+      > {
+      return getters.knownGroups.map((groupName) => {
+        return [
+          groupName,
+          {
+            chats: getters.knownShapeByGroup('chat', groupName).flat(),
+            links: getters.knownShapeByGroup('link', groupName).flat(),
+            publishes: getters.knownShapeByGroup('publish', groupName).flat(),
+          }
+        ]
+      })
+
+      //return getters.knownChats.map((k: Known) => {
+        //const chat = k.chat as Graph
+        //if (chat.group === GroupedOptions.Ungrouped) {
+          //return {
+            //group: {
+              //entity: '~',
+              //name: 'ungrouped'
+            //},
+            //resources: chat.resources as Array<Entity>
+          //}
+        //} else {
+          //return {
+            //group: chat.group,
+            //resources: chat.resources as Array<Entity>,
+          //}
+        //}
+      //})
+    },
+
+    // knownChatsByGroup(state, getters): Array<Graph> {
+    //   return getters.knownChats.map((k: Known) => {
+    //     const chat = k.chat as Graph
+    //     if (chat.group === GroupedOptions.Ungrouped) {
+    //       return {
+    //         group: {
+    //           entity: '~',
+    //           name: 'ungrouped'
+    //         },
+    //         resources: chat.resources as Array<Entity>
+    //       }
+    //     } else {
+    //       return {
+    //         group: chat.group,
+    //         resources: chat.resources as Array<Entity>,
+    //       }
+    //     }
+    //   })
+    // },
 
     havChats(state): Array<HavResource> {
       const chats = state.hav.find((h: Hav) => h.shape === 'chat');
