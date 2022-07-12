@@ -1,5 +1,7 @@
 <template>
-  <Start />
+  <div class="container mx-auto">
+    <Start />
+  </div>
 </template>
 
 <script lang="ts">

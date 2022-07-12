@@ -1,11 +1,9 @@
 <template>
   <div>
-  </div>
-  <div>
     <div class="flex flex-row">
-      <Saved class="grow-0"/>
-      <Known class="grow"/>
-      <Admin class="grow"/>
+      <!-- <Saved class="grow-0"/> -->
+      <Known class="grow" />
+      <!-- <Admin class="grow"/> -->
     </div>
   </div>
 
