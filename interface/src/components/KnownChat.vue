@@ -6,21 +6,35 @@
     <span class="font-mono">{{ chat.ship }}</span>
     <ExportKnown :resource="chat.name" :ship="chat.ship" />
     <DoleKnown :resource="chat.name" :ship="chat.ship" />
+    <DisplaySaved :resource="chat" />
   </div>
 </template>
 
 <script lang="ts">
+import { Entity } from "@/types";
+
 import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
+
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
+import DisplaySaved from "@/components/DisplaySaved.vue";
 
 export default defineComponent ({
   props: [
-    'chat'
+    'chat',
   ],
+
+  computed: {
+  },
+
+  methods: {
+  },
+
   components: {
     ExportKnown,
     DoleKnown,
+    DisplaySaved,
   },
 })
 </script>

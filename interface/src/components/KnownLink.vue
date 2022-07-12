@@ -6,6 +6,7 @@
     <span class="font-mono">{{ link.ship }}</span>
     <ExportKnown :resource="link.name" :ship="link.ship" />
     <DoleKnown :resource="link.name" :ship="link.ship" />
+    <DisplaySaved :resource="link" />
   </div>
 </template>
 
@@ -13,6 +14,7 @@
 import { defineComponent } from "vue";
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
+import DisplaySaved from "@/components/DisplaySaved.vue";
 
 export default defineComponent ({
   props: [
@@ -21,6 +23,7 @@ export default defineComponent ({
   components: {
     ExportKnown,
     DoleKnown,
+    DisplaySaved,
   },
 })
 </script>

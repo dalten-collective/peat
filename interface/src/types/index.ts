@@ -55,6 +55,10 @@ export type ExportFrequency = string;
 export type Saved = {
   number: SavedDetails;
 };
+export interface SavedState {
+  [key: number]: Saved
+};
+
 export type Given = {
   Ship: GivenDetails;
 };

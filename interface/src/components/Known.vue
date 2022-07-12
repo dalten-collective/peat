@@ -51,8 +51,11 @@
 </template>
 
 <script lang="ts">
+import { Entity } from "@/types";
+
 import { defineComponent } from "vue";
 import { mapState, mapGetters } from "vuex";
+
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
 import KnownChat from "@/components/KnownChat.vue";

@@ -5,6 +5,9 @@ import { scryHav } from "@/api/peat";
 import {
   AdminResponse,
   Saved,
+  SavedDetails,
+  SavedState,
+  Ship,
   Given,
   Graph,
   Doled,
@@ -24,7 +27,7 @@ export default {
   namespaced: true,
   state() {
     return {
-      saved: [] as Array<Saved>,
+      saved: {} as SavedState,
       given: [] as Array<Given>,
       doled: [] as Array<Doled>,
       known: [] as Array<Known>,
@@ -136,7 +139,7 @@ export default {
     knownResourcesByGroup(state, getters):
       Array<
         Array<
-          string | { chats: Array<Graph> }
+          string | { string: Array<Graph> }
         >
       > {
       return getters.knownGroups.map((groupName) => {
@@ -186,13 +189,32 @@ export default {
         return [];
       }
     },
+
+    isRecurringSaved: (state) => (resource: { name: string, ship: Ship }): SavedDetails | null => {
+      const savedKeys: Array<string> = Object.keys(state.saved as SavedState)
+      const saveds: Array<SavedDetails> = []
+      // SavedState is an object with number keys of SavedDetails.
+      // As such, it's easier to make it into an array of SavedDetails for finding.
+      savedKeys.forEach((key) => {
+        saveds.push(state.saved[key])
+      })
+      const foundSaved = saveds.find((s) => {
+        return (s.entity == resource.ship && s.name == resource.name)
+      })
+
+      if (foundSaved) {
+        return foundSaved
+      } else {
+        return null
+      }
+    }
   },
 
   mutations: {
     setKnown(state, payload: Array<Known>) {
       state.known = payload;
     },
-    setSaved(state, payload: Array<Saved>) {
+    setSaved(state, payload: SavedState) {
       state.saved = payload;
     },
     setHav(state, payload: Array<Hav>) {
@@ -225,7 +247,7 @@ export default {
         })
     },
 
-    setSaved({ commit }, payload: Array<Saved>) {
+    setSaved({ commit }, payload: SavedState) {
       commit("setSaved", payload);
     },
 
@@ -262,10 +284,11 @@ export default {
         })
     },
 
-    exportResource({commit},
+    exportResource({dispatch, commit},
       payload: { resource: Entity, frequency: ExportFrequency }) {
       return peatAPI.exportToDisk(payload)
         .then((r) => {
+          dispatch('getSaved')
           return r
         }).catch(err => {
           throw err.response
