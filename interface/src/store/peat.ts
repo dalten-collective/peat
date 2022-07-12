@@ -65,52 +65,51 @@ export default {
       ).filter(g => g) as Array<string> // filter out null
     },
 
-    knownChats(state): Array<Known> {
-      return state.known
-        .filter((k: Known) => { 
-          if (k.hasOwnProperty("chat")) {
-            return k.chat
-          }
-        })
-    },
-
     knownShapeByGroup: (state) => (shape: string, groupName: string | undefined): Array<Entity> => {
+      if (groupName && groupName === 'ungrouped') {
+        return state.known
+          .filter((k: Known) => {
+            if (k.hasOwnProperty(shape)) {
+              return k[shape].group === groupName
+            }
+          }).map(g => g[shape].resources)
+      }
+
       if (groupName && groupName !== '') {
         return state.known
-          .filter((k: Known) => { 
+          .filter((k: Known) => {
             if (k.hasOwnProperty(shape)) {
               return k[shape].group.name === groupName
             }
           }).map(g => g[shape].resources)
       }
+
+      // no group filter
       return state.known
-        .filter((k: Known) => { 
+        .filter((k: Known) => {
           if (k.hasOwnProperty("chat")) {
             return k.chat
           }
-        }).map(g => g.chat.resources)
+          if (k.hasOwnProperty("link")) {
+            return k.link
+          }
+          if (k.hasOwnProperty("publish")) {
+            return k.publish
+          }
+        }).map(g => g[shape].resources)
     },
 
-    knownChatsByGroup: (state) => (groupName: string | undefined): Array<Entity> => {
-      if (groupName && groupName !== '') {
-        return state.known
-          .filter((k: Known) => { 
-            if (k.hasOwnProperty("chat")) {
-              return k.chat.group.name === groupName
-            }
-          }).map(g => g.chat.resources)
-      }
+    knownChats(state): Array<Known> {
       return state.known
-        .filter((k: Known) => { 
+        .filter((k: Known) => {
           if (k.hasOwnProperty("chat")) {
             return k.chat
           }
-        }).map(g => g.chat.resources)
+        })
     },
-
     knownLinks(state): Array<Known> {
       return state.known
-        .filter((k: Known) => { 
+        .filter((k: Known) => {
           if (k.hasOwnProperty("link")) {
             return k.link
           }
@@ -118,7 +117,7 @@ export default {
     },
     knownPublishes(state): Array<Known> {
       return state.known
-        .filter((k: Known) => { 
+        .filter((k: Known) => {
           if (k.hasOwnProperty("publish")) {
             return k.publish
           }
@@ -126,7 +125,6 @@ export default {
     },
 
     filterResourcesByGroup: (state, getters) => (groupName: string) => {
-      // knownResourcesByGroup find where 0 == name
       if (!groupName || groupName === '') {
         return getters.knownResourcesByGroup
       }
@@ -151,45 +149,7 @@ export default {
           }
         ]
       })
-
-      //return getters.knownChats.map((k: Known) => {
-        //const chat = k.chat as Graph
-        //if (chat.group === GroupedOptions.Ungrouped) {
-          //return {
-            //group: {
-              //entity: '~',
-              //name: 'ungrouped'
-            //},
-            //resources: chat.resources as Array<Entity>
-          //}
-        //} else {
-          //return {
-            //group: chat.group,
-            //resources: chat.resources as Array<Entity>,
-          //}
-        //}
-      //})
     },
-
-    // knownChatsByGroup(state, getters): Array<Graph> {
-    //   return getters.knownChats.map((k: Known) => {
-    //     const chat = k.chat as Graph
-    //     if (chat.group === GroupedOptions.Ungrouped) {
-    //       return {
-    //         group: {
-    //           entity: '~',
-    //           name: 'ungrouped'
-    //         },
-    //         resources: chat.resources as Array<Entity>
-    //       }
-    //     } else {
-    //       return {
-    //         group: chat.group,
-    //         resources: chat.resources as Array<Entity>,
-    //       }
-    //     }
-    //   })
-    // },
 
     havChats(state): Array<HavResource> {
       const chats = state.hav.find((h: Hav) => h.shape === 'chat');
@@ -217,6 +177,7 @@ export default {
         return [];
       }
     },
+
     havDms(state) {
       const dms = state.hav.find((h: Hav) => h.shape === 'dm');
       if (dms && dms.hasOwnProperty("resources")) {
