@@ -7,6 +7,7 @@
     <ExportKnown :resource="publish.name" :ship="publish.ship" />
     <DoleKnown :resource="publish.name" :ship="publish.ship" />
     <DisplaySaved :resource="publish" />
+    <DisplayAdmin :resource="publish" :group="group" />
   </div>
 </template>
 
@@ -15,15 +16,18 @@ import { defineComponent } from "vue";
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
 import DisplaySaved from "@/components/DisplaySaved.vue";
+import DisplayAdmin from "@/components/DisplayAdmin.vue";
 
 export default defineComponent ({
   props: [
-    'publish'
+    'publish',
+    'group',
   ],
   components: {
     ExportKnown,
     DoleKnown,
     DisplaySaved,
+    DisplayAdmin
   },
 })
 </script>

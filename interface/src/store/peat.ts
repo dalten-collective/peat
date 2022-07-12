@@ -199,7 +199,7 @@ export default {
         saveds.push(state.saved[key])
       })
       const foundSaved = saveds.find((s) => {
-        return (s.entity == resource.ship && s.name == resource.name)
+        return (s.entity === resource.ship && s.name === resource.name)
       })
 
       if (foundSaved) {
@@ -207,7 +207,23 @@ export default {
       } else {
         return null
       }
-    }
+    },
+
+    amAdmin: (state, getters) => (resource: { name: string, ship: Ship }, groupName: string): boolean => {
+      const foundAdmin = state.admin.find((admin: Entity) => {
+        return (admin.entity === resource.ship && admin.name === groupName)
+      })
+
+      if (foundAdmin) {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    groupForResource: (state) => (resource: { name: string, ship: Ship }): string => {
+      return 'newgroup2'
+    },
   },
 
   mutations: {

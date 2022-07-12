@@ -7,6 +7,7 @@
     <ExportKnown :resource="link.name" :ship="link.ship" />
     <DoleKnown :resource="link.name" :ship="link.ship" />
     <DisplaySaved :resource="link" />
+    <DisplayAdmin :resource="link" :group="group" />
   </div>
 </template>
 
@@ -15,15 +16,18 @@ import { defineComponent } from "vue";
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
 import DisplaySaved from "@/components/DisplaySaved.vue";
+import DisplayAdmin from "@/components/DisplayAdmin.vue";
 
 export default defineComponent ({
   props: [
-    'link'
+    'link',
+    'group',
   ],
   components: {
     ExportKnown,
     DoleKnown,
     DisplaySaved,
+    DisplayAdmin
   },
 })
 </script>

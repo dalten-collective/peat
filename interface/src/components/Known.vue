@@ -19,7 +19,7 @@
                 :key="c.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <KnownChat :chat="c" />
+                <KnownChat :chat="c" :group="pair[0]" />
               </li>
             </ul>
 
@@ -29,7 +29,7 @@
                 :key="l.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <KnownLink :link="l" />
+                <KnownLink :link="l" :group="pair[0]" />
               </li>
             </ul>
 
@@ -39,7 +39,7 @@
                 :key="p.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <KnownPublish :publish="p" />
+                <KnownPublish :publish="p" :group="pair[0]" />
               </li>
             </ul>
             <hr />

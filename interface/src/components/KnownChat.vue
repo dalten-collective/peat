@@ -7,6 +7,7 @@
     <ExportKnown :resource="chat.name" :ship="chat.ship" />
     <DoleKnown :resource="chat.name" :ship="chat.ship" />
     <DisplaySaved :resource="chat" />
+    <DisplayAdmin :resource="chat" :group="group" />
   </div>
 </template>
 
@@ -19,10 +20,12 @@ import { mapGetters } from "vuex";
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
 import DisplaySaved from "@/components/DisplaySaved.vue";
+import DisplayAdmin from "@/components/DisplayAdmin.vue";
 
 export default defineComponent ({
   props: [
     'chat',
+    'group',
   ],
 
   computed: {
@@ -35,6 +38,7 @@ export default defineComponent ({
     ExportKnown,
     DoleKnown,
     DisplaySaved,
+    DisplayAdmin
   },
 })
 </script>
