@@ -13,54 +13,33 @@
               Resources in <span class="font-mono">{{ pair[0] }}</span>
             </h4>
 
-<!-- TODO: make components per: -->
-
             <ul class="my-2">
               <li
                 v-for="c in pair[1].chats"
                 :key="c.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <div>
-                  <span class="mr-2 font-bold">{{ c.name }}</span>
-                  <span class="p-1 px-2 mr-2 text-gray-400 border rounded-md">chat</span>
-                  <span class="mr-2 text-gray-400">owned by</span>
-                  <span class="font-mono">{{ c.ship }}</span>
-                  <ExportKnown :resource="c.name" :ship="c.ship" />
-                  <DoleKnown :resource="c.name" :ship="c.ship" />
-                </div>
+                <KnownChat :chat="c" />
               </li>
             </ul>
 
             <ul class="my-2">
               <li
-                v-for="c in pair[1].links"
-                :key="c.name"
+                v-for="l in pair[1].links"
+                :key="l.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <div>
-                  <span class="mr-2 font-bold">{{ c.name }}</span>
-                  <span class="p-1 px-2 mr-2 text-gray-400 border rounded-md">collection</span>
-                  <span class="font-mono">{{ c.ship }}</span>
-                  <ExportKnown :resource="c.name" :ship="c.ship" />
-                  <DoleKnown :resource="c.name" :ship="c.ship" />
-                </div>
+                <KnownLink :link="l" />
               </li>
             </ul>
 
             <ul class="my-2">
               <li
-                v-for="c in pair[1].publishes"
-                :key="c.name"
+                v-for="p in pair[1].publishes"
+                :key="p.name"
                 class="p-2 my-4 border rounded-sm"
               >
-                <div>
-                  <span class="mr-2 font-bold">{{ c.name }}</span>
-                  <span class="p-1 px-2 mr-2 text-gray-400 border rounded-md">notebook</span>
-                  <span class="font-mono">{{ c.ship }}</span>
-                  <ExportKnown :resource="c.name" :ship="c.ship" />
-                  <DoleKnown :resource="c.name" :ship="c.ship" />
-                </div>
+                <KnownPublish :publish="p" />
               </li>
             </ul>
             <hr />
@@ -74,9 +53,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapGetters } from "vuex";
-import * as peatAPI from "@/api/peat";
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
+import KnownChat from "@/components/KnownChat.vue";
+import KnownLink from "@/components/KnownLink.vue";
+import KnownPublish from "@/components/KnownPublish.vue";
 
 export default defineComponent({
   data() {
@@ -128,6 +109,9 @@ export default defineComponent({
   components: {
     ExportKnown,
     DoleKnown,
+    KnownChat,
+    KnownLink,
+    KnownPublish,
   },
 });
 </script>
