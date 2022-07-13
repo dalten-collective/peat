@@ -7,42 +7,42 @@
     <div v-if="knownPending">LOADING</div>
     <div v-else>
       <div>
-        <ul>
-          <li v-for="pair in filterResourcesByGroup('')" :key="pair[0]" class="mb-8">
-            <h4 class="mb-4 text-lg">
-              Resources in <span class="font-mono">{{ pair[0] }}</span>
+        <ul class="tw-my-4">
+          <li v-for="pair in filterResourcesByGroup('')" :key="pair[0]" class="tw-p-2 tw-mb-8 tw-bg-gray-100 tw-border tw-shadow-md tw-rounded-md">
+            <h4 class="tw-mb-4 tw-text-xl">
+              <span class="font-mono">{{ pair[0] }}</span>
             </h4>
 
-            <ul class="my-2">
+            <ul class="tw-my-2">
               <li
                 v-for="c in pair[1].chats"
                 :key="c.name"
-                class="p-2 my-4 border rounded-sm"
+                class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
               >
-                <KnownChat :chat="c" :group="pair[0]" />
+                <KnownChat :chat="c" shape="chat" :group="pair[0]" />
+                <KnownResource :resource="c" shape="chat" :group="pair[0]" />
               </li>
             </ul>
 
-            <ul class="my-2">
+            <ul class="tw-my-2">
               <li
                 v-for="l in pair[1].links"
                 :key="l.name"
-                class="p-2 my-4 border rounded-sm"
+                class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
               >
-                <KnownLink :link="l" :group="pair[0]" />
+                <KnownResource :resource="l" shape="collection" :group="pair[0]" />
               </li>
             </ul>
 
-            <ul class="my-2">
+            <ul class="tw-my-2">
               <li
                 v-for="p in pair[1].publishes"
                 :key="p.name"
-                class="p-2 my-4 border rounded-sm"
+                class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
               >
-                <KnownPublish :publish="p" :group="pair[0]" />
+                <KnownResource :resource="p" shape="notebook" :group="pair[0]" />
               </li>
             </ul>
-            <hr />
           </li>
         </ul>
       </div>

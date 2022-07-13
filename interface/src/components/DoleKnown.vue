@@ -1,13 +1,13 @@
 <template>
   <div>
     <div v-if="!doleOpen">
-      <span @click="doleOpen = !doleOpen" class="cursor-pointer text-green-600 underline">Dole</span>
+      <span @click="doleOpen = !doleOpen" class="tw-cursor-pointer tw-text-green-600 tw-underline">Dole</span>
     </div>
-    <div v-if="doleOpen" class="pa-2">
-      <span @click="doleOpen = !doleOpen" class="cursor-pointer text-green-600 underline">Close</span>
-      <div class="mt-2">
+    <div v-if="doleOpen" class="tw-pa-2">
+      <span @click="doleOpen = !doleOpen" class="tw-cursor-pointer tw-text-green-600 tw-underline">Close</span>
+      <div class="tw-mt-2">
         <div>
-          <span class="font-bold">Dole</span>
+          <span class="tw-font-bold">Dole</span>
         </div>
         <button class="action" @click="doDole">Dole</button>
       </div>

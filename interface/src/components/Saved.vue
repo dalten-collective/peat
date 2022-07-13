@@ -12,7 +12,7 @@
       </div>
       <div v-else>
         <ul>
-          <li v-for="s in saved" :key="s" class="my-4 border rounded-sm p-2">
+          <li v-for="s in saved" :key="s" class="tw-my-4 tw-border tw-rounded-sm tw-p-2">
             <ul>
               <li>{{ s.entity }}</li>
               <li>{{ s.name }}</li>

@@ -5,8 +5,8 @@
   </div>
   <div v-else>
 
-    <div class="p-2 m-2 border rounded-md">
-      <h3 class="text-lg">Links</h3>
+    <div class="tw-p-2 tw-m-2 tw-border tw-rounded-md">
+      <h3 class="tw-text-lg">Links</h3>
       <ul>
         <li v-for="l in havLinks" :key="l.resource">
           <HavLink :resource="l" />
@@ -14,17 +14,17 @@
       </ul>
     </div>
 
-    <div class="p-2 m-2 border rounded-md">
-      <h3 class="text-lg">Chats</h3>
+    <div class="tw-p-2 tw-m-2 tw-border tw-rounded-md">
+      <h3 class="tw-text-lg">Chats</h3>
       <ul>
-        <li class="mb-2" v-for="c in havChats" :key="c.resource">
+        <li class="tw-mb-2" v-for="c in havChats" :key="c.resource">
           <HavChat :resource="c" />
         </li>
       </ul>
     </div>
 
-    <div class="p-2 m-2 border rounded-md">
-      <h3 class="text-lg">Notebooks</h3>
+    <div class="tw-p-2 tw-m-2 tw-border tw-rounded-md">
+      <h3 class="tw-text-lg">Notebooks</h3>
       <ul>
         <li v-for="p in havPublishes" :key="p.resource">
           <HavPublish :resource="p" />
@@ -32,8 +32,8 @@
       </ul>
     </div>
 
-    <div class="p-2 m-2 border rounded-md">
-      <h3 class="text-lg">DMs</h3>
+    <div class="tw-p-2 tw-m-2 tw-border tw-rounded-md">
+      <h3 class="tw-text-lg">DMs</h3>
       <ul>
         <li v-for="d in havDms" :key="d.resource">
           <HavDm :resource="d" />

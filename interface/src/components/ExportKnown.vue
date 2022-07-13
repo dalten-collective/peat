@@ -1,26 +1,26 @@
 <template>
   <div>
     <div v-if="!exportOpen">
-      <span @click="exportOpen = !exportOpen" class="cursor-pointer text-green-600 underline">Export</span>
+      <span @click="exportOpen = !exportOpen" class="tw-cursor-pointer tw-text-green-600 tw-underline">Export</span>
     </div>
-    <div v-if="exportOpen" class="pa-2">
-      <span @click="exportOpen = !exportOpen" class="cursor-pointer text-green-600 underline">Close</span>
-      <div class="mt-2">
+    <div v-if="exportOpen" class="tw-pa-2">
+      <span @click="exportOpen = !exportOpen" class="tw-cursor-pointer tw-text-green-600 tw-underline">Close</span>
+      <div class="tw-mt-2">
         <div>
-          <span class="font-bold">One-time export</span>
+          <span class="tw-font-bold">One-time export</span>
         </div>
         <button class="action" @click="singleExport">Export {{ ship }}'s {{ resource }} once</button>
       </div>
-      <hr class="my-2"/>
+      <hr class="tw-my-2"/>
       <div>
         <div>
-          <span class="font-bold">Recurring exports</span>
+          <span class="tw-font-bold">Recurring exports</span>
         </div>
         <form>
-          <div class="mb-2">
-            <div class="inline-block mr-1">
+          <div class="tw-mb-2">
+            <div class="tw-inline-block tw-mr-1">
               <label>
-                <span class="form-label">Days</span>
+                <span class="tw-form-label">Days</span>
                 <select v-model="frequencyDays">
                   <option disabled value="">Days</option>
                   <option v-for="o in daysOptions" :text="o" :value="o">{{ o }}</option>
@@ -28,9 +28,9 @@
               </label>
             </div>
 
-            <div class="inline-block mr-1">
+            <div class="tw-inline-block tw-mr-1">
               <label>
-                <span class="form-label">Hours</span>
+                <span class="tw-form-label">Hours</span>
                 <select v-model="frequencyHours">
                     <option disabled value="">Hours</option>
                   <option v-for="o in hoursOptions" :text="o" :value="o">{{ o }}</option>
@@ -38,9 +38,9 @@
               </label>
             </div>
 
-            <div class="inline-block mr-1">
+            <div class="tw-inline-block tw-mr-1">
               <label>
-                <span class="form-label">Minutes</span>
+                <span class="tw-form-label">Minutes</span>
                 <select v-model="frequencyMinutes">
                     <option disabled value="">Minutes</option>
                   <option v-for="o in minutesOptions" :text="o" :value="o">{{ o }}</option>
@@ -49,12 +49,12 @@
             </div>
           </div>
 
-          <div class="text-right">
-            <div class="mb-1">
-            <button class="action" @click="frequentExport">export {{ ship }}'s {{ resource }}</button>
+          <div class="tw-text-right">
+            <div class="tw-mb-1">
+            <button class="tw-action" @click="frequentExport">export {{ ship }}'s {{ resource }}</button>
             </div>
             <div>
-              <span>{{ displayFrequency }}</span> <span class="text-gray-400">({{ hoonedFrequcency }})</span>
+              <span>{{ displayFrequency }}</span> <span class="tw-text-gray-400">({{ hoonedFrequcency }})</span>
             </div>
           </div>
         </form>

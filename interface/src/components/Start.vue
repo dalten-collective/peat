@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="flex flex-row">
+    <div class="tw-flex tw-flex-row">
       <!-- <Saved class="grow-0"/> -->
-      <Known class="grow" />
+      <Known class="tw-grow" />
       <!-- <Admin class="grow"/> -->
     </div>
   </div>
 
-  <div class="border-2 border-dashed">
+  <div class="tw-border-2 tw-border-dashed">
     <Hav />
   </div>
 </template>

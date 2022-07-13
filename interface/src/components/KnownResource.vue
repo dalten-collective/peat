@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span class="tw-mr-2 tw-font-bold">{{ chat.name }}</span>
-    <span class="tw-p-1 tw-px-2 tw-mr-2 tw-text-gray-400 tw-border tw-rounded-md">chat</span>
+    <span class="tw-mr-2 tw-font-bold">{{ resource.name }}</span>
+    <span class="tw-p-1 tw-px-2 tw-mr-2 tw-text-gray-400 tw-border tw-rounded-md">{{ shape }}</span>
     <span class="tw-mr-2 tw-text-gray-400">owned by</span>
-    <span class="tw-font-mono">{{ chat.ship }}</span>
-    <ExportKnown :resource="chat.name" :ship="chat.ship" />
-    <DoleKnown :resource="chat.name" :ship="chat.ship" />
-    <DisplaySaved :resource="chat" />
-    <DisplayAdmin :resource="chat" :group="group" />
+    <span class="tw-font-mono">{{ resource.ship }}</span>
+    <ExportKnown :resource="resource.name" :ship="resource.ship" />
+    <DoleKnown :resource="resource.name" :ship="resource.ship" />
+    <DisplaySaved :resource="resource" />
+    <DisplayAdmin :resource="resource" :group="group" />
   </div>
 </template>
 
@@ -24,8 +24,9 @@ import DisplayAdmin from "@/components/DisplayAdmin.vue";
 
 export default defineComponent ({
   props: [
-    'chat',
+    'resource',
     'group',
+    'shape'
   ],
 
   computed: {

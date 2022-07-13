@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="tw-container tw-mx-auto">
     <Start />
   </div>
 </template>

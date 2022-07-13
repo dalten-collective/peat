@@ -6,26 +6,26 @@
       <hr/>
     </ul>
 
-    <form class="w-1/2">
-      <div class="form-group">
+    <form class="tw-w-1/2">
+      <div class="tw-form-group">
         <label>
-          <span class="form-label">Group Name</span>
+          <span class="tw-form-label">Group Name</span>
           <input type="text" v-model="newGroupName" placeholder="group name"/>
         </label>
       </div>
 
-      <div class="form-group">
+      <div class="tw-form-group">
         <label>
-          <span class="form-label">Resource Name</span>
+          <span class="tw-form-label">Resource Name</span>
           <input type="text" v-model="newResourceName" placeholder="new name"/>
         </label>
       </div>
 
-      <div class="form-action">
+      <div class="tw-form-action">
         <button @click="importResource">Import {{ `${ newGroupName != '' ? 'under ' + newGroupName + ' group' : '' }` }}</button>
       </div>
 
-      <div class="form-status" :class="formStatus" v-if="importDoneShow">
+      <div class="tw-form-status" :class="formStatus" v-if="importDoneShow">
         <span>{{ importDoneMessage }}</span>
         <footer v-if="clearStatusShow">
           <a href="javascript:void(0)" @click="resetForm">Okay!</a>
