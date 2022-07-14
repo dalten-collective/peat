@@ -314,10 +314,28 @@ export default {
     doleResource({commit}, payload: DolePayload) {
       return peatAPI.doleResource(payload)
         .then((r) => {
+          // TOOD: refresh any local state?
           return r
         }).catch(err => {
           throw err.response
         })
     },
+
+    remakeResource(
+      {commit},
+      payload: {
+        group: string,
+        'new-resource-name': string,
+        'remake-resource': string
+      }
+    ) {
+      return peatAPI.reMake(payload)
+        .then((r) => {
+          return r
+        }).catch(err => {
+          throw err.response
+        })
+    },
+
   },
 };

@@ -30,7 +30,12 @@
     </div>
     <div class="tw-flex tw-flex-row tw-justify-between">
       <ExportKnown :resource="resource.name" :ship="resource.ship" />
-      <RemakeKnown :resource="resource.name" :ship="resource.ship" />
+      <RemakeKnown
+        :resource="resource.name"
+        :ship="resource.ship"
+        :current-group="group"
+        :current-ship="resource.ship"
+      />
     </div>
     <!-- <DoleKnown :resource="resource.name" :ship="resource.ship" /> -->
     <DisplaySaved :resource="resource" />

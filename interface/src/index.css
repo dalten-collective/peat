@@ -443,40 +443,40 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   }
 
   /*
-  .label {
-    @apply tw-py-[2px];
-    @apply tw-px-[6px];
-    @apply tw-mr-2;
-    @apply tw-text-blue-400;
-    @apply tw-border;
-    @apply tw-rounded-md;
-    @apply tw-border-blue-300;
-    @apply tw-text-xs;
-  }
+  * .label {
+  *   @apply tw-py-[2px];
+  *   @apply tw-px-[6px];
+  *   @apply tw-mr-2;
+  *   @apply tw-text-blue-400;
+  *   @apply tw-border;
+  *   @apply tw-rounded-md;
+  *   @apply tw-border-blue-300;
+  *   @apply tw-text-xs;
+  * }
 
-  select {
-    @apply tw-rounded-md;
-    @apply tw-py-1;
-    @apply tw-px-2;
-    @apply tw-cursor-pointer;
-    @apply tw-border-transparent;
-    @apply tw-bg-gray-200;
-    @apply focus:tw-bg-white;
-    @apply focus:tw-ring-opacity-50;
-    @apply tw-mt-2;
-  }
-  input[type="text"] {
-    @apply focus:tw-bg-white;
-    @apply tw-border-transparent;
-    @apply focus:tw-border-gray-200;
-    @apply focus:tw-ring-opacity-50;
-    @apply tw-mt-2;
-    @apply tw-bg-gray-100;
-    @apply tw-rounded-md;
-    @apply tw-py-1;
-    @apply tw-px-2;
-    @apply tw-w-full;
-  }
+  * select {
+  *   @apply tw-rounded-md;
+  *   @apply tw-py-1;
+  *   @apply tw-px-2;
+  *   @apply tw-cursor-pointer;
+  *   @apply tw-border-transparent;
+  *   @apply tw-bg-gray-200;
+  *   @apply focus:tw-bg-white;
+  *   @apply focus:tw-ring-opacity-50;
+  *   @apply tw-mt-2;
+  * }
+  * input[type="text"] {
+  *   @apply focus:tw-bg-white;
+  *   @apply tw-border-transparent;
+  *   @apply focus:tw-border-gray-200;
+  *   @apply focus:tw-ring-opacity-50;
+  *   @apply tw-mt-2;
+  *   @apply tw-bg-gray-100;
+  *   @apply tw-rounded-md;
+  *   @apply tw-py-1;
+  *   @apply tw-px-2;
+  *   @apply tw-w-full;
+  * }
   */
 
   .form-label {
@@ -530,15 +530,15 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply tw-underline;
   }
   /* .form-status.error:before {
-    content: "!";
-    @apply tw-text-2xl;
-    @apply tw-h-24;
-    @apply tw-w-24;
-    @apply tw-p-1;
-    @apply tw-border-red-400;
-    @apply tw-border-2;
-    @apply tw-rounded-full;
-  } */
+  *   content: "!";
+  *   @apply tw-text-2xl;
+  *   @apply tw-h-24;
+  *   @apply tw-w-24;
+  *   @apply tw-p-1;
+  *   @apply tw-border-red-400;
+  *   @apply tw-border-2;
+  *   @apply tw-rounded-full;
+  * } */
   .v-overlay__content .v-card {
     border-radius: 10px !important;
   }

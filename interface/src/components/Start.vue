@@ -28,6 +28,7 @@ export default defineComponent({
   mounted() {
     const deskname = "peat"
     this.startAirlock(deskname);
+    this.getAdmin();
   },
 
   unmounted() {
@@ -45,6 +46,14 @@ export default defineComponent({
       this.$store.dispatch("ship/closeAgentAirlocks");
     },
 
+    getAdmin() {
+      this.adminPending = true;
+      this.$store.dispatch("peat/getAdmin")
+        .then((r) => {
+          this.adminPending = false;
+          console.log('r ', r)
+        })
+    },
   },
 
   components: {

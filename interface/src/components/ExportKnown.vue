@@ -5,12 +5,12 @@
         v-bind="props" color="success"
         text="white"
         @click="openExport"
-        size="small"
       >
+        <v-icon start>mdi-content-save</v-icon>
         export</v-btn
       >
     </template>
-    <v-card class="tw-border-4 tw-border-primary tw-bg-surface">
+    <v-card class="tw-border-4 tw-border-primary tw-bg-surface tw-w-96">
       <v-card-title>
         <div class="tw-flex tw-flex-row tw-justify-between">
           <h2 class="tw-text-2xl">Export</h2>
@@ -28,7 +28,7 @@
         <div class="tw-mt-2">
           <div class="tw-mb-2">
             <span class="tw-font-bold">One-time export</span>
-            <v-tooltip top>
+            <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -56,6 +56,21 @@
         <div>
           <div>
             <span class="tw-font-bold">Recurring exports</span>
+            <v-tooltip location="top">
+              <template v-slot:activator="{ props }">
+                <v-icon
+                  v-bind="props"
+                  size="x-small"
+                  class="tw-ml-1 tw-cursor-pointer tw-mb-2 tw-opacity-50"
+                  >mdi-help-circle-outline</v-icon
+                >
+              </template>
+              <span
+                >An export will be performed at the selected interval, rewriting the previous file (see one-time export tooltip above).
+                <span class="tw-font-mono">put</span> directory, like:
+                <span class="tw-font-mono">.urb/put/{{ resource }}.</span></span
+              >
+            </v-tooltip>
           </div>
           <v-form>
             <v-container>

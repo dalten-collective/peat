@@ -5,12 +5,12 @@
         v-bind="props" color="success"
         text="white"
         @click="openRemake"
-        size="small"
       >
+        <v-icon start>mdi-content-duplicate</v-icon>
         remake</v-btn
       >
     </template>
-    <v-card class="tw-border-4 tw-border-primary tw-bg-surface">
+    <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface">
       <v-card-title>
         <div class="tw-flex tw-flex-row tw-justify-between">
           <h2 class="tw-text-2xl">Remake</h2>
@@ -25,10 +25,13 @@
       </v-card-title>
 
       <v-card-text>
-        <div class="tw-mt-2">
+
+        <hr class="tw-my-4" />
+
+        <div>
           <div class="tw-mb-2">
-            <span class="tw-font-bold">One-time export</span>
-            <v-tooltip top>
+            <span class="tw-font-bold">Remake resource</span>
+            <v-tooltip location="top">
               <template v-slot:activator="{ props }">
                 <v-icon
                   v-bind="props"
@@ -37,60 +40,47 @@
                   >mdi-help-circle-outline</v-icon
                 >
               </template>
-              <span
-                >After exporting, you'll find a file in your ship's
-                <span class="tw-font-mono">put</span> directory, like:
-                <span class="tw-font-mono">.urb/put/{{ resource }}.</span></span
-              >
+              <span>The resource will be re-created with a new name (which can be the same as the old name) in the group of your choosing.</span>
             </v-tooltip>
           </div>
-          <div>
-            <v-btn color="success" text="white" @click="singleExport"
-              >Export {{ ship }}'s {{ resource }} once</v-btn
-            >
-          </div>
-        </div>
-
-        <hr class="tw-my-4" />
-
-        <div>
-          <div>
-            <span class="tw-font-bold">Recurring exports</span>
-          </div>
-          <v-form>
+          <v-form ref="form" v-model="formValid">
             <v-container>
               <v-row>
                 <v-col cols="12" lg="4">
                   <v-select
-                    :items="daysOptions"
-                    label="Days"
-                    v-model="frequencyDays"
+                    :items="groupOptions"
+                    label="New group"
+                    required
+                    v-model="newGroup"
+                    :loading="adminPending"
+                    :disabled="groupOptions.length === 0"
+                    :rules="[(v) => !!v || 'Must choose a group']"
+                    persistent-hint
+                    :hint="groupOptions.length === 0 ? 'You aren\'t the admin of any groups' : ''"
                   />
                 </v-col>
                 <v-col cols="12" lg="4">
-                  <v-select
-                    :items="hoursOptions"
-                    label="Hours"
-                    v-model="frequencyHours"
-                  />
-                </v-col>
-                <v-col cols="12" lg="4">
-                  <v-select
-                    :items="minutesOptions"
-                    label="Minutes"
-                    v-model="frequencyMinutes"
+                  <v-text-field
+                    label="New resource name"
+                    v-model="newResourceName"
+                    :rules="nameRules"
                   />
                 </v-col>
               </v-row>
               <div class="tw-text-right">
-                <div class="tw-mb-1">
-                  <v-btn color="success" text="white" @click="frequentExport"
-                    >export {{ ship }}'s {{ resource }}</v-btn
-                  >
-                </div>
                 <div>
-                  <span>{{ displayFrequency }}</span>
-                  <span class="tw-text-gray-400">({{ hoonedFrequcency }})</span>
+                  <!-- TODO: not working -->
+                  <v-tooltip location="top">
+                    <template v-slot:activator="{ props }">
+                      <v-btn
+                        color="success"
+                        text="white"
+                        @click="remake"
+                        :disabled="!formValid"
+                      >Remake {{ ship }}'s {{ resource }}</v-btn>
+                    </template>
+                    <span>The resource will be re-created with a new name (which can be the same as the old name) in the group of your choosing.</span>
+                  </v-tooltip>
                 </div>
               </div>
             </v-container>
@@ -116,102 +106,81 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "vuex";
+import { Admin } from "@/types";
 
 export default defineComponent({
-  props: ["resource", "ship"],
+  props: ["resource", "ship", "currentGroup"],
 
   data() {
     return {
+      formValid: false,
       remakeOpen: false,
-      frequencyDays: 0,
-      frequencyHours: 12,
-      frequencyMinutes: 30,
+      newGroup: '',
+      newResourceName: '',
+      adminPending: false,
+      nameRules: [
+        (v: string) => !!v || 'Resource name is required',
+        (v: string) => /^[\w-]+$/.test(v) || 'Must use kebab-case-for-name; no special characters',
+        (v: string) => /^[a-zA-Z].*$/.test(v) || 'First character must be a letter'
+      ],
     };
   },
 
-  computed: {
-    daysOptions(): Array<number> {
-      return [0].concat(
-        Array(30)
-          .fill(1)
-          .map((x, y) => x + y)
-      );
-    },
-    hoursOptions(): Array<number> {
-      return [0].concat(
-        Array(24)
-          .fill(1)
-          .map((x, y) => x + y)
-          .filter((x) => x >= 12)
-      );
-    },
-    minutesOptions(): Array<number> {
-      return [0].concat(
-        Array(60)
-          .fill(1)
-          .map((x, y) => x + y)
-      );
-    },
-    displayFrequency(): string {
-      if (this.frequencyDays || this.frequencyHours || this.frequencyMinutes) {
-        const days = this.frequencyDays
-          ? `${this.frequencyDays} day${this.frequencyDays == 1 ? "" : "s"}`
-          : "";
-        const hours = this.frequencyHours
-          ? `${this.frequencyHours} hour${this.frequencyHours == 1 ? "" : "s"}`
-          : "";
-        const minutes = this.frequencyMinutes
-          ? `${this.frequencyMinutes} minute${
-              this.frequencyMinutes == 1 ? "" : "s"
-            }`
-          : "";
-        return `Every ${days} ${hours} ${minutes}`;
-      } else {
-        return "";
+  watch: {
+    remakeOpen(val: boolean) {
+      if (val && this.groupOptions.length === 0) {
+        this.getAdmin()
       }
     },
-
-    hoonedFrequcency(): string {
-      const days = this.frequencyDays ? `${"d" + this.frequencyDays}` : "";
-      const hours = this.frequencyHours ? `${"h" + this.frequencyHours}` : "";
-      const minutes = this.frequencyMinutes
-        ? `${"m" + this.frequencyMinutes}`
-        : "";
-      const worm = [days, hours, minutes].filter(Boolean); // trim out empties
-      return `~${worm.join(".")}`;
+    newGroup(val: string) {
+      if (val) {
+        this.validateForm()
+      }
     },
   },
 
+  computed: {
+    ...mapState("peat", ["admin"]),
+    groupOptions() {
+      return this.admin.map((a: Admin) => a.name)
+    }
+  },
+
+  mounted() {
+    this.newResourceName = this.resource
+  },
+
   methods: {
-    singleExport() {
-      console.log("exporting");
+    validateForm() {
+      this.$refs.form.validate()
+    },
+
+    remake() {
+      this.validateForm()
+
+      if (!this.formValid) {
+        return
+      }
+
       const payload = {
-        resource: {
-          entity: this.ship,
-          name: this.resource,
-        },
-        frequency: "fuck-you",
+        group: `~${ window.ship } ${ this.newGroup }`,
+        'new-resource-name': this.newResourceName,
+        'remake-resource': `${ this.ship } ${ this.resource }`,
       };
-      this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log("exported ", r);
+      this.$store.dispatch("peat/remakeResource", payload).then((r) => {
+        console.log("remade ", r);
         // TODO: do something with response?
       });
     },
 
-    frequentExport() {
-      console.log("exporting");
-      const payload = {
-        resource: {
-          entity: this.ship,
-          name: this.resource,
-        },
-        frequency: this.hoonedFrequcency,
-      };
-      this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log("exported ", r);
-        // TODO: do something with response?
-        // TODO: update the `saved` with this new guy?
-      });
+    getAdmin() {
+      this.adminPending = true;
+      this.$store.dispatch("peat/getAdmin")
+        .then((r) => {
+          this.adminPending = false;
+          console.log('r ', r)
+        })
     },
   },
 });

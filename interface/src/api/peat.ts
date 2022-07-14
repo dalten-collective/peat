@@ -73,6 +73,30 @@ export function importFromDisk(
     });
 }
 
+export function reMake(
+  payload: {
+    group: string,
+    'new-resource-name': string,
+    'remake-resource': string
+  }
+) {
+  console.log('remake payload in api ', payload)
+  return urbitAPI
+    .poke({
+      app: "peat",
+      mark: "peat-repete",
+      json: {
+        remake: payload,
+      }
+    })
+    .then((r) => {
+      console.log("remake res ", r);
+    })
+    .catch((e) => {
+      console.log("remake err ", e);
+    });
+}
+
 export function scryHav() {
   return urbitAPI.scry({ app: 'peat', path: '/hav' })
 }
