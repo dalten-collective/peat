@@ -1,7 +1,7 @@
 <template>
   <div>
     <span class="tw-mr-2 tw-font-bold">{{ resource.name }}</span>
-    <span class="tw-p-1 tw-px-2 tw-mr-2 tw-text-gray-400 tw-border tw-rounded-md">{{ shape }}</span>
+    <span class="tw-py-[2px] tw-px-[6px] tw-mr-2 tw-text-blue-400 tw-border tw-rounded-md tw-border-blue-300 tw-text-xs">{{ shape }}</span>
     <span class="tw-mr-2 tw-text-gray-400">owned by</span>
     <span class="tw-font-mono">{{ resource.ship }}</span>
     <ExportKnown :resource="resource.name" :ship="resource.ship" />

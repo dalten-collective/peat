@@ -1,8 +1,11 @@
 <template>
   <div>
     <div>
-      <h3>Known</h3>
-      <button @click="getKnown">Scry Known</button>
+      <h3>Known
+        <button class="btn-icon tw-bg-white tw-text-xs tw-text-green-500 tw-w-6 tw-h-6 tw-font-weight-thin tw-rounded-full tw-border tw-border-green-400 active:tw-bg-white hover:tw-bg-gray-100 hover:tw-shadow-md" @click="getKnown">
+          R
+        </button>
+      </h3>
     </div>
     <div v-if="knownPending">LOADING</div>
     <div v-else>
@@ -19,7 +22,6 @@
                 :key="c.name"
                 class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
               >
-                <KnownChat :chat="c" shape="chat" :group="pair[0]" />
                 <KnownResource :resource="c" shape="chat" :group="pair[0]" />
               </li>
             </ul>
@@ -58,9 +60,7 @@ import { mapState, mapGetters } from "vuex";
 
 import ExportKnown from "@/components/ExportKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
-import KnownChat from "@/components/KnownChat.vue";
-import KnownLink from "@/components/KnownLink.vue";
-import KnownPublish from "@/components/KnownPublish.vue";
+import KnownResource from "@/components/KnownResource.vue";
 
 export default defineComponent({
   data() {
@@ -112,9 +112,7 @@ export default defineComponent({
   components: {
     ExportKnown,
     DoleKnown,
-    KnownChat,
-    KnownLink,
-    KnownPublish,
+    KnownResource,
   },
 });
 </script>
