@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="tw-flex tw-flex-row">
+    <div class="tw-flex tw-flex-row tw-my-8">
       <!-- <Saved class="grow-0"/> -->
       <Known class="tw-grow" />
       <!-- <Admin class="grow"/> -->

@@ -442,6 +442,18 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     */
   }
 
+  /*
+  .label {
+    @apply tw-py-[2px];
+    @apply tw-px-[6px];
+    @apply tw-mr-2;
+    @apply tw-text-blue-400;
+    @apply tw-border;
+    @apply tw-rounded-md;
+    @apply tw-border-blue-300;
+    @apply tw-text-xs;
+  }
+
   select {
     @apply tw-rounded-md;
     @apply tw-py-1;
@@ -465,6 +477,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply tw-px-2;
     @apply tw-w-full;
   }
+  */
 
   .form-label {
     @apply tw-block;
@@ -526,6 +539,9 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply tw-border-2;
     @apply tw-rounded-full;
   } */
+  .v-overlay__content .v-card {
+    border-radius: 10px !important;
+  }
 }
 
 @tailwind components;
