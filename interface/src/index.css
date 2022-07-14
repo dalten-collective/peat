@@ -396,7 +396,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply tw-py-2;
   }
 
-  button {
+  button.tw {
     @apply tw-rounded-md;
     @apply tw-p-1;
     @apply tw-px-2;
@@ -423,6 +423,23 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply hover:tw-bg-blue-800;
 
     @apply active:tw-bg-blue-600;
+  }
+
+  button.btn-icon {
+    /* @apply hover:tw-bg-none;
+    @apply tw-text-green-500;
+    */
+    /*
+    @apply tw-bg-white;
+    @apply tw-text-xs;
+    /* @apply tw-font-thin; */
+    /*
+    @apply tw-rounded-full;
+    @apply tw-border;
+    @apply tw-border-green-400;
+    @apply active:tw-bg-white;
+    @apply hover:tw-shadow-md;
+    */
   }
 
   select {

@@ -1,13 +1,15 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
 import './index.css'
+import store from './store'
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
 
-import { createStore } from "./store";
+loadFonts()
 
-const app = createApp(App);
-const store = createStore(app);
-
-app.use(store);
-app.use(router);
-app.mount("#app");
+createApp(App)
+  .use(router)
+  .use(store)
+  .use(vuetify)
+  .mount('#app')

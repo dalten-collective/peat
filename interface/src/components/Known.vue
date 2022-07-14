@@ -2,16 +2,22 @@
   <div>
     <div>
       <h3>Known
-        <button class="btn-icon tw-bg-white tw-text-xs tw-text-green-500 tw-w-6 tw-h-6 tw-font-weight-thin tw-rounded-full tw-border tw-border-green-400 active:tw-bg-white hover:tw-bg-gray-100 hover:tw-shadow-md" @click="getKnown">
-          R
-        </button>
+        <v-btn
+        icon="mdi-cached"
+        size="small"
+        :loading="knownPending"
+        :disabled="knownPending"
+        variant="outlined"
+        color="info"
+        @click="getKnown"
+        ></v-btn>
       </h3>
     </div>
     <div v-if="knownPending">LOADING</div>
     <div v-else>
       <div>
         <ul class="tw-my-4">
-          <li v-for="pair in filterResourcesByGroup('')" :key="pair[0]" class="tw-p-2 tw-mb-8 tw-bg-gray-100 tw-border tw-shadow-md tw-rounded-md">
+          <li v-for="pair in filterResourcesByGroup('')" :key="pair[0]" class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md">
             <h4 class="tw-mb-4 tw-text-xl">
               <span class="font-mono">{{ pair[0] }}</span>
             </h4>

@@ -9,7 +9,7 @@
         <div>
           <span class="tw-font-bold">One-time export</span>
         </div>
-        <button class="action" @click="singleExport">Export {{ ship }}'s {{ resource }} once</button>
+        <v-btn color="success" text="white" @click="singleExport">Export {{ ship }}'s {{ resource }} once</v-btn>
       </div>
       <hr class="tw-my-2"/>
       <div>
@@ -51,7 +51,7 @@
 
           <div class="tw-text-right">
             <div class="tw-mb-1">
-            <button class="tw-action" @click="frequentExport">export {{ ship }}'s {{ resource }}</button>
+            <v-btn color="success" text="white" @click="frequentExport">export {{ ship }}'s {{ resource }}</v-btn>
             </div>
             <div>
               <span>{{ displayFrequency }}</span> <span class="tw-text-gray-400">({{ hoonedFrequcency }})</span>

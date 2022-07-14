@@ -9,8 +9,17 @@ dotenv.config();
 const target = process.env.VITE_URBIT_TARGET;
 const base = process.env.VITE_URBIT_DESK;
 
+// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
+import vuetify from 'vite-plugin-vuetify'
+
+
 export default defineConfig({
-  plugins: [vue(), urbitPlugin({ base, target })],
+  plugins: [
+		vue(),
+		urbitPlugin({ base,
+		target }),
+		vuetify({ autoImport: true }),
+],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
