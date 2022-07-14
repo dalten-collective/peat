@@ -28,7 +28,10 @@
         <span class="tw-font-mono">{{ resource.ship }}</span>
       </div>
     </div>
-    <ExportKnown :resource="resource.name" :ship="resource.ship" />
+    <div class="tw-flex tw-flex-row tw-justify-between">
+      <ExportKnown :resource="resource.name" :ship="resource.ship" />
+      <RemakeKnown :resource="resource.name" :ship="resource.ship" />
+    </div>
     <!-- <DoleKnown :resource="resource.name" :ship="resource.ship" /> -->
     <DisplaySaved :resource="resource" />
     <DisplayAdmin :resource="resource" :group="group" />
@@ -42,6 +45,7 @@ import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 
 import ExportKnown from "@/components/ExportKnown.vue";
+import RemakeKnown from "@/components/RemakeKnown.vue";
 import DoleKnown from "@/components/DoleKnown.vue";
 import DisplaySaved from "@/components/DisplaySaved.vue";
 import DisplayAdmin from "@/components/DisplayAdmin.vue";
@@ -61,6 +65,7 @@ export default defineComponent ({
 
   components: {
     ExportKnown,
+    RemakeKnown,
     DoleKnown,
     DisplaySaved,
     DisplayAdmin
