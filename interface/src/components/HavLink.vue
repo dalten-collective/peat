@@ -1,27 +1,24 @@
 <template>
-  <div class="tw-p-2">
-    <header class="tw-flex tw-justify-between tw-mb-6 tw-items-center">
+  <div class="tw-p-2 tw-flex tw-flex-col tw-justify-between">
+    <header class="tw-flex tw-justify-between tw-mb-6 tw-items-center tw-flex-grow">
       <div class="tw-flex tw-flex-row tw-items-center tw-mb-2">
         <div class="tw-border-l tw-border-b tw-border-t tw-rounded-sm tw-p-2">
           <span class="tw-text-xl">{{ resource.resource }}</span>
         </div>
       </div>
 
-      <div class="tw-basis-1/3 tw-text-center">
-      </div>
+    </header>
 
+    <footer class="tw-flex tw-flex-row tw-justify-between tw-items-center">
+      <div class="tw-flex tw-flex-col tw-align-middle">
+        <div>
+          <ImportHav :resource="resource" />
+        </div>
+      </div>
       <div class="tw-basis-1/3 tw-text-right">
         <div class="tw-flex tw-items-center tw-flex-row tw-justify-end">
           <span class="tw-mr-2 tw-text-gray-400">length</span>
           <span class="">{{ resource.length }}</span>
-        </div>
-      </div>
-    </header>
-
-    <footer class="tw-flex tw-flex-row tw-justify-between">
-      <div class="tw-flex tw-flex-col tw-align-middle">
-        <div>
-          <ImportHav :resource="resource" />
         </div>
       </div>
     </footer>

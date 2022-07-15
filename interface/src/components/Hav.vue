@@ -31,8 +31,8 @@
             </h4>
 
             <ul class="tw-my-2">
-              <ul>
-                <li v-for="l in havLinks" :key="l.resource" class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
+              <ul class="tw-flex tw-flex-row tw-flex-wrap tw-justify-start">
+                <li v-for="l in havLinks" :key="l.resource" class="tw-p-2 tw-w-60 tw-mx-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
                   <HavLink :resource="l" />
                 </li>
               </ul>
@@ -107,17 +107,37 @@
         <li
             class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
         >
-          <HavSkeleton />
-          <HavSkeleton />
+          <ul class="tw-flex tw-flex-row tw-flex-wrap tw-justify-start">
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+          </ul>
         </li>
       </ul>
       <ul class="tw-my-4">
         <li
             class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
         >
-          <HavSkeleton />
-          <HavSkeleton />
-          <HavSkeleton />
+          <ul class="tw-flex tw-flex-row tw-flex-wrap tw-justify-start">
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+            <li class="tw-p-2 tw-w-60 tw-mx-2" >
+              <HavSkeleton />
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
