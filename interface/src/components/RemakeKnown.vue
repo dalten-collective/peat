@@ -10,7 +10,7 @@
         remake</v-btn
       >
     </template>
-    <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface">
+    <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4">
       <v-card-title>
         <div class="tw-flex tw-flex-row tw-justify-between">
           <h2 class="tw-text-2xl">Remake</h2>
@@ -44,9 +44,8 @@
             </v-tooltip>
           </div>
           <v-form ref="form" v-model="formValid">
-            <v-container>
               <v-row>
-                <v-col cols="12" lg="4">
+                <v-col cols="12">
                   <v-select
                     :items="groupOptions"
                     label="New group"
@@ -57,33 +56,33 @@
                     :rules="[(v) => !!v || 'Must choose a group']"
                     persistent-hint
                     :hint="groupOptions.length === 0 ? 'You aren\'t the admin of any groups' : ''"
+                    hide-details="auto"
                   />
                 </v-col>
-                <v-col cols="12" lg="4">
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-text-field
                     label="New resource name"
                     v-model="newResourceName"
                     :rules="nameRules"
+                    hide-details="auto"
                   />
                 </v-col>
               </v-row>
-              <div class="tw-text-right">
-                <div>
-                  <!-- TODO: not working -->
-                  <v-tooltip location="top">
-                    <template v-slot:activator="{ props }">
-                      <v-btn
-                        color="success"
-                        text="white"
-                        @click="remake"
-                        :disabled="!formValid"
-                      >Remake {{ ship }}'s {{ resource }}</v-btn>
-                    </template>
-                    <span>The resource will be re-created with a new name (which can be the same as the old name) in the group of your choosing.</span>
-                  </v-tooltip>
-                </div>
-              </div>
-            </v-container>
+              <v-row>
+                <v-col cols="12" class="tw-text-right">
+                  <div>
+                    <v-btn
+                      color="success"
+                      text="white"
+                      @click="remake"
+                      :disabled="!formValid"
+                    >Remake {{ ship }}'s {{ resource }}</v-btn
+                    >
+                  </div>
+                </v-col>
+              </v-row>
           </v-form>
         </div>
       </v-card-text>

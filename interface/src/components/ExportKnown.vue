@@ -10,7 +10,7 @@
         export</v-btn
       >
     </template>
-    <v-card class="tw-border-4 tw-border-primary tw-bg-surface tw-w-96">
+    <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4">
       <v-card-title>
         <div class="tw-flex tw-flex-row tw-justify-between">
           <h2 class="tw-text-2xl">Export</h2>
@@ -45,8 +45,12 @@
             </v-tooltip>
           </div>
           <div>
-            <v-btn color="success" text="white" @click="singleExport"
-              >Export {{ ship }}'s {{ resource }} once</v-btn
+            <div class="tw-my-2">
+              <span class="tw-italic">Export <span class="tw-font-mono tw-not-italic">{{ ship }}</span>'s "{{ resource }}" once</span>
+            </div>
+            <v-btn color="success" text="white" @click="singleExport">
+              Export
+            </v-btn
             >
           </div>
         </div>
@@ -54,7 +58,7 @@
         <hr class="tw-my-4" />
 
         <div>
-          <div>
+          <div class="tw-mb-2">
             <span class="tw-font-bold">Recurring exports</span>
             <v-tooltip location="top">
               <template v-slot:activator="{ props }">
@@ -72,43 +76,52 @@
               >
             </v-tooltip>
           </div>
+
           <v-form>
-            <v-container>
               <v-row>
-                <v-col cols="12" lg="4">
+                <v-col cols="12">
                   <v-select
                     :items="daysOptions"
                     label="Days"
                     v-model="frequencyDays"
+                    hide-details="auto"
                   />
                 </v-col>
-                <v-col cols="12" lg="4">
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-select
                     :items="hoursOptions"
                     label="Hours"
                     v-model="frequencyHours"
+                    hide-details="auto"
                   />
                 </v-col>
-                <v-col cols="12" lg="4">
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-select
                     :items="minutesOptions"
                     label="Minutes"
                     v-model="frequencyMinutes"
+                    hide-details="auto"
                   />
                 </v-col>
               </v-row>
-              <div class="tw-text-right">
-                <div class="tw-mb-1">
-                  <v-btn color="success" text="white" @click="frequentExport"
-                    >export {{ ship }}'s {{ resource }}</v-btn
-                  >
+
+              <div>
+                <div class="tw-my-4">
+                  <div>
+                    <span class="tw-mr-2">{{ displayFrequency }}</span>
+                    <span class="tw-text-gray-400">({{ hoonedFrequcency }})</span>
+                  </div>
                 </div>
-                <div>
-                  <span>{{ displayFrequency }}</span>
-                  <span class="tw-text-gray-400">({{ hoonedFrequcency }})</span>
+                <div class="tw-mb-1">
+                  <v-btn color="success" text="white" @click="frequentExport">
+                    Export frequently
+                  </v-btn>
                 </div>
               </div>
-            </v-container>
           </v-form>
         </div>
       </v-card-text>

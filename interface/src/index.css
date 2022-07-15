@@ -70,9 +70,9 @@
 */
 
   hr {
-    height: 0; /* 1 */
-    color: inherit; /* 2 */
-    border-top-width: 1px; /* 3 */
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
   }
 
   /*
@@ -172,11 +172,11 @@ Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 3. Remove gaps between table borders by default.
 */
 
-  table {
-    text-indent: 0; /* 1 */
-    border-color: inherit; /* 2 */
-    border-collapse: collapse; /* 3 */
-  }
+  /*table {*/
+    /*text-indent: 0;*/
+    /*border-color: inherit;*/
+    /*border-collapse: collapse;*/
+  /*}*/
 
   /*
 1. Change the font styles in all browsers.
@@ -184,19 +184,19 @@ Prevent `sub` and `sup` elements from affecting the line height in all browsers.
 3. Remove default padding in all browsers.
 */
 
-  button,
-  input,
-  optgroup,
-  select,
-  textarea {
-    font-family: inherit; /* 1 */
-    font-size: 100%; /* 1 */
-    font-weight: inherit; /* 1 */
-    line-height: inherit; /* 1 */
-    color: inherit; /* 1 */
-    margin: 0; /* 2 */
-    padding: 0; /* 3 */
-  }
+  /*button,*/
+  /*input,*/
+  /*optgroup,*/
+  /*select,*/
+  /*textarea {*/
+    /*font-family: inherit;*/
+    /*font-size: 100%;*/
+    /*font-weight: inherit;*/
+    /*line-height: inherit;*/
+    /*color: inherit;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+  /*}*/
 
   /*
 Remove the inheritance of text transform in Edge and Firefox.
@@ -212,22 +212,22 @@ Remove the inheritance of text transform in Edge and Firefox.
 2. Remove default button styles.
 */
 
-  button,
-  [type="button"],
-  [type="reset"],
-  [type="submit"] {
-    -webkit-appearance: button; /* 1 */
-    background-color: transparent; /* 2 */
-    background-image: none; /* 2 */
-  }
+  /*button,*/
+  /*[type="button"],*/
+  /*[type="reset"],*/
+  /*[type="submit"] {*/
+    /*-webkit-appearance: button;*/
+    /*background-color: transparent;*/
+    /*background-image: none;*/
+  /*}*/
 
   /*
 Use the modern Firefox focus style for all focusable elements.
 */
 
-  :-moz-focusring {
-    outline: auto;
-  }
+  /*:-moz-focusring {*/
+    /*outline: auto;*/
+  /*}*/
 
   /*
 Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
@@ -331,20 +331,20 @@ Removes the default spacing and border for appropriate elements.
 Prevent resizing textareas horizontally by default.
 */
 
-  textarea {
-    resize: vertical;
-  }
+  /*textarea {*/
+    /*resize: vertical;*/
+  /*}*/
 
   /*
 1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-  input::placeholder,
-  textarea::placeholder {
-    opacity: 1; /* 1 */
-    color: theme("colors.gray.400", #9ca3af); /* 2 */
-  }
+  /*input::placeholder,*/
+  /*textarea::placeholder {*/
+    /*opacity: 1;*/
+    /*color: theme("colors.gray.400", #9ca3af);*/
+  /*}*/
 
   /*
 Set the default cursor for buttons.
@@ -391,10 +391,10 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
   }
 
   /* Mine */
-  form {
-    @apply tw-my-2;
-    @apply tw-py-2;
-  }
+  /*form {*/
+    /*@apply tw-my-2;*/
+    /*@apply tw-py-2;*/
+  /*}*/
 
   button.tw {
     @apply tw-rounded-md;
@@ -442,42 +442,16 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     */
   }
 
-  /*
-  * .label {
-  *   @apply tw-py-[2px];
-  *   @apply tw-px-[6px];
-  *   @apply tw-mr-2;
-  *   @apply tw-text-blue-400;
-  *   @apply tw-border;
-  *   @apply tw-rounded-md;
-  *   @apply tw-border-blue-300;
-  *   @apply tw-text-xs;
-  * }
-
-  * select {
-  *   @apply tw-rounded-md;
-  *   @apply tw-py-1;
-  *   @apply tw-px-2;
-  *   @apply tw-cursor-pointer;
-  *   @apply tw-border-transparent;
-  *   @apply tw-bg-gray-200;
-  *   @apply focus:tw-bg-white;
-  *   @apply focus:tw-ring-opacity-50;
-  *   @apply tw-mt-2;
-  * }
-  * input[type="text"] {
-  *   @apply focus:tw-bg-white;
-  *   @apply tw-border-transparent;
-  *   @apply focus:tw-border-gray-200;
-  *   @apply focus:tw-ring-opacity-50;
-  *   @apply tw-mt-2;
-  *   @apply tw-bg-gray-100;
-  *   @apply tw-rounded-md;
-  *   @apply tw-py-1;
-  *   @apply tw-px-2;
-  *   @apply tw-w-full;
-  * }
-  */
+  .label {
+    @apply tw-py-[2px];
+    @apply tw-px-[6px];
+    @apply tw-mr-2;
+    @apply tw-text-blue-400;
+    @apply tw-border;
+    @apply tw-rounded-md;
+    @apply tw-border-blue-300;
+    @apply tw-text-xs;
+  }
 
   .form-label {
     @apply tw-block;
@@ -530,15 +504,15 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     @apply tw-underline;
   }
   /* .form-status.error:before {
-  *   content: "!";
-  *   @apply tw-text-2xl;
-  *   @apply tw-h-24;
-  *   @apply tw-w-24;
-  *   @apply tw-p-1;
-  *   @apply tw-border-red-400;
-  *   @apply tw-border-2;
-  *   @apply tw-rounded-full;
-  * } */
+    content: "!";
+    @apply tw-text-2xl;
+    @apply tw-h-24;
+    @apply tw-w-24;
+    @apply tw-p-1;
+    @apply tw-border-red-400;
+    @apply tw-border-2;
+    @apply tw-rounded-full;
+  } */
   .v-overlay__content .v-card {
     border-radius: 10px !important;
   }
