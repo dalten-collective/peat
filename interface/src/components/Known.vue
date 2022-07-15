@@ -16,35 +16,15 @@
       </h3>
     </div>
 
-    <div v-if="knownPending">
-      <ul class="tw-my-4">
-        <li
-            class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
-        >
-          <KnownSkeleton />
-          <KnownSkeleton />
-        </li>
-      </ul>
-      <ul class="tw-my-4">
-        <li
-            class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
-        >
-          <KnownSkeleton />
-          <KnownSkeleton />
-          <KnownSkeleton />
-        </li>
-      </ul>
-    </div>
-
-    <div v-else> <!-- loaded -->
+    <div v-if="!knownPending"> <!-- loaded -->
       <div>
         <ul class="tw-my-4">
           <li
             v-for="pair in filterResourcesByGroup('')"
             :key="pair[0]"
-            class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
-          >
-            <h4 class="tw-mb-4 tw-text-xl">
+            class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+          > <!-- group -->
+            <h4 class="tw-mb-4 tw-text-xl tw-py-4">
               <span class="font-mono">{{ pair[0] }}</span>
             </h4>
 
@@ -89,6 +69,27 @@
         </ul>
       </div>
     </div>
+
+    <div v-else>
+      <ul class="tw-my-4">
+        <li
+            class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+        >
+          <KnownSkeleton />
+          <KnownSkeleton />
+        </li>
+      </ul>
+      <ul class="tw-my-4">
+        <li
+            class="tw-p-2 tw-mb-8 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+        >
+          <KnownSkeleton />
+          <KnownSkeleton />
+          <KnownSkeleton />
+        </li>
+      </ul>
+    </div>
+
   </div>
 </template>
 

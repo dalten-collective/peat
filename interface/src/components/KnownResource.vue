@@ -1,6 +1,6 @@
 <template>
   <div class="tw-p-2">
-    <div class="tw-flex tw-justify-between">
+    <header class="tw-flex tw-justify-between tw-mb-10">
       <div class="tw-basis-1/3 tw-mb-2">
         <div class="tw-flex tw-justify-between">
           <div>
@@ -24,22 +24,30 @@
       </div>
 
       <div class="tw-basis-1/3 tw-text-right">
-        <span class="tw-mr-2 tw-text-gray-400">owned by</span>
-        <span class="tw-font-mono">{{ resource.ship }}</span>
+        <div class="tw-flex tw-flex-row tw-justify-end">
+          <DisplayAdmin :resource="resource" :group="group" class="tw-mr-2"/>
+          <span class="tw-mr-2 tw-text-gray-400">owned by</span>
+          <span class="tw-font-mono">{{ resource.ship }}</span>
+        </div>
       </div>
-    </div>
-    <div class="tw-flex tw-flex-row tw-justify-between">
-      <ExportKnown :resource="resource.name" :ship="resource.ship" />
+    </header>
+
+    <footer class="tw-flex tw-flex-row tw-justify-between">
+      <div class="tw-flex tw-flex-col tw-align-middle">
+        <ExportKnown :resource="resource.name" :ship="resource.ship" />
+        <DisplaySaved
+          :resource="resource"
+          class="tw-text-sm tw-mt-2 tw-font-mono tw-opacity-50"
+        />
+      </div>
       <RemakeKnown
         :resource="resource.name"
         :ship="resource.ship"
         :current-group="group"
         :current-ship="resource.ship"
       />
-    </div>
+    </footer>
     <!-- <DoleKnown :resource="resource.name" :ship="resource.ship" /> -->
-    <DisplaySaved :resource="resource" />
-    <DisplayAdmin :resource="resource" :group="group" />
   </div>
 </template>
 

@@ -1,5 +1,9 @@
 <template>
-  <div v-if="!!isAdmin">ADNIN!</div>
+  <div v-if="!!isAdmin">
+    <v-chip variant="outlined" label size="small" color="info">
+      ADMIN
+    </v-chip>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,14 +1,38 @@
 <template>
   <v-dialog v-model="exportOpen">
     <template v-slot:activator="{ props }">
+
+      <v-hover v-if="isSaved" v-slot="{ isHovering, props }">
+        <v-btn
+          v-bind="props" color="success"
+          text="white"
+          @click="openExport"
+          v-if="isHovering"
+        >
+          <v-icon start>mdi-content-save</v-icon>
+          Export once or change frequency
+        </v-btn>
+        <v-btn
+          v-bind="props" color="success"
+          text="white"
+          @click="openExport"
+          v-else
+        >
+          <v-icon start>mdi-cached</v-icon>
+          exporting every {{ formatFreqAsHoon(isSaved.frequency) }}
+        </v-btn>
+      </v-hover>
+
       <v-btn
+        v-else
         v-bind="props" color="success"
         text="white"
         @click="openExport"
       >
         <v-icon start>mdi-content-save</v-icon>
-        export</v-btn
-      >
+        export
+      </v-btn>
+
     </template>
     <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4">
       <v-card-title>
@@ -127,23 +151,11 @@
       </v-card-text>
     </v-card>
   </v-dialog>
-
-  <div v-if="false">
-    <div>
-      <div v-if="!exportOpen">
-        <span
-          @click="exportOpen = !exportOpen"
-          class="tw-cursor-pointer tw-text-green-600 tw-underline"
-          >Export</span
-        >
-      </div>
-      <div v-if="exportOpen" class="tw-pa-2"></div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
   props: ["resource", "ship"],
@@ -158,6 +170,10 @@ export default defineComponent({
   },
 
   computed: {
+    ...mapGetters("peat", ["isRecurringSaved"]),
+    isSaved() {
+      return this.isRecurringSaved({ name: this.resource, ship: this.ship })
+    },
     daysOptions(): Array<number> {
       return [0].concat(
         Array(30)
@@ -200,17 +216,29 @@ export default defineComponent({
     },
 
     hoonedFrequcency(): string {
-      const days = this.frequencyDays ? `${"d" + this.frequencyDays}` : "";
-      const hours = this.frequencyHours ? `${"h" + this.frequencyHours}` : "";
-      const minutes = this.frequencyMinutes
-        ? `${"m" + this.frequencyMinutes}`
-        : "";
-      const worm = [days, hours, minutes].filter(Boolean); // trim out empties
-      return `~${worm.join(".")}`;
+      return this.formatFreqAsHoon({
+        days: this.frequencyDays,
+        hours: this.frequencyHours,
+        minutes: this.frequencyMinutes
+      })
     },
   },
 
   methods: {
+    openExport() {
+      this.exportOpen = true;
+    },
+
+    formatFreqAsHoon(freq: { days: number, minutes: number, hours: number }) {
+      const d = freq.days ? `${"d" + freq.days}` : "";
+      const h = freq.hours ? `${"h" + freq.hours}` : "";
+      const m = freq.minutes
+        ? `${"m" + freq.minutes}`
+        : "";
+      const worm = [d, h, m].filter(Boolean); // trim out empties
+      return `~${worm.join(".")}`;
+    },
+
     singleExport() {
       console.log("exporting");
       const payload = {
