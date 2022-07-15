@@ -1,11 +1,12 @@
 <template>
-  <v-card class="mt-8">
+  <v-card class="my-8">
     <div class="tw-flex tw-flex-row">
       <v-tabs
         v-model="tab"
         direction="onSmall ? 'horizontal' : 'vertical'"
-        color="surface"
-        class="tw-bg-primary"
+        color="info"
+        class="tw-bg-secondary"
+        density="comfortable"
       >
         <v-tab value="known">
           <v-icon start>mdi-flare</v-icon>
@@ -16,9 +17,9 @@
           On Disk
         </v-tab>
       </v-tabs>
-      <v-window v-model="tab" style="width: 100%;">
+      <v-window v-model="tab">
         <v-window-item value="known" class="tw-w-xl">
-          <v-card class="tw-grow tw-p-4 tw-bg-secondary">
+          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-primary tw-rounded-none tw-rounded-r-lg">
             <div class="tw-flex tw-flex-row tw-my-8">
               <!-- <Saved class="grow-0"/> -->
               <Known class="tw-grow" />
@@ -27,8 +28,12 @@
           </v-card>
         </v-window-item>
 
-        <v-window-item value="hav">
-          <Hav />
+        <v-window-item value="hav" class="tw-w-xl">
+          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-primary tw-rounded-none tw-rounded-r-lg">
+            <div class="tw-flex tw-flex-row tw-my-8">
+              <Hav />
+            </div>
+          </v-card>
         </v-window-item>
       </v-window>
     </div>

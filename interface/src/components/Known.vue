@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tw-w-screen">
     <div class="tw-flex tw-space-between">
       <div class="tw-grow">
         <h3 class="tw-text-3xl">

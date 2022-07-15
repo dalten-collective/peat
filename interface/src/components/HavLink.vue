@@ -1,42 +1,38 @@
 <template>
-  <div>
-    <ul>
-      <li>name: {{ resource.resource }}</li>
-      <li>length: {{ resource.length }}</li>
-      <hr/>
-    </ul>
-    <form class="tw-w-1/2">
-      <div class="tw-form-group">
-        <label>
-          <span class="tw-form-label">Group Name</span>
-          <input type="text" v-model="newGroupName" placeholder="group name"/>
-        </label>
+  <div class="tw-p-2">
+    <header class="tw-flex tw-justify-between tw-mb-6 tw-items-center">
+      <div class="tw-flex tw-flex-row tw-items-center tw-mb-2">
+        <div class="tw-border-l tw-border-b tw-border-t tw-rounded-sm tw-p-2">
+          <span class="tw-text-xl">{{ resource.resource }}</span>
+        </div>
       </div>
 
-      <div class="tw-form-group">
-        <label>
-          <span class="tw-form-label">New Resource Name</span>
-          <input type="text" v-model="newResourceName" placeholder="new name"/>
-        </label>
+      <div class="tw-basis-1/3 tw-text-center">
       </div>
 
-      <div class="tw-form-action">
-        <button @click="importResource" :disabled="importPending">Import {{ `as ${ newResourceName != '' ? `"${ newResourceName }"` : '' }` }} {{ `${ newGroupName != '' ? 'under ' + newGroupName + ' group' : '' }` }}</button>
+      <div class="tw-basis-1/3 tw-text-right">
+        <div class="tw-flex tw-items-center tw-flex-row tw-justify-end">
+          <span class="tw-mr-2 tw-text-gray-400">length</span>
+          <span class="">{{ resource.length }}</span>
+        </div>
       </div>
+    </header>
 
-      <div class="tw-form-status" :class="formStatus" v-if="importDoneShow">
-        <span>{{ importDoneMessage }}</span>
-        <footer v-if="clearStatusShow">
-          <a href="javascript:void(0)" @click="resetForm">Okay!</a>
-        </footer>
+    <footer class="tw-flex tw-flex-row tw-justify-between">
+      <div class="tw-flex tw-flex-col tw-align-middle">
+        <div>
+          <ImportHav :resource="resource" />
+        </div>
       </div>
-    </form>
+    </footer>
   </div>
+
 </template>
 
 <script lang="ts">
 import { importFromDisk } from '@/api/peat';
 import { defineComponent } from 'vue';
+import ImportHav from '@/components/ImportHav.vue'
 
 export default defineComponent({
     props: [
@@ -89,6 +85,10 @@ export default defineComponent({
         this.importPending = false;
         this.formStatus = '';
       },
-    }
+    },
+
+    components: {
+      ImportHav,
+    },
 })
 </script>

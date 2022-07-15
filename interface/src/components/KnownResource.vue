@@ -1,8 +1,8 @@
 <template>
   <div class="tw-p-2">
-    <header class="tw-flex tw-justify-between tw-mb-10">
+    <header class="tw-flex tw-justify-between tw-items-center tw-mb-10">
       <div class="tw-mb-2">
-        <div class="tw-flex">
+        <div class="tw-flex tw-items-center tw-border-l tw-border-b tw-border-t tw-rounded-sm tw-p-2">
           <div class="tw-w-28">
             <v-chip variant="outlined" label size="small" color="info" class="mr-2">
               <v-icon start v-if="shape === 'chat'" icon="mdi-chat-outline">
@@ -15,7 +15,7 @@
             </v-chip>
           </div>
           <div>
-            <span class="tw-font-bold tw-text-xl">{{ resource.name }}</span>
+            <span class="tw-text-xl">{{ resource.name }}</span>
           </div>
         </div>
       </div>
