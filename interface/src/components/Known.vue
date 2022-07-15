@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div>
-      <h3 class="tw-text-2xl tw-text-right">
+    <div class="tw-flex tw-space-between">
+      <div class="tw-grow">
+        <h3 class="tw-text-3xl">
+          Known Resources
+        </h3>
+      </div>
+      <div>
         <v-btn
           :loading="knownPending"
           :disabled="knownPending"
@@ -13,7 +18,7 @@
           <v-icon start>mdi-cached</v-icon>
           refresh
         </v-btn>
-      </h3>
+      </div>
     </div>
 
     <div v-if="!knownPending"> <!-- loaded -->
