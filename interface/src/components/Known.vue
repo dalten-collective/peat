@@ -1,18 +1,18 @@
 <template>
   <div>
     <div>
-      <h3 class="tw-text-2xl">
-        Known [tk: name for this]
+      <h3 class="tw-text-2xl tw-text-right">
         <v-btn
-          icon="mdi-cached"
-          size="xs-small"
           :loading="knownPending"
           :disabled="knownPending"
-          variant="outlined"
-          color="info"
-          class="tw-inline-block"
+          color="white"
+          variant="tonal"
+          class="tw-inline-block text-success"
           @click="getKnown"
-        ></v-btn>
+        >
+          <v-icon start>mdi-cached</v-icon>
+          refresh
+        </v-btn>
       </h3>
     </div>
 
@@ -24,7 +24,7 @@
             :key="pair[0]"
             class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
           > <!-- group -->
-            <h4 class="tw-mb-4 tw-text-xl tw-py-4">
+            <h4 class="tw-mb-4 tw-text-2xl tw-py-4">
               <span class="font-mono">{{ pair[0] }}</span>
             </h4>
 
