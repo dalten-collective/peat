@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="tw-basis-1/3 tw-text-right">
-        <div class="tw-flex tw-items-center tw-flex-row tw-justify-end">
+        <div class="tw-flex tw-items-center tw-flex-wrap tw-flex-row tw-justify-end">
           <span class="tw-mr-2 tw-text-gray-400">length</span>
           <span class="">{{ resource.length }}</span>
         </div>
