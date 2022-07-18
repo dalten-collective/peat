@@ -19,7 +19,7 @@
       </v-tabs>
       <v-window v-model="tab">
         <v-window-item value="known" class="tw-w-xl">
-          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-primary tw-rounded-none tw-rounded-r-lg">
+          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
             <div class="tw-flex tw-flex-row tw-my-8">
               <!-- <Saved class="grow-0"/> -->
               <Known class="tw-grow" />
@@ -29,7 +29,7 @@
         </v-window-item>
 
         <v-window-item value="hav" class="tw-w-xl">
-          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-primary tw-rounded-none tw-rounded-r-lg">
+          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
             <div class="tw-flex tw-flex-row tw-my-8">
               <Hav />
             </div>
