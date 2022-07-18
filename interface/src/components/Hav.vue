@@ -33,7 +33,7 @@
             <ul class="tw-my-2">
               <ul class="tw-flex tw-flex-row tw-flex-wrap tw-justify-start">
                 <li v-for="l in havLinks" :key="l.resource" class="tw-p-2 tw-w-60 tw-mx-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
-                  <HavLink :resource="l" />
+                  <HavResource :resource="l" shape="link" />
                 </li>
               </ul>
             </ul>
@@ -48,12 +48,8 @@
 
             <ul class="tw-my-2">
               <ul>
-                <li
-                  v-for="c in havChats"
-                  :key="c.resource"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
-                >
-                  <HavChat :resource="c" />
+                <li v-for="c in havChats" :key="c.resource" class="tw-p-2 tw-w-60 tw-mx-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
+                  <HavResource :resource="c" shape="chat" />
                 </li>
               </ul>
             </ul>
@@ -68,12 +64,8 @@
 
             <ul class="tw-my-2">
               <ul>
-                <li
-                  v-for="p in havPublishes"
-                  :key="p.resource"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
-                >
-                  <HavPublish :resource="p" />
+                <li v-for="p in havPublishes" :key="p.resource" class="tw-p-2 tw-w-60 tw-mx-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
+                  <HavResource :resource="p" shape="publish" />
                 </li>
               </ul>
             </ul>
@@ -88,16 +80,13 @@
 
             <ul class="tw-my-2">
               <ul>
-                <li
-                  v-for="d in havDms"
-                  :key="d.resource"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
-                >
-                  <HavDm :resource="d" />
+                <li v-for="d in havDms" :key="d.resource" class="tw-p-2 tw-w-60 tw-mx-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm" >
+                  <HavResource :resource="d" shape="dm" />
                 </li>
               </ul>
             </ul>
           </li>
+
         </ul>
       </div>
     </div>
@@ -150,6 +139,7 @@ import { HavResource } from '@/types';
 import { defineComponent } from 'vue';
 import { mapState, mapGetters } from 'vuex';
 // import * as peatAPI from "@/api/peat"
+import HavResource from "@/components/HavResource.vue";
 import HavChat from "@/components/HavChat.vue";
 import HavLink from "@/components/HavLink.vue";
 import HavPublish from "@/components/HavPublish.vue";
@@ -192,6 +182,7 @@ export default defineComponent({
   },
 
   components: {
+    HavResource,
     HavChat,
     HavLink,
     HavPublish,
