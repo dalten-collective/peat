@@ -1,4 +1,4 @@
-<template >
+<template>
   <v-app class="tw-font-silom">
     <v-main>
       <router-view/>
