@@ -1,7 +1,7 @@
 <template>
   <div class="tw-w-screen">
 
-    <div class="tw-flex tw-space-between tw-mb-2">
+    <div class="tw-flex tw-space-between tw-mb-4">
       <div class="tw-grow">
         <h3 class="tw-text-3xl">
           Known Resources
@@ -83,7 +83,13 @@
     <div v-if="!knownPending"> <!-- loaded -->
       <div>
         <ul class="tw-my-4">
+          <li v-if="filteredGroups.length === 0"
+            class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+          >
+            No resources match these filters
+          </li>
           <li
+            v-else
             v-for="pair in filteredGroups"
             :key="pair[0]"
             class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
@@ -239,6 +245,17 @@ export default defineComponent({
 
     filteredResources(resources, groupName) {
       let r = resources
+
+      if (this.textSearch === '') {
+        r = r
+      } else {
+        r = r.filter((r) => {
+          const bits = r.name.split('-')
+          return bits.filter((s: string) => {
+            return s.toLowerCase().startsWith(this.textSearch.toLowerCase())
+          }).length > 0
+        })
+      }
 
       if (this.adminOnly === 'all') {
         r = r
