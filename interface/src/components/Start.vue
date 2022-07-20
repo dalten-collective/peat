@@ -1,43 +1,42 @@
 <template>
-  <v-card class="my-8">
-    <div class="tw-flex tw-flex-row">
-      <v-tabs
-        v-model="tab"
-        direction="onSmall ? 'horizontal' : 'vertical'"
-        color="info"
-        class="tw-bg-secondary"
-        density="comfortable"
-      >
-        <v-tab value="known">
-          <v-icon start>mdi-flare</v-icon>
-          Live
-        </v-tab>
-        <v-tab value="hav">
-          <v-icon start>mdi-folder</v-icon>
-          On Disk
-        </v-tab>
-      </v-tabs>
-      <v-window v-model="tab">
-        <v-window-item value="known" class="tw-w-xl">
-          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
-            <div class="tw-flex tw-flex-row tw-my-8">
-              <!-- <Saved class="grow-0"/> -->
-              <Known class="tw-grow" />
-              <!-- <Admin class="grow"/> -->
-            </div>
-          </v-card>
-        </v-window-item>
+  <div class="my-8 tw-flex" :class="mobileClasses">
+    <v-tabs
+      v-model="tab"
+      direction="onSmall ? 'horizontal' : 'vertical'"
+      color="info"
+      class="tw-bg-secondary"
+      density="comfortable"
+    >
+      <v-tab value="known">
+        <v-icon start>mdi-flare</v-icon>
+        Live
+      </v-tab>
+      <v-tab value="hav">
+        <v-icon start>mdi-folder</v-icon>
+        On Disk
+      </v-tab>
+    </v-tabs>
 
-        <v-window-item value="hav" class="tw-w-xl">
-          <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
-            <div class="tw-flex tw-flex-row tw-my-8">
-              <Hav />
-            </div>
-          </v-card>
-        </v-window-item>
-      </v-window>
-    </div>
-  </v-card>
+    <v-window v-model="tab">
+      <v-window-item value="known" class="tw-w-xl">
+        <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
+          <div class="tw-flex tw-flex-row tw-my-8">
+            <!-- <Saved class="grow-0"/> -->
+            <Known class="tw-grow" />
+            <!-- <Admin class="grow"/> -->
+          </div>
+        </v-card>
+      </v-window-item>
+
+      <v-window-item value="hav" class="tw-w-xl">
+        <v-card class="tw-grow tw-p-4 tw-bg-white tw-border-r tw-border-t tw-border-b tw-border-secondary tw-rounded-none tw-rounded-r-lg">
+          <div class="tw-flex tw-flex-row tw-my-8">
+            <Hav />
+          </div>
+        </v-card>
+      </v-window-item>
+    </v-window>
+  </div>
 </template>
 
 <script lang="ts">
@@ -68,8 +67,12 @@ export default defineComponent({
   },
 
   computed: {
-    onSmall() {
-      return useDisplay().mobile
+    mobileClasses() {
+      const smol = this.onSmall() ? true : false
+      return {
+        'tw-flex-col': smol,
+        'tw-flex-row': !smol,
+      }
     },
   },
 
@@ -86,8 +89,12 @@ export default defineComponent({
       this.$store.dispatch("peat/getAdmin")
         .then((r) => {
           this.adminPending = false;
-          console.log('r ', r)
         })
+    },
+
+    onSmall() {
+      const display = useDisplay()
+      return display.smAndDown.value
     },
   },
 
