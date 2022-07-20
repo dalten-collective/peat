@@ -3,7 +3,7 @@
 
     <div class="tw-flex tw-space-between tw-mb-4">
       <div class="tw-grow">
-        <h3 class="tw-text-3xl">
+        <h3 class="tw-text-3xl tw-font-silom">
           Known Resources
         </h3>
       </div>
@@ -108,7 +108,7 @@
                 <li
                   v-for="c in filteredResources(pair[1].chats, pair[0])"
                   :key="c.name"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
+                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-peat"
                 >
                   <KnownResource :resource="c" shape="chat" :group="pair[0]" />
                 </li>
@@ -118,7 +118,7 @@
                 <li
                   v-for="l in filteredResources(pair[1].links, pair[0])"
                   :key="l.name"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
+                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-peat"
                 >
                   <KnownResource
                     :resource="l"
@@ -132,7 +132,7 @@
                 <li
                   v-for="p in filteredResources(pair[1].publishes, pair[0])"
                   :key="p.name"
-                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-sm"
+                  class="tw-p-2 tw-my-4 tw-bg-white tw-border tw-rounded-peat"
                 >
                   <KnownResource
                     :resource="p"
