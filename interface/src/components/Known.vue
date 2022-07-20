@@ -83,6 +83,16 @@
             color="info"
           ></v-text-field>
         </div>
+        <div class="tw-basis-1/3">
+          <v-select
+            color="info"
+            v-model="groupFilter"
+            label="Group"
+            hide-details="auto"
+            clearable
+            :items="filterableGroups"
+          ></v-select>
+        </div>
       </div>
     </div>
 
