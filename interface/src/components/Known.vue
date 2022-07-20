@@ -22,9 +22,29 @@
       </div>
     </div>
 
-    <div class="tw-flex tw-flex-col tw-space-between">
-      <div class="tw-flex tw-gap-y-2 tw-flex-col md:tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
-        <div class="md:tw-mr-2">
+    <div class="tw-text-right tw-mb-2">
+      <span v-if="filtersHidden" href="#" class="tw-cursor-pointer tw-text-success tw-underline" @click="filtersHidden = !filtersHidden">
+        Show Filters
+      </span>
+      <span v-else href="#" class="tw-cursor-pointer tw-text-success tw-underline" @click="filtersHidden = !filtersHidden">
+        Hide Filters
+      </span>
+    </div>
+
+    <div class="tw-flex tw-flex-col tw-space-between" v-if="!filtersHidden">
+      <div class="tw-flex tw-gap-y-2 tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-x-2 tw-flex-col tw-flex-wrap tw-justify-end tw-mb-2">
+        <div class="md:tw-basis-1/3">
+          <v-select
+            color="info"
+            v-model="groupFilter"
+            label="Group"
+            hide-details="auto"
+            clearable
+            placeholder="All groups"
+            :items="filterableGroups"
+          ></v-select>
+        </div>
+        <div class="md:tw-basis-1/3">
           <v-select
             color="info"
             v-model="adminOnly"
@@ -37,7 +57,7 @@
             ]"
           ></v-select>
         </div>
-        <div class="">
+        <div class="md:tw-basis-1/3">
           <v-select
             color="info"
             v-model="showAllExportStatus"
@@ -53,7 +73,7 @@
       </div>
 
       <div class="tw-flex tw-gap-y-2 tw-flex-col md:tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
-        <div class="md:tw-mr-2 md:tw-basis-1/2">
+        <div class="md:tw-basis-2/3">
           <v-text-field
             prepend-inner-icon="mdi-magnify"
             v-model="textSearch"
@@ -62,16 +82,6 @@
             clearable
             color="info"
           ></v-text-field>
-        </div>
-        <div class="tw-basis-1/3">
-          <v-select
-            color="info"
-            v-model="groupFilter"
-            label="Group"
-            hide-details="auto"
-            clearable
-            :items="filterableGroups"
-          ></v-select>
         </div>
       </div>
     </div>
@@ -177,6 +187,7 @@ export default defineComponent({
       showAllExportStatus: 'all',
       textSearch: '',
       groupFilter: '',
+      filtersHidden: false,
     };
   },
 
@@ -216,7 +227,6 @@ export default defineComponent({
 
       return g
     },
-
   },
 
   methods: {

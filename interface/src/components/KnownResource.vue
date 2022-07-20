@@ -1,6 +1,7 @@
 <template>
   <div class="tw-p-2">
-    <header class="tw-flex tw-justify-between tw-items-center tw-mb-10">
+    <header class="tw-flex tw-flex-col md:tw-flex-row tw-justify-between md:tw-items-center tw-mb-10">
+
       <div class="tw-mb-2">
         <div class="tw-flex tw-items-center tw-border-l tw-border-b tw-border-t tw-rounded-sm tw-p-2">
           <div class="tw-w-28">
@@ -23,8 +24,8 @@
       <div class="tw-basis-1/3 tw-text-center">
       </div>
 
-      <div class="tw-basis-1/3 tw-text-right">
-        <div class="tw-flex tw-flex-row tw-justify-end">
+      <div class="tw-basis-1/3 md:tw-text-right">
+        <div class="tw-flex tw-flex-row md:tw-justify-end">
           <DisplayAdmin :resource="resource" :group="group" class="tw-mr-2"/>
           <span class="tw-mr-2 tw-text-gray-400">owned by</span>
           <span class="tw-font-mono">{{ resource.ship }}</span>
@@ -32,8 +33,8 @@
       </div>
     </header>
 
-    <footer class="tw-flex tw-flex-row tw-justify-between">
-      <div class="tw-flex tw-flex-col tw-align-middle">
+    <footer class="tw-flex tw-flex-col md:tw-flex-row tw-justify-between">
+      <div class="tw-flex tw-flex-col tw-align-middle tw-mb-4 md:tw-mb-0">
         <ExportKnown :resource="resource.name" :ship="resource.ship" />
         <DisplaySaved
           :resource="resource"
