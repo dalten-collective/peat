@@ -23,8 +23,8 @@
     </div>
 
     <div class="tw-flex tw-flex-col tw-space-between">
-      <div class="tw-flex tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
-        <div class="tw-mr-2">
+      <div class="tw-flex tw-gap-y-2 tw-flex-col md:tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
+        <div class="md:tw-mr-2">
           <v-select
             color="info"
             v-model="adminOnly"
@@ -52,8 +52,8 @@
         </div>
       </div>
 
-      <div class="tw-flex tw-flex-grow tw-flex-row tw-flex-wrap tw-justify-end">
-        <div class="tw-mr-2 tw-basis-1/2">
+      <div class="tw-flex tw-gap-y-2 tw-flex-col md:tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
+        <div class="md:tw-mr-2 md:tw-basis-1/2">
           <v-text-field
             prepend-inner-icon="mdi-magnify"
             v-model="textSearch"
