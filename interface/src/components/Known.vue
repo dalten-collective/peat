@@ -22,41 +22,14 @@
       </div>
     </div>
 
-    <div class="tw-flex tw-flex-row tw-space-between">
-      <div class="tw-flex tw-flex-grow tw-flex-row tw-flex-wrap">
-        <div class="tw-mr-2 tw-flex-grow tw-flex-row tw-flex-wrap">
-          <v-text-field
-            prepend-inner-icon="mdi-magnify"
-            variant="underlined"
-            v-model="textSearch"
-            label="Search"
-            clearable
-            color="info"
-          ></v-text-field>
-        </div>
-        <div class="">
+    <div class="tw-flex tw-flex-col tw-space-between">
+      <div class="tw-flex tw-flex-row tw-flex-wrap tw-justify-end tw-mb-2">
+        <div class="tw-mr-2">
           <v-select
-            variant="underlined"
-            color="info"
-            v-model="groupFilter"
-            label="Group"
-            clearable
-            :items="filterableGroups"
-          ></v-select>
-        </div>
-      </div>
-
-      <div class="tw-flex-grow">
-      </div>
-
-
-      <div class="tw-flex tw-flex-row tw-flex-wrap">
-        <div class="tw-mr-4">
-          <v-select
-            variant="underlined"
             color="info"
             v-model="adminOnly"
             label="Admin status"
+            hide-details="auto"
             :items="[
               { title: 'All resources', value: 'all' },
               { title: 'Only show resources I admin', value: 'admin' },
@@ -66,15 +39,38 @@
         </div>
         <div class="">
           <v-select
-            variant="underlined"
             color="info"
             v-model="showAllExportStatus"
             label="Export status"
+            hide-details="auto"
             :items="[
               { title: 'All resources', value: 'all' },
               { title: 'Only auto-exporting', value: 'auto' },
               { title: 'Hide auto-exporting', value: 'none' },
             ]"
+          ></v-select>
+        </div>
+      </div>
+
+      <div class="tw-flex tw-flex-grow tw-flex-row tw-flex-wrap tw-justify-end">
+        <div class="tw-mr-2 tw-basis-1/2">
+          <v-text-field
+            prepend-inner-icon="mdi-magnify"
+            v-model="textSearch"
+            label="Search"
+            hide-details="auto"
+            clearable
+            color="info"
+          ></v-text-field>
+        </div>
+        <div class="tw-basis-1/3">
+          <v-select
+            color="info"
+            v-model="groupFilter"
+            label="Group"
+            hide-details="auto"
+            clearable
+            :items="filterableGroups"
           ></v-select>
         </div>
       </div>
@@ -84,7 +80,7 @@
       <div>
         <ul class="tw-my-4">
           <li v-if="filteredGroups.length === 0"
-            class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+            class="tw-p-4 tw-mb-12 tw-bg-white tw-border tw-shadow-md tw-rounded-md"
           >
             No resources match these filters
           </li>
@@ -92,7 +88,7 @@
             v-else
             v-for="pair in filteredGroups"
             :key="pair[0]"
-            class="tw-p-4 tw-mb-12 tw-bg-surface tw-border tw-shadow-md tw-rounded-md"
+            class="tw-p-4 tw-mb-12 tw-bg-white tw-border tw-shadow-md tw-rounded-md"
           > <!-- group -->
               <h4 class="tw-mb-4 tw-text-2xl tw-py-4">
                 <span class="font-mono">{{ pair[0] }}</span>
