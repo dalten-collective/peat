@@ -9,10 +9,10 @@ const peatTheme: ThemeDefinition = {
   dark: false,
   colors: {
     background: '#ffffff',
-    surface: '#F5F5F4',
-    primary: '#4c4842',
+    surface: '#f0efef',
+    primary: '#5e5a4f',
     'primary-darken-1': '#4c4842',
-    secondary: '#dbd9ce',
+    secondary: '#c6c6c5',
     'secondary-darken-1': '#bcb1a1',
     success: '#10B981',
     info: '#3B82F6',

@@ -1,4 +1,10 @@
 @tailwind base;
+
+@font-face {
+  font-family: "silom";
+  src: url("@/assets/fonts/silom.ttf");
+}
+
 @layer base {
   /* Replicating tw's preflight here, in order to make it easier to excise things
    * that vuetify might need
@@ -35,6 +41,7 @@
     -moz-tab-size: 4; /* 3 */
     tab-size: 4; /* 3 */
     font-family: theme(
+      "silom",
       "fontFamily.sans",
       ui-sans-serif,
       system-ui,
