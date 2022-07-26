@@ -61,7 +61,7 @@
     :_  this
     :~  :^  %pass  /peat/keys  %agent
         [[our.bowl %graph-store] %watch /keys]
-        (~(connect pass /eyre) [~ /apps/peat/upload] %peat)
+        (~(wait pass /init) (add now.bowl ~s1))
     ==
   ::
   ++  on-save
@@ -366,6 +366,9 @@
     :: ~>  %bout.[0 'on-watch-peat']
     ^-  (quip card _this)
     ?+    path  (on-watch:def path)
+        [%http-response *]
+      ?>  (team:title our.bowl src.bowl)
+      `this
         [%ogertalk %peat ~]
       ?>  (~(has by doled) src.bowl)
       :_  this
@@ -373,6 +376,7 @@
       [%hav (sy ~[src.bowl]) (~(got by doled) src.bowl)]
     ::
         [%website ~]
+        ?>  (team:title our.bowl src.bowl)
       :_  this
       =-  [%give %fact ~ json+!>(`json`-)]~
       %-  pairs:enjs:format
@@ -508,7 +512,6 @@
     ::
         [%x %hav ~]
       =-  ``[%json !>(`json`(frond available+a+-))]
-      ~&  >  ~(tap by stacks:pek:pl)
       %+  turn  ~(tap by stacks:pek:pl)
       |=  [s=shape av=(set [n=@tas l=@ud])]
       %-  pairs
@@ -529,6 +532,9 @@
     :: ~>  %bout.[0 'on-arvo-peat']
     ^-  (quip card _this)
     ?+    wire  (on-arvo:def wire sign)
+        [%init ~]
+      :_  this
+      ~[(~(connect pass /eyre) [~ /apps/peat/upload] %peat)]
         [%eyre ~]
       ?>  ?=([%eyre %bound *] sign)
       ?:  accepted.sign  `this
@@ -856,7 +862,6 @@
           %-  ~(uni by q)  ^+  q
           %-  ~(rep by old)
           |=  [[a=atom n=node:store] q=(map index node:store)]
-          ~&  >  post.n
           ?.  ?=(%.y -.post.n)  q
           ?:  %+  gra-s:pek:pl  ?
               %+  weld
@@ -882,7 +887,6 @@
       ^-  (list card)
       =|  q=(list card)
       |-
-      ~&  >>>  p
       ?~  p
         %.  q
         %-  slog
@@ -1140,54 +1144,313 @@
 ++  handle-http-request
   |=  [eyre-id=@ta inbound-request:eyre]
   ^-  (quip card _state)
+  =;  [payload=simple-payload:http caz=(list card) =_state]
+    :_  state
+    (weld caz (give-simple-payload:app eyre-id payload))
   =*  headers  header-list.request
   =/  req-line  (parse-request-line url.request)
-  ?>  authenticated
-  ?>  ?=(%'POST' method.request)
-  =;  [payload=simple-payload:http caz=(list card) =_state]
-    `state
-    :: :_  state
-    :: =-  [%give %fact ~[/website] json+!>(`json`-)]
-    :: (frond:enjs:format import-failure+s+'no-attachments-found')
-    :::_  state
-    ::%+  weld  caz
-    ::(give-simple-payload:app eyre-id payload)
-  ?.  ?=([[%apps %peat %upload ~] ?(~ [~ %html])] [site ext]:req-line)
-    [[404^~ ~] [~ state]]
-  ?~  maybe-parts=(de-request:multipart [header-list body]:request)
-    :-  [400^~ ~]
-    :_  state
-    =-  [%give %fact ~[/website] json+!>(`json`-)]~
-    (frond:enjs:format import-failure+s+'no files attached')
-  |^
-  =+  symmetry=(is-homogenous (need maybe-parts))
-  ?:  -.symmetry
-    (handle-upload (need maybe-parts) +.symmetry)
-  :-  [400^~ ~]
-  :_  state
-  =-  [%give %fact ~[/website] json+!>(`json`-)]~
-  (frond:enjs:format import-failure+s+'homogeneity failure')
-  ++  handle-upload
-    |=  [par=(list [@t p=part:multipart]) sap=shape]
-    ~&  >>>  (is-homogenous par)
-    |-
-    ?~  par
-      [[420^~ ~] ~ state]
-    ~&  >>  (need file.p.i.par)
-    $(par t.par)
-  ++  is-homogenous
-    |=  par=(list [@t p=part:multipart])
-    ^-  [? shape]
-    ?<  ?=(~ par)
-    ?:  =(1 (lent par))
-      [%.y (shape-shucker (need file.p.i.par))]
-    =-  [=(-.- +.-) (shape-shucker (need file.p.i.par))]
-    :-  (shape-shucker (need file.p.i.par))
-    ?<  ?=(~ t.par)
-    (shape-shucker (need file.p.i.t.par))
-  ++  shape-shucker
-    |=  t=@t
-    ;;  shape
-    +<:(rash t ;~(sfix ;~((glue cab) sym sym dem) (jest '.jam')))
+  |^  ?+  method.request  [[405^~ ~] ~ state]
+        %'GET'   [[200^~ `(make-upload-page ~)] ~ state]
+        %'POST'  take-upload-post
+      ==
+  ++  take-upload-post
+    ^-  [simple-payload:http (list card) _state]
+    ?~  parts=(de-request:multipart [header-list body]:request)
+      =-  [[400^~ `(make-upload-page -)] ~ state]
+      ~['Missing Data in POST - Complete Form']
+    =/  form=(each (each resource term) ~)               :: (each extant-group nu-group-name)
+      (coax-repete-form (malt u.parts))
+    =/  shap=(each [shape @tas] ~)                       :: (each [shape old-resource-name] ~)
+      (coax-prior-shape u.parts)
+    =/  rizo=(each term ~)                               ::  (each new-resource-name ~)
+      (coax-import-name (malt u.parts))
+    ?.  &(?=(%& -.form) ?=(%& -.shap) ?=(%& -.rizo))
+      =-  [[400^~ `(make-upload-page -)] ~ state]
+      ~['Missing Data in POST - Try recompleting the form']
+    =;  [cards=(list card) msg=(list @t)]
+      =-  [[200^~ `(make-upload-page -)] cards state]
+      ?~(msg ~['Upload Completed Successfully'] msg)
+      ::
+    =/  jams=(list jam)
+      %+  murn  u.parts
+      |=  [n=@t p=part:multipart]
+      ?.(=('files' n) ~ [~ `jam`body:p])
+    ?>  ?=(^ jams)
+    =*  mc5  ~(. kick-out-the-jams [p.form +.p.shap p.rizo jams])
+    ?:  ?=(%dm -.p.shap)
+      :-  dm-do:mc5
+      ~['%peat-import' '-reconciling-dms' '-importing-dms']
+    ?.  ?=(%& -.p.form)
+      ?<  (~(has in groups:pek:pl) [our.bol p.p.form])
+      :-  %-  welp  :_  imp-do:mc5
+          (add-to-new-group:biz:pl [our.bol p.rizo] -.p.shap p.p.form)
+      :~  '%peat-import'
+          '-import-starting'
+          (crip "-group: [{<our.bol>} {<p.p.form>}]")
+          (crip "-resource: [{<our.bol>} {<p.rizo>}]")
+      ==
+    ?>  (~(has in groups:pek:pl) p.p.form)
+    :-  %-  welp  :_  imp-do:mc5
+        (add-to-old-group:biz:pl [our.bol p.rizo] -.p.shap p.p.form)
+    :~  '%peat-import'
+        '-import-starting'
+        (crip "-group: [{<entity.p.p.form>} {<name.p.p.form>}]")
+        (crip "-resource: [{<our.bol>} {<p.rizo>}]")
+    ==
+  ++  kick-out-the-jams
+    |_  [gr=(each resource term) ol=term ne=term ja=(list jam)]
+    ++  dm-do
+      ^-  (list card)
+      =|  q=(map index node:store)
+      |-  ?~  ja
+        :~  :+  %pass   /import/dm-inbox/(scot %da now.bol)
+            :+  %agent  [our.bol %graph-store]
+            :+  %poke   %graph-update-3
+            !>  ^-  update:store
+            [now.bol %add-nodes [our.bol %dm-inbox] q]
+        ==
+      %=    $
+        ja  t.ja
+      ::
+          q
+        ^+  q
+        %-  ~(uni by q)  ^+  q
+        %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
+        |=  [[a=atom n=node:store] q=(map index node:store)]
+        ?.  ?=(%& -.post.n)  q
+        ?:  %+  gra-s:pek:pl  ?
+            %+  weld  /graph/(scot %p our.bol)/dm-inbox/node/exists
+            (turn index.p.post.n (cury scot %ud))
+          q
+        (~(put by q) index.p.post.n n)
+      ==
+    ++  imp-do
+      ^-  (list card)
+      =|  q=(list card)
+      |-  ?~  ja  q
+      %=    $
+        ja  t.ja
+      ::
+          q  
+        ^+  q
+        :_  q
+        =-  :+  %pass   /import/[ol]/(scot %da now.bol)
+            :+  %agent  [our.bol %graph-store]
+            :+  %poke   %graph-update-3
+            !>  ^-  update:store
+            [now.bol %add-nodes [our.bol ne] -]
+          %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
+          |=  [[a=atom n=node:store] q=(map index node:store)]
+          ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
+        :: %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
+        :: |=  [[a=atom n=node:store] q=(map index node:store)]
+        :: ?.  ?=(%.y -.post.n)  q
+        :: =+  pb=p.post.n
+        :: =.  p.post.n
+        ::   =-  p.post.n(contents -)
+        ::   %+  turn  contents.p.post.n
+        ::   |=  con=content
+        ::   ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
+        ::   ?.  =(ol +.resource.uid.reference.con)  con
+        ::   :^  %reference  %graph
+        ::     `resource`?:(?=(%& -.gr) p.gr [our.bol p.gr])
+        ::   [`resource`[our.bol ne] index.uid.reference.con]
+        :: =?    hash.p.post.n
+        ::     !=(pb p.post.n)
+        ::   ^-  (unit @ux)
+        ::   :-  ~  ;;  @ux
+        ::   (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
+        :: =?    signatures.p.post.n
+        ::     ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
+        ::         !=(pb p.post.n)
+        ::     ==
+        ::   ~
+        :: (~(put by q) index.p.post.n n)
+      ==
+    --
+  ++  coax-prior-shape
+    |=  par=(list [@t =part:multipart])
+    ^-  (each [shape @tas] ~)
+    =/  files=(list path)
+      %+  murn  par
+      |=  [t=@t p=part:multipart]
+      ?.  =('files' t)  ~
+      ?~  file.p  ~
+      ?~  type.p  ~
+      =-  ?~(filp=(rush u.file.p -) ~ `u.filp)
+      =,  de-purl:html
+      %+  cook
+        |=(pork (weld q (drop p)))
+      (cook deft (more fas smeg))
+    ?~  files  [%.n ~]
+    =/  arche=[old=(unit @t) sap=(unit shape)]
+      :-  `(slav %tas (head i.files))
+      =-  ?~(- - `;;(shape q.u.-))
+      ^-  (unit [p=@tas q=@tas r=@ud])
+      (rush +<.i.files ;~((glue cab) sym sym dem))
+    ?:  |(?=(~ old.arche) ?=(~ sap.arche))  [%.n ~]
+    =-  ?.  -  [%.n ~]
+        [%.y [u.sap.arche u.old.arche]]
+    %+  levy  `(list path)`files
+    |=  p=path
+    =;  [old=(unit @t) sap=(unit shape)]
+      ?:  |(?=(~ old) ?=(~ sap))  %.n
+      &(=(u.old.arche u.old) =(u.sap.arche u.sap))
+    :-  `(slav %tas (head i.files))
+    =-  ?~(- - `;;(shape q.u.-))
+    ^-  (unit [p=@tas q=@tas r=@ud])
+    (rush +<.i.files ;~((glue cab) sym sym dem))
+  ++  coax-repete-form
+    |=  m=(map @t part:multipart)
+    ^-  (each (each resource term) ~)
+    ?.  ?&  (~(has by m) 'files')
+            (~(has by m) 'resource')
+        ==
+      [%.n ~]
+    ?~  gro=(~(get by m) 'group')
+      ?~  nug=(~(get by m) 'nugru')
+        [%.n ~]
+      ?~  gru=(rush body.u.nug ;~(pose ;~(pfix cen sym) sym))
+        [%.n ~]
+      [%.y [%.n u.gru]]
+    ?~  gup=(rush body.u.gro ;~((glue bar) ;~(pfix sig crub:so) sym))
+      [%.n ~]
+    ?>  ?=(%p -<.u.gup)
+    [%.y [%.y [->.u.gup +.u.gup]]]
+  ++  coax-import-name
+    |=  m=(map @t part:multipart)
+    ^-  (each term ~)
+    ?~  raw=(~(get by m) 'resource')  [%.n ~]
+    ?~  res=(rush body.u.raw ;~(pose ;~(pfix cen sym) sym))  [%.n ~]
+    [%.y u.res]
+  ++  make-upload-page
+    |=  errs=(list @t)
+    ^-  octs
+    %-  as-octt:mimes:html
+    %-  en-xml:html
+    ^-  manx
+    ::  groups where we are admin, to which we can restore graphs
+    ::
+    =/  groups=marl
+      %-  ~(rep in groups:pek:pl)
+      |=  [r=resource q=marl]
+      ^-  marl
+      :_  q  ^-  manx
+      ;option
+        =name   "group"
+        =value  "{(scow %p -.r)}|{(scow %tas +.r)}"
+        ;+  :/"{(scow %p -.r)} %{(scow %tas +.r)}"
+      ==
+    ::
+    ;html
+      ;head
+        ;title:"%peat importer"
+        ;meta(charset "utf-8");
+        ;style:'''
+               * { font-family: monospace; margin-top: 1em; }
+               '''
+      ==
+    ::
+      ;body
+        ;h2:"%peat importer"
+        ;+  ?.  =(~ errs)
+              :-  [%p ~]
+              (join `manx`;br; (turn errs |=(m=@t `manx`:/"{(trip m)}")))
+            ;ol
+              ;li:"""
+                  %peat can import to either an extant group, or a new group.
+                  Based on your needs, please use the correct form, below.
+                  """
+              ;li:"""
+                  Make sure to select the folder in which your backups were
+                  saved, and not just the files internal to that folder.
+                  We use the folder to get the name of the resource for
+                  several things, reference replacements, e.g.
+                  """
+              ;li:"Include a name for the new resource"
+              ;li:"Import!"
+            ==
+        ;table
+          ;tr
+            ;td
+              ;h3:"Add to Existing Group"
+            ==
+            ;td
+              ;h3:"Add to New Group"
+            ==
+          ==
+          ;tr
+            ;td
+              ;form(method "post", enctype "multipart/form-data")
+                ;label
+                  ;+  :/"Import Folder: "
+                  ;input
+                    =type             "file"
+                    =name             "files"
+                    =required         ""
+                    =directory        ""
+                    =mozdirectory     ""
+                    =webkitdirectory  "";
+                ==
+                ;br;
+                ;label
+                  ;+  :/"Extant Group: "
+                  ;select
+                    =name      "group"
+                    =required  ""
+                    ;option(value "", hidden ""):"Import to Groups: "
+                    ;*  ?.  ?=(~ groups)  groups
+                        ;=  ;option(value "", hidden ""):"Empty"
+                        ==
+                  ==
+                ==
+                ;br;
+                ;label
+                  ;+  :/"New Graph Name: "
+                  ;input
+                    =name      "resource"
+                    =type      "text"
+                    =required  "";
+                ==
+                ;br;
+                ;button(type "submit"):"Create Graph -> Add to Group -> Import"
+              ==
+            ==
+            ;td
+              ;form(method "post", enctype "multipart/form-data")
+                ;label
+                  ;+  :/"Import Folder: "
+                  ;input
+                    =type             "file"
+                    =name             "files"
+                    =required         ""
+                    =directory        ""
+                    =mozdirectory     ""
+                    =webkitdirectory  "";
+                ==
+                ;br;
+                ;label
+                  ;+  :/"New Group Name: "
+                  ;input
+                    =name      "nugru"
+                    =type      "text"
+                    =required  "";
+                ==
+                ;br;
+                ;label
+                  ;+  :/"New Graph Name: "
+                  ;input
+                    =name      "resource"
+                    =type      "text"
+                    =required  "";
+                ==
+                ;br;
+                ;button(type "submit"):"Create Group, Graph -> Import"
+              ==
+            ==
+          ==
+        ==
+      ==
+    ==
   --
 --
