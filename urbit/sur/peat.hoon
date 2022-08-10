@@ -46,6 +46,7 @@
           gro=(each resource term)                       ::  - group in which to place the new resource
           wer=term                                       ::  - new resource name - we'll make it for you
       ==
+      [%relay jon=json]
   ==
 ::
 ::  peat's facts - agent interface
