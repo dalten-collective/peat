@@ -54,11 +54,14 @@
                 <v-select
                   :items="groupOptions"
                   label="Import to existing group"
-                  required
                   v-model="existingGroupForResource"
                   :loading="adminPending"
                   :disabled="groupOptions.length === 0"
                   persistent-hint
+                  clearable
+                  :item-title="item => `${ item.entity } - ${ item.name }`"
+                  item-value="name"
+                  return-object
                   :hint="
                     groupOptions.length === 0
                       ? 'You aren\'t the admin of any groups'
@@ -75,7 +78,7 @@
                 <v-text-field
                   v-model="newGroupName"
                   label="Import to new group"
-                  :rules="newGroupRules"
+                  :rules="newGroupRules.concat(nameRules)"
                   hint="Peat will create this new group for you"
                 />
               </v-col>
@@ -85,7 +88,7 @@
                 <v-text-field
                   v-model="newResourceName"
                   label="New resource name"
-                  :rules="nameRules"
+                  :rules="resourceNamePresenceRules.concat(nameRules)"
                 />
               </v-col>
             </v-row>
@@ -150,16 +153,18 @@ export default defineComponent({
       importOpen: false,
       adminPending: false,
       newGroupName: "",
-      existingGroupForResource: "",
+      existingGroupForResource: null,
       newResourceName: "",
       formValid: false,
-      nameRules: [
+      resourceNamePresenceRules: [
         (v: string) => !!v || "Resource name is required",
+      ],
+      nameRules: [
         (v: string) =>
-          /^[\w-]+$/.test(v) ||
+          (!v || /^[\w-]+$/.test(v)) ||
           "Must use kebab-case-for-name; no special characters",
         (v: string) =>
-          /^[a-zA-Z].*$/.test(v) || "First character must be a letter",
+          (!v || /^[a-zA-Z].*$/.test(v)) || "First character must be a letter",
       ],
     };
   },
@@ -167,12 +172,12 @@ export default defineComponent({
   computed: {
     ...mapState("peat", ["admin"]),
     groupOptions() {
-      return this.admin.map((a: Admin) => a.name);
+      return this.admin.slice()
     },
 
     chosenGroup() {
-      if (this.existingGroupForResource !== "") {
-        return this.existingGroupForResource;
+      if (this.existingGroupForResource) {
+        return this.existingGroupAsString(this.existingGroupForResource);
       }
       if (this.newGroupName !== "") {
         return this.newGroupName;
@@ -184,14 +189,15 @@ export default defineComponent({
       if (this.chosenGroup !== "") {
         return [true];
       }
-      if (this.existingGroupForResource === "") {
+      if (!this.existingGroupForResource) {
         return ["Choose an existing group or create a new one"];
       }
       return [true];
     },
 
     newGroupRules() {
-      if (this.newGroupName === "" && this.existingGroupForResource === "") {
+      const tasRegex = /^[\w-]+$/
+      if (this.newGroupName === "" && !this.existingGroupForResource) {
         return ["Enter a group name to create a new group for this import"];
       }
       return [true];
@@ -206,7 +212,7 @@ export default defineComponent({
     },
     newGroupName(val: string) {
       if (val) {
-        this.existingGroupForResource = "";
+        this.existingGroupForResource = null;
         this.validateForm();
       }
     },
@@ -224,6 +230,10 @@ export default defineComponent({
   methods: {
     openImport() {
       this.importOpen = true;
+    },
+
+    existingGroupAsString(entityNamePair) {
+      return `${ entityNamePair.entity } - ${ entityNamePair.name }`
     },
 
     validateForm() {
@@ -272,13 +282,24 @@ export default defineComponent({
       this.importDoneMessage = "Import started, please wait a moment...";
       this.formStatus = "";
 
+      let sanitizedGroupName = '';
+      if (
+          this.existingGroupForResource &&
+          this.existingGroupForResource.hasOwnProperty("entity") &&
+          this.existingGroupForResource.hasOwnProperty("name")
+        ) {
+        sanitizedGroupName = `${ this.existingGroupForResource.entity } ${ this.existingGroupForResource.name }`
+      } else {
+        sanitizedGroupName = `${ this.chosenGroup }`
+      }
+      console.log('sanny ', sanitizedGroupName)
       const payload: {
         folder: string;
         groupName: string;
         newResourceName: string;
       } = {
         folder: this.resource.resource,
-        groupName: this.chosenGroup,
+        groupName: sanitizedGroupName,
         newResourceName: this.newResourceName,
       };
 
