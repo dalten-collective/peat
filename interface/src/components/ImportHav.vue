@@ -1,6 +1,8 @@
 <template>
   <v-dialog v-model="importOpen">
     <template v-slot:activator="{ props }">
+      <slot :klick="openImport" >
+      </slot>
       <v-btn v-bind="props" color="success" text="white" @click="openImport">
         <v-icon start>mdi-package-up</v-icon>
         import
@@ -49,49 +51,62 @@
       <v-card-text v-else>
         <div class="tw-mt-2">
           <v-form ref="form" v-model="formValid">
-            <v-row>
-              <v-col cols="12">
-                <v-select
-                  :items="groupOptions"
-                  label="Import to existing group"
-                  v-model="existingGroupForResource"
-                  :loading="adminPending"
-                  :disabled="groupOptions.length === 0"
-                  persistent-hint
-                  clearable
-                  :item-title="item => `${ item.entity } - ${ item.name }`"
-                  item-value="name"
-                  return-object
-                  :hint="
-                    groupOptions.length === 0
-                      ? 'You aren\'t the admin of any groups'
-                      : ''
-                  "
-                  hide-details="auto"
-                  :rules="existingGroupRules"
-                />
-              </v-col>
-            </v-row>
+            <div v-if="usingUpload">
+              <v-row>
+                <v-file-input
+                  show-size
+                  counter
+                  multiple
+                  label="Select .jam files"
+                  accept=".jam,text/jam"
+                ></v-file-input>
+              </v-row>
+            </div>
+            <div v-else>
+              <v-row>
+                <v-col cols="12">
+                  <v-select
+                    :items="groupOptions"
+                    label="Import to existing group"
+                    v-model="existingGroupForResource"
+                    :loading="adminPending"
+                    :disabled="groupOptions.length === 0"
+                    persistent-hint
+                    clearable
+                    :item-title="item => `${ item.entity } - ${ item.name }`"
+                    item-value="name"
+                    return-object
+                    :hint="
+                      groupOptions.length === 0
+                        ? 'You aren\'t the admin of any groups'
+                        : ''
+                    "
+                    hide-details="auto"
+                    :rules="existingGroupRules"
+                  />
+                </v-col>
+              </v-row>
 
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="newGroupName"
-                  label="Import to new group"
-                  :rules="newGroupRules.concat(nameRules)"
-                  hint="Peat will create this new group for you"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="newResourceName"
-                  label="New resource name"
-                  :rules="resourceNamePresenceRules.concat(nameRules)"
-                />
-              </v-col>
-            </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="newGroupName"
+                    label="Import to new group"
+                    :rules="newGroupRules.concat(nameRules)"
+                    hint="Peat will create this new group for you"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="newResourceName"
+                    label="New resource name"
+                    :rules="resourceNamePresenceRules.concat(nameRules)"
+                  />
+                </v-col>
+              </v-row>
+            </div> <!-- no upload -->
 
             <div>
               <div class="tw-my-4">
@@ -146,7 +161,7 @@ import { mapGetters, mapState } from "vuex";
 import { Admin } from "@/types";
 
 export default defineComponent({
-  props: ["resource", "dm"],
+  props: ["resource", "dm", "usingUpload"],
 
   data() {
     return {
