@@ -44,7 +44,7 @@
                 The <span class="tw-text-info tw-font-bold">ON DISK</span> section surveys the contents of Peat's <span class="tw-font-mono">hav/</span> directory. More on this later.
               </p>
               <p>
-                Use the <span class="tw-text-info tw-font-bold">EXPORT</span> feature to back up a given graph. An archive of the graph will be created in your <span class="tw-font-mono">/&lt;pier_name&gt;/urb/put</span> directory inside of a folder with the name of the resource.
+                Use the <span class="tw-text-info tw-font-bold">EXPORT</span> feature to back up a given graph. An archive of the graph will be created in your <span class="tw-font-mono">/&lt;pier_name&gt;/urb/put</span> directory inside of a folder named after the resource.
               </p>
               <ul class="tw-list-disc tw-my-2">
                 <li>You can perform a single export. Or:</li>
@@ -57,17 +57,17 @@
               </p>
 
               <p class="tw-mb-2">
-                In the <span class="tw-text-info tw-font-bold">ON DISK</span> section, you can <span class="tw-text-info tw-font-bold">IMPORT</span> from a graph from the <span class="tw-font-mono">hav/</span> directory, if you hav anything there. This graph can be restored to an existing group, or Peat can create a new one for you.
+                In the <span class="tw-text-info tw-font-bold">ON DISK</span> section, you can <span class="tw-text-info tw-font-bold">IMPORT</span> a graph from the <span class="tw-font-mono">hav/</span> directory, if you hav anything there. This graph can be restored to an existing group, or Peat can create a new one for you.
               </p>
 
               <p class="tw-mb-2">
-                You can also <span class="tw-text-info tw-font-bold">UPLOAD FROM DISK</span>. Choose a folder that contains a <span class="tw-font-mono">.jam</span> file and import it similarly to the above process.
+                You can also <span class="tw-text-info tw-font-bold">UPLOAD FROM DISK</span>. Choose a folder that contains a <span class="tw-font-mono">.jam</span> file and import it as above.
               </p>
 
               <h2 class="tw-text-xl tw-my-4">Inter-ship Sharing</h2>
 
               <p class="tw-mb-2">
-                The Peat agent allows you to share and import graphs with remote/pals' ships. This is helpful for re-creating resources that you know about on distant ships that have breached. These tools are not yet supported by this interface, but will be coming soon. Contact someone at Quartus if you plan to use the Dojo to attempt that for now.
+                The Peat agent allows you to share and import graphs with remote/pals' ships. This is helpful for re-creating resources that you know about on distant ships that have breached. These tools are not yet supported by this interface, but will be coming soon. For now, contact someone at Quartus if you plan to use the Dojo to attempt that.
               </p>
 
               <h2 class="tw-text-xl tw-my-4">Help</h2>
