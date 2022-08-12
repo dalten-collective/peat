@@ -5,19 +5,34 @@ import 'vuetify/styles'
 // Vuetify
 import { createVuetify, ThemeDefinition } from 'vuetify'
 
+import theme from '../theme'
+
 const peatTheme: ThemeDefinition = {
   dark: false,
   colors: {
-    background: '#ffffff',
-    surface: '#F5F5F4',
-    primary: '#4c4842',
+    background: theme.white,
+    // surface: '#f0efef',
+    surface: theme.secondaryGray,
+    primary: theme.darkTextColor,
+    // primary: '#3b82f6',
     'primary-darken-1': '#4c4842',
-    secondary: '#dbd9ce',
+    // secondary: '#c6c6c5',
+    secondary: theme.secondaryGray,
     'secondary-darken-1': '#bcb1a1',
-    success: '#10B981',
-    info: '#3B82F6',
+    // success: '#10B981',
+    success: theme.actionColor,
+    info: theme.accentColor,
     error: '#E11D48',
     warning: '#FBBF24',
+    'on-background': theme.darkTextColor,
+    'on-surface': theme.darkTextColor,
+    'on-primary': 'white',
+    'on-secondary': theme.darkTextColor,
+    'on-success': 'white',
+    'on-warning': 'white',
+    'on-error': 'white',
+    'on-info': 'white',
+
   },
 }
 
