@@ -2,11 +2,11 @@
   <v-dialog v-model="importOpen">
     <template v-slot:activator="{ props }">
       <slot :klick="openImport" >
+        <v-btn v-bind="props" color="success" text="white" @click="openImport">
+          <v-icon start>mdi-package-up</v-icon>
+          import
+        </v-btn>
       </slot>
-      <v-btn v-bind="props" color="success" text="white" @click="openImport">
-        <v-icon start>mdi-package-up</v-icon>
-        import
-      </v-btn>
     </template>
 
     <v-card class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4">
@@ -50,25 +50,33 @@
 
       <v-card-text v-else>
         <div class="tw-mt-2">
-          <v-form ref="form" v-model="formValid">
-            <div v-if="usingUpload">
+
+          <div v-show="usingUpload">
+            <form ref="upload-form" action="http://localhost:8080/apps/peat/upload" method="POST" enctype="multipart/form-data">
               <v-row>
                 <v-file-input
+                  required
                   show-size
                   counter
                   multiple
-                  label="Select .jam files"
+                  label="Select folder containing .jam"
                   accept=".jam,text/jam"
+                  webkitdirectory
+                  directory
+                  mozdirectory
+                  name="files"
+                  v-model="files"
+                  :rules="[(f) => f.length > 0 || 'Select a folder with .jam to import']"
                 ></v-file-input>
               </v-row>
-            </div>
-            <div v-else>
               <v-row>
                 <v-col cols="12">
                   <v-select
                     :items="groupOptions"
                     label="Import to existing group"
                     v-model="existingGroupForResource"
+                    id="uploadGroup"
+                    name="group"
                     :loading="adminPending"
                     :disabled="groupOptions.length === 0"
                     persistent-hint
@@ -91,6 +99,8 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="newGroupName"
+                    id="uploadNugru"
+                    name="nugru"
                     label="Import to new group"
                     :rules="newGroupRules.concat(nameRules)"
                     hint="Peat will create this new group for you"
@@ -101,12 +111,63 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="newResourceName"
+                    id="uploadResource"
+                    name="resource"
                     label="New resource name"
                     :rules="resourceNamePresenceRules.concat(nameRules)"
                   />
                 </v-col>
               </v-row>
-            </div> <!-- no upload -->
+            </form>
+          </div>
+
+          <div v-show="!usingUpload">
+            <v-form ref="form" v-model="formValid">
+                <v-row>
+                  <v-col cols="12">
+                    <v-select
+                      :items="groupOptions"
+                      label="Import to existing group"
+                      v-model="existingGroupForResource"
+                      :loading="adminPending"
+                      :disabled="groupOptions.length === 0"
+                      persistent-hint
+                      clearable
+                      :item-title="item => `${ item.entity } - ${ item.name }`"
+                      item-value="name"
+                      return-object
+                      :hint="
+                        groupOptions.length === 0
+                          ? 'You aren\'t the admin of any groups'
+                          : ''
+                      "
+                      hide-details="auto"
+                      :rules="existingGroupRules"
+                    />
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="newGroupName"
+                      label="Import to new group"
+                      :rules="newGroupRules.concat(nameRules)"
+                      hint="Peat will create this new group for you"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="newResourceName"
+                      label="New resource name"
+                      :rules="resourceNamePresenceRules.concat(nameRules)"
+                    />
+                  </v-col>
+                </v-row>
+            </v-form>
+          </div> <!-- no upload -->
 
             <div>
               <div class="tw-my-4">
@@ -126,7 +187,18 @@
                   >
                 </div>
               </div>
-              <div class="tw-mb-1">
+              <div v-if="usingUpload" class="tw-mb-1">
+                <v-btn
+                  color="success"
+                  :disabled="importPending || !formValid || files.length == 0"
+                  :loading="importPending"
+                  text="white"
+                  @click.prevent="fileUpload"
+                >
+                  Upload and Import
+                </v-btn>
+              </div>
+              <div v-else class="tw-mb-1">
                 <v-btn
                   color="success"
                   :disabled="importPending || !formValid"
@@ -148,7 +220,6 @@
                 </footer>
               </div>
             </div>
-          </v-form>
         </div>
       </v-card-text>
     </v-card>
@@ -165,6 +236,7 @@ export default defineComponent({
 
   data() {
     return {
+      files: [],
       importOpen: false,
       adminPending: false,
       newGroupName: "",
@@ -271,6 +343,12 @@ export default defineComponent({
       this.importDoneMessage = "Import started, please wait a moment...";
       this.formStatus = "";
 
+      let folder;
+      if (this.usingUpload) {
+        folder = ''
+      } else {
+        folder = this.resource.resource
+      }
       const payload: {
         folder: string;
         groupName: string;
@@ -307,7 +385,7 @@ export default defineComponent({
       } else {
         sanitizedGroupName = `${ this.chosenGroup }`
       }
-      console.log('sanny ', sanitizedGroupName)
+
       const payload: {
         folder: string;
         groupName: string;
@@ -319,6 +397,21 @@ export default defineComponent({
       };
 
       this.doImport(payload);
+    },
+
+    fileUpload() {
+      if (this.newGroupName) { // using new group, remove existing from DOM
+        // remove unused form field:
+        document.getElementById('uploadGroup').remove()
+      } else { // using existing group, remove new group from DOM, clean up name
+        // Make group name conform to ~ship|group-name format:
+        const extGroupName = document.getElementById('uploadGroup').value
+        document.getElementById('uploadGroup').value = `~${ window.ship}|${ extGroupName }`
+        // remove unused form field:
+        document.getElementById('uploadNugru').remove()
+      }
+      // will trigger 'redirect' to sail page:
+      this.$refs['upload-form'].submit()
     },
 
     doImport(payload) {
