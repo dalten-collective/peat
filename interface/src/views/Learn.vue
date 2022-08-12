@@ -7,7 +7,7 @@
         <div class="tw-flex tw-flex-row tw-items-center tw-justify-center">
 
 
-          <div class="tw-flex tw-flex-col tw-w-3/5">
+          <div class="tw-flex tw-flex-col tw-w-full sm:tw-w-3/5">
             <div class="tw-border-l tw-border-l-info tw-border-l-4 tw-pl-4 tw-mb-8 tw-text-lg">
               <div class="tw-flex tw-flex-row">
                 <div>
