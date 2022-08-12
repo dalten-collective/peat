@@ -71,15 +71,26 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12" class="tw-text-right">
-                  <div>
+                <v-col cols="12">
+                  <div class="tw-mb-1">
                     <v-btn
                       color="success"
                       text="white"
                       @click="remake"
+                      :loading="remakePending"
                       :disabled="!formValid"
                     >Remake {{ ship }}'s {{ resource }}</v-btn
                     >
+                  </div>
+                  <div v-if="remakePending">
+                    <v-alert type="info" variant="tonal">
+                      Remake has started. You might notice your ship hanging while this completes... You can close this page - or watch.
+                    </v-alert>
+                  </div>
+                  <div v-if="showDone">
+                    <v-alert type="success" variant="tonal">
+                      Remake complete! Check Groups.
+                    </v-alert>
                   </div>
                 </v-col>
               </v-row>
@@ -88,19 +99,6 @@
       </v-card-text>
     </v-card>
   </v-dialog>
-
-  <div v-if="false">
-    <div>
-      <div v-if="!remakeOpen">
-        <span
-          @click="remakeOpen = !remakeOpen"
-          class="tw-cursor-pointer tw-text-green-600 tw-underline"
-          >Export</span
-        >
-      </div>
-      <div v-if="remakeOpen" class="tw-pa-2"></div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -115,6 +113,8 @@ export default defineComponent({
     return {
       formValid: false,
       remakeOpen: false,
+      remakePending: false,
+      showDone: false,
       newGroup: '',
       newResourceName: '',
       adminPending: false,
@@ -130,6 +130,13 @@ export default defineComponent({
     remakeOpen(val: boolean) {
       if (val && this.groupOptions.length === 0) {
         this.getAdmin()
+      }
+      if (!val) { // closing
+        // reset things
+        this.remakePending = false;
+        this.showDone = false;
+        this.newGroup = '';
+        this.newResourceName = '';
       }
     },
     newGroup(val: string) {
@@ -162,14 +169,17 @@ export default defineComponent({
         return
       }
 
+      this.remakePending = true;
       const payload = {
         group: `~${ window.ship } ${ this.newGroup }`,
         'new-resource-name': this.newResourceName,
         'remake-resource': `${ this.ship } ${ this.resource }`,
       };
-      this.$store.dispatch("peat/remakeResource", payload).then((r) => {
-        console.log("remade ", r);
-        // TODO: do something with response?
+      this.$store.dispatch("peat/remakeResource", payload)
+        .then((r) => {
+        this.showDone = true;
+      }).finally(() => {
+        this.remakePending = false;
       });
     },
 

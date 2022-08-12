@@ -15,7 +15,7 @@
           <h2 class="tw-text-2xl">Import</h2>
           <div>
             <span
-              @click="importOpen = !importOpen"
+              @click="importOpen = false"
               class="tw-text-sm tw-cursor-pointer tw-underline"
               >Close</span
             >
@@ -39,11 +39,15 @@
               Import
             </v-btn>
           </div>
-          <div class="tw-form-status" :class="formStatus" v-if="importDoneShow">
-            <span>{{ importDoneMessage }}</span>
-            <footer v-if="clearStatusShow">
-              <a href="javascript:void(0)" @click="resetForm">Okay!</a>
-            </footer>
+          <div v-if="importPending">
+            <v-alert type="info" variant="tonal">
+              Your import has started. You might notice your ship hanging while this completes... You can close this page - or watch.
+            </v-alert>
+          </div>
+          <div v-if="importDoneShow">
+            <v-alert type="success" variant="tonal">
+              Import complete! Check Groups.
+            </v-alert>
           </div>
         </div>
       </v-card-text>
@@ -188,15 +192,22 @@
                 </div>
               </div>
               <div v-if="usingUpload" class="tw-mb-1">
-                <v-btn
-                  color="success"
-                  :disabled="importPending || !formValid || files.length == 0"
-                  :loading="importPending"
-                  text="white"
-                  @click.prevent="fileUpload"
-                >
-                  Upload and Import
-                </v-btn>
+                <div class="tw-mb-1">
+                  <v-btn
+                    color="success"
+                    :disabled="importPending || !formValid || files.length == 0"
+                    :loading="importPending"
+                    text="white"
+                    @click.prevent="fileUpload"
+                  >
+                    Upload and Import
+                  </v-btn>
+                </div>
+                <div>
+                  <v-alert type="warning" variant="tonal">
+                    Upon clicking the above button, you'll be redirected to a different page. Come back to Peat afterwards.
+                  </v-alert>
+                </div>
               </div>
               <div v-else class="tw-mb-1">
                 <v-btn
@@ -209,15 +220,15 @@
                   Import
                 </v-btn>
               </div>
-              <div
-                class="tw-form-status"
-                :class="formStatus"
-                v-if="importDoneShow"
-              >
-                <span>{{ importDoneMessage }}</span>
-                <footer v-if="clearStatusShow">
-                  <a href="javascript:void(0)" @click="resetForm">Okay!</a>
-                </footer>
+              <div v-if="importPending">
+                <v-alert type="info" variant="tonal">
+                  Your import has started. You might notice your ship hanging while this completes... You can close this page - or watch.
+                </v-alert>
+              </div>
+              <div v-if="importDoneShow">
+                <v-alert type="success" variant="tonal">
+                  Import complete! Check Groups.
+                </v-alert>
               </div>
             </div>
         </div>
@@ -239,6 +250,9 @@ export default defineComponent({
       files: [],
       importOpen: false,
       adminPending: false,
+      importStarted: false,
+      importPending: false,
+      importDoneShow: false,
       newGroupName: "",
       existingGroupForResource: null,
       newResourceName: "",
@@ -293,8 +307,17 @@ export default defineComponent({
 
   watch: {
     importOpen(val: boolean) {
+      // opening
       if (val && this.groupOptions.length === 0) {
         this.getAdmin();
+      } else { // closing
+        // reset things
+        this.importStarted = false;
+        this.newGroupName = "";
+        this.importPending = false;
+        this.existingGroupForResource = null;
+        this.newResourceName = "";
+        this.importDoneShow = false;
       }
     },
     newGroupName(val: string) {
@@ -337,6 +360,7 @@ export default defineComponent({
 
     importDMs() {
       this.importPending = true;
+      this.importStarted = true;
       this.importDoneShow = true;
       this.importDoneMessage = "Importing...";
       // this.clearStatusShow = false;
@@ -369,10 +393,7 @@ export default defineComponent({
       }
 
       this.importPending = true;
-      this.importDoneShow = true;
-      this.importDoneMessage = "Importing...";
-      // this.clearStatusShow = false;
-      this.importDoneMessage = "Import started, please wait a moment...";
+      this.importDoneShow = false;
       this.formStatus = "";
 
       let sanitizedGroupName = '';
@@ -415,11 +436,11 @@ export default defineComponent({
     },
 
     doImport(payload) {
+      this.importStarted = true;
       this.$store
         .dispatch("peat/importResource", payload)
         .then((r) => {
           this.formStatus = "success";
-          this.importDoneMessage = `Importing ${this.newResourceName} to the ${this.newGroupName} group has begun. Check your groups app in a little while`;
           this.importDoneShow = true;
         })
         .catch((e) => {

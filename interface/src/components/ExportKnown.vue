@@ -72,7 +72,7 @@
             <div class="tw-my-2">
               <span class="tw-italic">Export <span class="tw-font-mono tw-not-italic">{{ ship }}</span>'s "{{ resource }}" once</span>
             </div>
-            <v-btn color="success" text="white" @click="singleExport">
+            <v-btn color="success" text="white" :loading="exportPending" @click="singleExport">
               Export
             </v-btn
             >
@@ -94,7 +94,7 @@
                 >
               </template>
               <span
-                >An export will be performed at the selected interval, rewriting the previous file (see one-time export tooltip above).
+                >An export will be performed at the selected interval, rewriting the previous file (see one-time export tooltip above) in the
                 <span class="tw-font-mono">put</span> directory, like:
                 <span class="tw-font-mono">.urb/put/{{ resource }}.</span></span
               >
@@ -141,10 +141,21 @@
                   </div>
                 </div>
                 <div class="tw-mb-1">
-                  <v-btn color="success" text="white" @click="frequentExport">
+                  <v-btn color="success" :loading="exportPending" text="white" @click="frequentExport">
                     Export frequently
                   </v-btn>
                 </div>
+              </div>
+              <div v-if="exportPending">
+                <v-alert type="info" variant="tonal">
+                  Export has started. You might notice your ship hanging while this completes... You can close this page - or watch.
+                </v-alert>
+              </div>
+              <div v-if="showDone">
+                <v-alert type="success" variant="tonal">
+                  Export complete! Check your 
+                  <span class="tw-font-mono">.urb/put/{{ resource }}.</span> directory.
+                </v-alert>
               </div>
           </v-form>
         </div>
@@ -163,16 +174,31 @@ export default defineComponent({
   data() {
     return {
       exportOpen: false,
+      exportPending: false,
+      showDone: false,
       frequencyDays: 0,
       frequencyHours: 12,
       frequencyMinutes: 30,
     };
   },
 
+  watch: {
+    exportOpen(val) {
+      if (!val) { // closing
+        // reset things
+        this.exportPending = false;
+        this.showDone = false;
+      }
+    },
+  },
+
   computed: {
     ...mapGetters("peat", ["isRecurringSaved"]),
     isSaved() {
-      return this.isRecurringSaved({ name: this.resource, ship: this.ship })
+      if (this.isRecurringSaved) {
+        return this.isRecurringSaved({ name: this.resource, ship: this.ship })
+      }
+      return false
     },
     daysOptions(): Array<number> {
       return [0].concat(
@@ -240,7 +266,7 @@ export default defineComponent({
     },
 
     singleExport() {
-      console.log("exporting");
+      this.exportPending = true;
       const payload = {
         resource: {
           entity: this.ship,
@@ -248,14 +274,16 @@ export default defineComponent({
         },
         frequency: "fuck-you",
       };
-      this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log("exported ", r);
-        // TODO: do something with response?
-      });
+      this.$store.dispatch("peat/exportResource", payload)
+        .then((r) => {
+        }).finally(() => {
+          this.exportPending = false;
+          this.showDone = true;
+        });
     },
 
     frequentExport() {
-      console.log("exporting");
+      this.exportPending = true;
       const payload = {
         resource: {
           entity: this.ship,
@@ -263,11 +291,13 @@ export default defineComponent({
         },
         frequency: this.hoonedFrequcency,
       };
-      this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log("exported ", r);
-        // TODO: do something with response?
-        // TODO: update the `saved` with this new guy?
-      });
+      this.$store.dispatch("peat/exportResource", payload)
+        .then((r) => {
+        }).finally(() => {
+          this.exportPending = false;
+          this.showDone = true;
+          // TODO: update the `saved` with this new guy?
+        });
     },
   },
 });
