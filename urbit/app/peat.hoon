@@ -1239,33 +1239,36 @@
             :+  %poke   %graph-update-3
             !>  ^-  update:store
             [now.bol %add-nodes [our.bol ne] -]
-          %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
-          |=  [[a=atom n=node:store] q=(map index node:store)]
-          ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
+        ::  If you're reading this and you're upset w/ the remapping of references
+        ::  just restore the code below and comment out the alternative, beneath.
+        ::  Also, call your mother.
         :: %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
         :: |=  [[a=atom n=node:store] q=(map index node:store)]
-        :: ?.  ?=(%.y -.post.n)  q
-        :: =+  pb=p.post.n
-        :: =.  p.post.n
-        ::   =-  p.post.n(contents -)
-        ::   %+  turn  contents.p.post.n
-        ::   |=  con=content
-        ::   ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
-        ::   ?.  =(ol +.resource.uid.reference.con)  con
-        ::   :^  %reference  %graph
-        ::     `resource`?:(?=(%& -.gr) p.gr [our.bol p.gr])
-        ::   [`resource`[our.bol ne] index.uid.reference.con]
-        :: =?    hash.p.post.n
-        ::     !=(pb p.post.n)
-        ::   ^-  (unit @ux)
-        ::   :-  ~  ;;  @ux
-        ::   (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
-        :: =?    signatures.p.post.n
-        ::     ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
-        ::         !=(pb p.post.n)
-        ::     ==
-        ::   ~
-        :: (~(put by q) index.p.post.n n)
+        :: ?.(?=(%.y -.post.n) q (~(put by q) index.p.post.n n(signatures.p.post ~)))
+        %-  ~(rep by (malt ;;((list [atom node:store]) (cue i.ja))))
+        |=  [[a=atom n=node:store] q=(map index node:store)]
+        ?.  ?=(%.y -.post.n)  q
+        =+  pb=p.post.n
+        =.  p.post.n
+          =-  p.post.n(contents -)
+          %+  turn  contents.p.post.n
+          |=  con=content
+          ?.  ?=([%reference [%graph [@ @] [[@ @] *]]] con)  con
+          ?.  =(ol +.resource.uid.reference.con)  con
+          :^  %reference  %graph
+            `resource`?:(?=(%& -.gr) p.gr [our.bol p.gr])
+          [`resource`[our.bol ne] index.uid.reference.con]
+        =?    hash.p.post.n
+            !=(pb p.post.n)
+          ^-  (unit @ux)
+          :-  ~  ;;  @ux
+          (sham [~ author.p.post.n time-sent.p.post.n contents.p.post.n])
+        =?    signatures.p.post.n
+            ?|  .^(? %j /(scot %p our.bol)/fake/(scot %da now.bol))
+                !=(pb p.post.n)
+            ==
+          ~
+        (~(put by q) index.p.post.n n)
       ==
     --
   ++  coax-prior-shape
