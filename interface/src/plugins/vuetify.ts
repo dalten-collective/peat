@@ -5,6 +5,8 @@ import 'vuetify/styles'
 // Vuetify
 import { createVuetify, ThemeDefinition } from 'vuetify'
 
+import Pusvg from "../components/Pusvg.vue"
+
 import theme from '../theme'
 
 const peatTheme: ThemeDefinition = {
@@ -36,9 +38,16 @@ const peatTheme: ThemeDefinition = {
   },
 }
 
-
 export default createVuetify({
   // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+  icons: {
+    'pus': {
+      component: Pusvg,
+      props: {
+        name: 'pus'
+      },
+    },
+  },
   theme: {
     defaultTheme: 'peatTheme',
     themes: {

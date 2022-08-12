@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
+import Learn from "../views/Learn.vue";
+import Work from "../views/Work.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "home",
-    component: Home,
+    name: "work",
+    component: Work,
+  },
+  {
+    path: "/learn",
+    name: "learn",
+    component: Learn,
   },
   //{
   //path: "/about",
@@ -19,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory("/apps/peat/"),
   routes,
 });
 
