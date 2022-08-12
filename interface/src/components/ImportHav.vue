@@ -52,7 +52,7 @@
         <div class="tw-mt-2">
 
           <div v-show="usingUpload">
-            <form ref="upload-form" action="http://localhost:8080/apps/peat/upload" method="POST" enctype="multipart/form-data">
+            <form ref="upload-form" action="upload" method="POST" enctype="multipart/form-data">
               <v-row>
                 <v-file-input
                   required
