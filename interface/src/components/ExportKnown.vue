@@ -64,8 +64,8 @@
               <span
                 >After exporting, you'll find a file in your ship's
                 <span class="tw-font-mono">put</span> directory, like:
-                <span class="tw-font-mono">.urb/put/{{ resource }}.</span></span
-              >
+                <span class="tw-font-mono">.urb/put/{{ ship }}/{{ resource }}.</span>
+              </span>
             </v-tooltip>
           </div>
           <div>
@@ -96,7 +96,7 @@
               <span
                 >An export will be performed at the selected interval, rewriting the previous file (see one-time export tooltip above) in the
                 <span class="tw-font-mono">put</span> directory, like:
-                <span class="tw-font-mono">.urb/put/{{ resource }}.</span></span
+                <span class="tw-font-mono">.urb/put/{{ ship }}/{{ resource }}.</span></span
               >
             </v-tooltip>
           </div>
@@ -154,7 +154,7 @@
               <div v-if="showDone">
                 <v-alert type="success" variant="tonal">
                   Export complete! Check your 
-                  <span class="tw-font-mono">.urb/put/{{ resource }}.</span> directory.
+                  <span class="tw-font-mono">.urb/put/{{ship}}/{{ resource }}.</span> directory.
                 </v-alert>
               </div>
           </v-form>

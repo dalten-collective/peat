@@ -37,9 +37,9 @@ export default {
   },
 
   getters: {
-    knownGroups(state): Array<string> {
+    knownGroups(state): Array<string> | void {
       if (state.known == undefined) {
-        return []
+        return
       }
       return Array.from(
         new Set(

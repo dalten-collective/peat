@@ -44,7 +44,7 @@
                 The <span class="tw-text-info tw-font-bold">ON DISK</span> section surveys the contents of Peat's <span class="tw-font-mono">hav/</span> directory. More on this later.
               </p>
               <p>
-                Use the <span class="tw-text-info tw-font-bold">EXPORT</span> feature to back up a given graph. An archive of the graph will be created in your <span class="tw-font-mono">&lt;pier_name&gt;/.urb/put</span> directory inside of a folder named after the resource.
+                Use the <span class="tw-text-info tw-font-bold">EXPORT</span> feature to back up a given graph. An archive of the graph will be created in your <span class="tw-font-mono">&lt;pier_name&gt;/.urb/put</span> directory. The structure within <span class="tw-font-mono">/put</span> will be <span class="tw-font-mono">&lt;host-ship&gt;/&lt;resource-name&gt;/&lt;graph_type_n&gt;.jam</span>
               </p>
               <ul class="tw-list-disc tw-my-2">
                 <li>You can perform a single export. Or:</li>
