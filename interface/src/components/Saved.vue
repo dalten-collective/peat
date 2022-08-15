@@ -52,7 +52,6 @@ export default defineComponent({
       this.$store.dispatch("peat/getSaved")
         .then((r) => {
           this.savedPending = false;
-          console.log('r ', r)
         })
     },
   }

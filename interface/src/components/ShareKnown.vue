@@ -39,7 +39,6 @@ export default defineComponent({
 
   methods: {
     doShare() {
-      console.log("sharing...")
       const payload = {
         resource: {
           entity: this.ship,
@@ -47,13 +46,11 @@ export default defineComponent({
         },
       }
       this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log('exported ', r);
         // TODO: do something with response?
       })
     },
 
     frequentExport() {
-      console.log("exporting")
       const payload = {
         resource: {
           entity: this.ship,
@@ -62,7 +59,6 @@ export default defineComponent({
         frequency: 'm1', // TODO
       }
       this.$store.dispatch("peat/exportResource", payload).then((r) => {
-        console.log('exported ', r);
         // TODO: do something with response?
       })
     }

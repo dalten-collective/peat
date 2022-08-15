@@ -270,7 +270,6 @@ export default defineComponent({
     getHavs() {
       this.havsPending = true;
       this.$store.dispatch("peat/getHav").then((response: HavResponse) => {
-        console.log(response);
         this.havsPending = false;
       });
     },

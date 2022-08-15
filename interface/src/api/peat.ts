@@ -2,7 +2,6 @@ import urbitAPI from "./urbitAPI";
 import { Entity, ExportFrequency, DolePayload } from "@/types";
 
 export function doleResource(payload: DolePayload) {
-  console.log('p ', payload);
   
   return urbitAPI
     .poke({
@@ -12,7 +11,6 @@ export function doleResource(payload: DolePayload) {
         permit: payload
       }
     }).then((r) => {
-      console.log("permit res: ", r)
       return r
     }).catch(e => {
       console.log('permit error: ', e)
@@ -36,7 +34,6 @@ export function exportToDisk(
       }
     })
     .then((r) => {
-      console.log("export res ", r);
     })
     .catch((e) => {
       console.log("export err ", e);
@@ -55,8 +52,6 @@ export function importFromDisk(
     group: payload.groupName,
     'new-resource-name': payload.newResourceName,
   }
-  console.log('payload ', payload)
-  console.log('trsm payload ', transformedPayload)
   return urbitAPI
     .poke({
       app: "peat",
@@ -66,7 +61,6 @@ export function importFromDisk(
       }
     })
     .then((r) => {
-      console.log("res ", r);
     })
     .catch((e) => {
       console.log("err ", e);
@@ -80,7 +74,6 @@ export function reMake(
     'remake-resource': string
   }
 ) {
-  console.log('remake payload in api ', payload)
   return urbitAPI
     .poke({
       app: "peat",
@@ -90,10 +83,8 @@ export function reMake(
       }
     })
     .then((r) => {
-      console.log("remake res ", r);
     })
     .catch((e) => {
-      console.log("remake err ", e);
     });
 }
 

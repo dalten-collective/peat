@@ -34,13 +34,10 @@ export default {
       airlock.openAirlockTo(
         agentName,
         (data) => {
-          console.log("agentName ", agentName);
-          console.log("response ", data);
           dispatch("peat/setKnown", data.known, { root: true })
           dispatch("peat/setSaved", data.saved, { root: true })
         },
         (subscriptionNumber: number) => {
-          console.log("got subscription number ", subscriptionNumber);
           dispatch("addSubscription", {
             agentName,
             subscriptionNumber,

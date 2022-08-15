@@ -234,7 +234,6 @@ export default {
 
   mutations: {
     setKnown(state, payload: Array<Known>) {
-      console.log('setting known. payload: ', payload)
       state.known = payload;
     },
     setSaved(state, payload: SavedState) {
@@ -288,7 +287,6 @@ export default {
       return peatAPI.scryAdmin()
         .then((adminResponse: AdminResponse) => {
           const entities = adminResponse["am-admin"];
-          console.log('admin ', entities);
           commit("setAdmin", entities);
           return entities
         }).catch(err => {

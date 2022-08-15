@@ -37,13 +37,11 @@ export default defineComponent({
 
   methods: {
     doDole() {
-      console.log("doling")
       const payload: DolePayload = {
         ships: ['~sum'],
         resources: [{ entity: this.ship, name: this.resource }],
       }
       this.$store.dispatch("peat/doleResource", payload).then((r) => {
-        console.log('doled ', r);
         // TODO: do something with response?
       })
     },

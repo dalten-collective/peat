@@ -354,7 +354,6 @@ export default defineComponent({
       this.adminPending = true;
       this.$store.dispatch("peat/getAdmin").then((r) => {
         this.adminPending = false;
-        console.log("r ", r);
       });
     },
 

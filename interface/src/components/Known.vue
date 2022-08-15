@@ -236,7 +236,6 @@ export default defineComponent({
         .dispatch("peat/getKnown")
         .then((r) => {
           this.knownPending = false;
-          console.log("known r ", r);
         })
         .catch((err) => {
           console.log(err);
