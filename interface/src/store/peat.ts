@@ -191,6 +191,9 @@ export default {
     },
 
     isRecurringSaved: (state) => (resource: { name: string, ship: Ship }): SavedDetails | null => {
+      if (state == undefined || state.saved == undefined) {
+        return null
+      }
       const savedKeys: Array<string> = Object.keys(state.saved as SavedState)
       const saveds: Array<SavedDetails> = []
       // SavedState is an object with number keys of SavedDetails.
