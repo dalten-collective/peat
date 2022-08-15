@@ -62,7 +62,22 @@ export default defineComponent({
       ]
     };
   },
-  components: {
+  mounted() {
+    const deskname = "peat"
+    this.startAirlock(deskname);
+  },
+
+  unmounted() {
+    this.closeAirlocks();
+  },
+
+  methods: {
+    startAirlock(deskname: string) {
+      this.$store.dispatch("ship/openAirlockToAgent", deskname);
+    },
+    closeAirlocks() {
+      this.$store.dispatch("ship/closeAgentAirlocks");
+    },
   },
 })
 </script>

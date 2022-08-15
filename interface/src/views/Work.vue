@@ -63,15 +63,8 @@ export default defineComponent({
     }
   },
   mounted() {
-    const deskname = "peat"
-    this.startAirlock(deskname);
-    this.getAdmin();
+    this.getAdmin()
   },
-
-  unmounted() {
-    this.closeAirlocks();
-  },
-
   computed: {
     mobileClasses() {
       const smol = this.onSmall ? true : false
