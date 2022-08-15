@@ -1,108 +1,108 @@
 <template>
   <div class="tw-w-screen">
-    <div class="tw-flex tw-space-between">
-      <div class="tw-grow">
-        <h3 class="tw-text-3xl">Archived resources on filesystem</h3>
-      </div>
+    <div class="tw-flex tw-flex-wrap tw-space-between tw-mb-8">
+        <div class="tw-grow tw-mb-4">
+          <h3 class="tw-text-3xl">Archived resources on filesystem</h3>
+        </div>
 
-      <div>
-        <ImportHav :usingUpload="true" :resource="{}" v-slot="slotProps">
+        <div class="tw-flex-shrink">
+          <ImportHav :usingUpload="true" :resource="{}" v-slot="slotProps">
+            <v-btn
+              color="white"
+              variant="tonal"
+              class="tw-mr-2 tw-inline-block text-success"
+              @click="slotProps.klick"
+            >
+              <v-icon start>mdi-upload</v-icon>
+              upload from disk
+            </v-btn>
+          </ImportHav>
+
+          <div v-if="false">
+            <v-dialog model="uploadOpen">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  v-bind="props"
+                  color="white"
+                  variant="tonal"
+                  class="tw-mr-2 tw-inline-block text-success"
+                  @click="openUpload"
+                >
+                  <v-icon start>mdi-upload</v-icon>
+                  upload from disk
+                </v-btn>
+              </template>
+              <v-card
+                class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4"
+              >
+                <v-card-title>
+                  <div class="tw-flex tw-flex-row tw-justify-between">
+                    <h2 class="tw-text-2xl">Upload and Import</h2>
+                    <div>
+                      <span
+                        @click="uploadOpen = !uploadOpen"
+                        class="tw-text-sm tw-cursor-pointer tw-underline"
+                        >Close</span
+                      >
+                    </div>
+                  </div>
+                </v-card-title>
+                <v-card-text>
+                  <v-file-input
+                    show-size
+                    counter
+                    multiple
+                    label="Select .jam files"
+                    accept=".jam,text/jam"
+                  ></v-file-input>
+
+                  <!--
+                  <form action="/apps/peat/upload" method="post" enctype="multipart/form-data">
+                    <label
+                      >Import Folder:
+                      <input
+                        type="file"
+                        name="files"
+                        required=""
+                        directory=""
+                        mozdirectory=""
+                        webkitdirectory="" /></label
+                    ><br /><label
+                      >Extant Group:
+                      <select name="group" required="">
+                        <option value="" hidden="">Import to Groups:</option>
+                        <option name="group" value="~zod|import-created-group">
+                          ~zod %import-created-group
+                        </option>
+                        <option name="group" value="~zod|first-zod-group">
+                          ~zod %first-zod-group
+                        </option>
+                      </select></label
+                    ><br /><label
+                      >New Graph Name:
+                      <input name="resource" type="text" required="" /></label
+                    ><br /><button type="submit">
+                      Create Graph -&gt; Add to Group -&gt; Import
+                    </button>
+                  </form>
+                  -->
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </div> <!-- TODO: remove -->
+
           <v-btn
+            :loading="havsPending"
+            :disabled="havsPending"
             color="white"
             variant="tonal"
-            class="tw-mr-2 tw-inline-block text-success"
-            @click="slotProps.klick"
+            class="tw-inline-block text-success"
+            @click="getHavs"
           >
-            <v-icon start>mdi-upload</v-icon>
-            upload from disk
+            <v-icon start>mdi-cached</v-icon>
+            refresh
           </v-btn>
-        </ImportHav>
-
-        <div v-if="false">
-          <v-dialog model="uploadOpen">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                v-bind="props"
-                color="white"
-                variant="tonal"
-                class="tw-mr-2 tw-inline-block text-success"
-                @click="openUpload"
-              >
-                <v-icon start>mdi-upload</v-icon>
-                upload from disk
-              </v-btn>
-            </template>
-            <v-card
-              class="tw-w-96 tw-border-4 tw-border-primary tw-bg-surface tw-p-4"
-            >
-              <v-card-title>
-                <div class="tw-flex tw-flex-row tw-justify-between">
-                  <h2 class="tw-text-2xl">Upload and Import</h2>
-                  <div>
-                    <span
-                      @click="uploadOpen = !uploadOpen"
-                      class="tw-text-sm tw-cursor-pointer tw-underline"
-                      >Close</span
-                    >
-                  </div>
-                </div>
-              </v-card-title>
-              <v-card-text>
-                <v-file-input
-                  show-size
-                  counter
-                  multiple
-                  label="Select .jam files"
-                  accept=".jam,text/jam"
-                ></v-file-input>
-
-                <!--
-                <form action="/apps/peat/upload" method="post" enctype="multipart/form-data">
-                  <label
-                    >Import Folder:
-                    <input
-                      type="file"
-                      name="files"
-                      required=""
-                      directory=""
-                      mozdirectory=""
-                      webkitdirectory="" /></label
-                  ><br /><label
-                    >Extant Group:
-                    <select name="group" required="">
-                      <option value="" hidden="">Import to Groups:</option>
-                      <option name="group" value="~zod|import-created-group">
-                        ~zod %import-created-group
-                      </option>
-                      <option name="group" value="~zod|first-zod-group">
-                        ~zod %first-zod-group
-                      </option>
-                    </select></label
-                  ><br /><label
-                    >New Graph Name:
-                    <input name="resource" type="text" required="" /></label
-                  ><br /><button type="submit">
-                    Create Graph -&gt; Add to Group -&gt; Import
-                  </button>
-                </form>
-                -->
-              </v-card-text>
-            </v-card>
-          </v-dialog>
-        </div> <!-- TODO: remove -->
-
-        <v-btn
-          :loading="havsPending"
-          :disabled="havsPending"
-          color="white"
-          variant="tonal"
-          class="tw-inline-block text-success"
-          @click="getHavs"
-        >
-          <v-icon start>mdi-cached</v-icon>
-          refresh
-        </v-btn>
-      </div>
+        </div>
     </div>
 
     <div v-if="!havsPending">

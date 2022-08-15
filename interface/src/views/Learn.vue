@@ -31,7 +31,7 @@
             <div class="mt-4">
               <h1 class="tw-text-3xl tw-mb-6">About</h1>
               <p>
-                You can use Peat to back up and restore social graphs on Urbit. Chats, Notebooks, Collections and DMs.
+                You can use Peat to back up and restore social graphs on Urbit. Chats, Notebooks, and Collections. Advanced users can do the same with DMs through the Dojo, but DM exporting is not yet supported through this interface.
               </p>
 
               <h2 class="tw-text-xl tw-my-4">Backup / Export</h2>
