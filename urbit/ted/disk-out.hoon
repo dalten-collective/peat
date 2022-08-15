@@ -31,7 +31,7 @@
     ^-  form:m
     =-  ;<  ~  bind:m  (poke [our.bol %hood] -)
       (pure:m ~)
-    [%dill-blit !>([%sag /[nam:dr]/[fna]/jam fil])]
+    [%dill-blit !>([%sag /[ent:dr]/[nam:dr]/[fna]/jam fil])]
   ::
   ++  io-read
     =/  m  (strand ,update:store)
