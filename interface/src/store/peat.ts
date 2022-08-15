@@ -38,6 +38,9 @@ export default {
 
   getters: {
     knownGroups(state): Array<string> {
+      if (state.known == undefined) {
+        return []
+      }
       return Array.from(
         new Set(
           state.known.map((k: Known) => {
@@ -231,6 +234,7 @@ export default {
 
   mutations: {
     setKnown(state, payload: Array<Known>) {
+      console.log('setting known. payload: ', payload)
       state.known = payload;
     },
     setSaved(state, payload: SavedState) {
