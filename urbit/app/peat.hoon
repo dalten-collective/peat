@@ -351,12 +351,14 @@
           ==
         ::
             %keys
-          =.  known
-            %-  ~(car (ba shape (unit resource) resource) known)
-            (murn ~(tap in resources.q.upd) mippet.pek.pl)
+          :: =.  known
+          ::   %-  ~(car (ba shape (unit resource) resource) ~)
+          ::   (murn ~(tap in resources.q.upd) mippet.pek.pl)
+          :: :_  this
+          :: =-  [%give %fact ~[/website] json+!>(`json`-)]~
+          :: (frond known+(jagon:john:hc %known))
           :_  this
-          =-  [%give %fact ~[/website] json+!>(`json`-)]~
-          (frond known+(jagon:john:hc %known))
+           ~[(~(wait pass /keys) (add now.bowl ~s1))]
         ==
       ==
     ==
@@ -541,6 +543,21 @@
       %.  `this
       (slog leaf+"%peat-fail -binding-eyre-for-import" ~)
     ::
+        [%keys ~]
+      ::  we're using a delay to avoid a timing issue with
+      ::  watching /keys on %graph-store.
+      ::  the timing issue is a result of constructing
+      ::  groups and graphs simultaneously in one series
+      ::  of pokes, rather than using threads that allow
+      ::  for new events.
+      ::
+      =.  known  
+        %-  ~(car (ba shape (unit resource) resource) ~)
+        (murn ~(tap in llaves:pek:pl) mippet:pek:pl)
+      :_  this
+      =-  [%give %fact ~[/website] json+!>(`json`-)]~
+      (frond:enjs:format known+(jagon:john:hc %known))
+    ::
         [%peat @ @ @ ~]
       =*  ent  (slav %p i.t.wire)
       =*  nam  (slav %tas i.t.t.wire)
@@ -620,6 +637,7 @@
     |=  =path
     :: ~>  %bout.[0 'on-leave-peat']
     ^-  (quip card _this)
+    ?:  ?=([%website ~] path)  `this
     ?.  ?=([%ogertalk %peat ~] path)  !!
     =.  doled
       (~(del by doled) src.bowl)

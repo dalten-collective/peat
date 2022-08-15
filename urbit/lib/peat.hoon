@@ -91,7 +91,7 @@
         =-  ?~(emc=- ~ `group.u.emc)
         %.  `md-resource`[%graph r]
         %~  get  by
-        (met-s:pek (map md-resource association) /associations)
+        (met-s:pek (map md-resource association) /associations)   ::  fix this timing issue.
     %+  gra-s  (unit @tas)
     /graph/(scot %p entity.r)/(scot %tas name.r)/mark
   ::
@@ -130,7 +130,7 @@
 ++  biz
   |%
   ++  add-to-old-group
-    |=  [r=resource s=shape gr=resource]                 ::  graph shape group
+    |=  [r=resource s=shape gr=resource]                ::  graph shape group
     ?.  (~(has in groups:pek) gr)                       ::  - are we a group admin?
       ~_(leaf+"%peat-fail -bad-group-remake" !!)
     :~  (graph name.r s)
@@ -138,13 +138,13 @@
         (pushy name.gr %graph-push-hook)
     ==
   ++  add-to-new-group
-    |=  [r=resource s=shape n=term]                      ::  graph shape group-name
-    :~  (group n)
-        (pushy n %group-push-hook)
-        (metag n)
-        (pushy n %metadata-push-hook)
+    |=  [r=resource s=shape n=term]                     ::  graph shape group-name
+    :~  (pushy n %metadata-push-hook)
         (pushy n %contact-push-hook)
+        (group n)
+        (pushy n %group-push-hook)
         (graph name.r s)
+        (metag n)
         (metas r s [our.bol n])
         (pushy n %graph-push-hook)
         (joins n)
@@ -197,6 +197,7 @@
       creator       our.bol
       config        graph+s
       hidden        %.n
+      preview       %.n
     ==
   ::
   ++  metag

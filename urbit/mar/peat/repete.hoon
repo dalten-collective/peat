@@ -14,7 +14,7 @@
   ++  json
     |=  jon=^json
     %-  repete
-    =<  ~&  >>>  (petunia jon)  (petunia jon)
+    =<  (petunia jon)
     |%
     ++  petunia
       =,  dejs:format
