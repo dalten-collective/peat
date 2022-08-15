@@ -31,7 +31,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="tw-container tw-mx-auto tw-mt-8">
+    <v-main class="tw-container tw-mx-auto tw-my-8">
       <router-view></router-view>
     </v-main>
 
