@@ -121,7 +121,7 @@
     =;  g=(unit group:group)
       ?~  g  q
       ?.  (~(has in (~(get ju tags.u.g) %admin)) our.bol)
-        ~
+        q
       (~(put in q) r)
     .^  (unit group:group)  %gx
       ;:(welp gro-p /groups (en-path:res-lib r) /noun)
