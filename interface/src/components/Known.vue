@@ -100,6 +100,15 @@
     <div v-if="!knownPending">
       <!-- loaded -->
       <div>
+        <div class="tw-text-right tw-mb-2">
+          <span
+            href="#"
+            class="tw-cursor-pointer tw-text-success tw-underline"
+            @click="toggleExpandCollapseAll"
+          >
+            Expand/Collapse All
+          </span>
+        </div>
         <ul class="tw-my-4">
           <p
             v-if="filteredGroups.length === 0"
@@ -351,6 +360,14 @@ export default defineComponent({
         group[1].links.length +
         group[1].publishes.length
       );
+    },
+
+    toggleExpandCollapseAll() {
+      if (this.openPanels.length === 0) {
+        this.openPanels = this.filteredGroups.map(g => g[0])
+      } else {
+        this.openPanels = []
+      }
     },
 
     getKnown() {
