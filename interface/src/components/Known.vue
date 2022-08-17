@@ -251,58 +251,64 @@ export default defineComponent({
     filteredResources(resources, groupName) {
       let r = resources
 
-      if (this.textSearch === '') {
-        r = r
+      if (this.textSearch === "") {
+        r = r;
       } else {
         r = r.filter((r) => {
-          const bits = r.name.split('-')
-          return bits.filter((s: string) => {
-            return s.toLowerCase().startsWith(this.textSearch.toLowerCase())
-          }).length > 0
-        })
+          // remove all heps and spaces from search term
+          const searchMashup = this.textSearch.replaceAll(/[-\s]/g, "");
+          // compare this to all groups/resources with same treatment
+          const resourceNameMashup = r.name.replaceAll(/[-\s]/g, "");
+          const groupNameMashup = groupName.replaceAll(/[-\s]/g, "");
+          return ( // join group and resource name search
+              groupNameMashup.toLowerCase().startsWith(searchMashup.toLowerCase()) ||
+              resourceNameMashup.toLowerCase().startsWith(searchMashup.toLowerCase()
+            )
+          );
+        });
       }
 
-      if (this.adminOnly === 'all') {
-        r = r
+      if (this.adminOnly === "all") {
+        r = r;
       }
-      if (this.adminOnly === 'admin') {
+      if (this.adminOnly === "admin") {
         r = r.filter((r) => {
           if (this.isAdmin(r, groupName)) {
-            return true
+            return true;
           }
-          return false
-        })
+          return false;
+        });
       }
-      if (this.adminOnly === 'not') {
+      if (this.adminOnly === "not") {
         r = r.filter((r) => {
           if (this.isAdmin(r, groupName)) {
-            return false
+            return false;
           }
-          return true
-        })
+          return true;
+        });
       }
 
-      if (this.showAllExportStatus === 'all') {
-        r = r
+      if (this.showAllExportStatus === "all") {
+        r = r;
       }
-      if (this.showAllExportStatus === 'auto') {
+      if (this.showAllExportStatus === "auto") {
         r = r.filter((r) => {
           if (this.isSaved(r)) {
-            return true
+            return true;
           }
-          return false
-        })
+          return false;
+        });
       }
-      if (this.showAllExportStatus === 'none') {
+      if (this.showAllExportStatus === "none") {
         r = r.filter((r) => {
           if (this.isSaved(r)) {
-            return false
+            return false;
           }
-          return true
-        })
+          return true;
+        });
       }
 
-      return r
+      return r;
     },
 
     groupWillBeEmpty(group) {
