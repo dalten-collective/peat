@@ -121,13 +121,11 @@
             >
               <v-expansion-panel-title>
                 <div class="tw-w-full tw-flex tw-flex-row tw-justify-between">
-                  <div class="tw-text-xl">
+                  <div class="tw-flex-grow tw-text-left tw-text-xl">
                     {{ pair[0] }}
                   </div>
 
-                  <div class="tw-flex-grow"></div>
-
-                  <div>
+                  <div class="tw-flex-shrink tw-flex tw-flex-row tw-flex-wrap">
                     <v-tooltip location="top">
                       <template v-slot:activator="{ props }">
                         <v-chip
