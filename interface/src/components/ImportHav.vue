@@ -420,6 +420,9 @@ export default defineComponent({
     },
 
     fileUpload() {
+      this.importPending = true;
+      this.importDoneShow = false;
+
       if (this.newGroupName) { // using new group, remove existing from DOM
         // remove unused form field:
         document.getElementById('uploadGroup').remove()
