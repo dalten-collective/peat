@@ -41,27 +41,35 @@
 |_  bol=bowl:gall
 ++  pek
   |%
+  ::  paths
+  ::
   ++  gra-p
     (path /(scot %p our.bol)/graph-store/(scot %da now.bol))
   ++  gro-p
     (path /(scot %p our.bol)/group-store/(scot %da now.bol))
   ++  met-p
     (path /(scot %p our.bol)/metadata-store/(scot %da now.bol))
+  ::  +arc-s - scry an arch
   ::
-  ++  arc-s                                              ::  scry an arch
+  ++  arc-s
     |=  pat=path
     ^-  arch
     .^(arch %cy (welp /(scot %p our.bol)/peat/(scot %da now.bol)/hav pat))
-  ++  gra-s                                              ::  scry a graph thing
+  ::  +gra-s - scry a graph thing
+  ::
+  ++  gra-s
     |*  [mol=mold pat=path]
     ^-  ,mol
     .^(mol %gx ;:(weld gra-p pat /noun))
-  ++  met-s                                              ::  scry a metadata thing
+  ::  +met-s - scry a metadata thing
+  ::
+  ++  met-s
     |*  [mol=mold pat=path]
     ^-  ,mol
     .^(mol %gx ;:(weld met-p pat /noun))
+  ::  +recent - most recent post in a graph
   ::
-  ++  recent                                             ::  most recent post in a graph
+  ++  recent
     |=  r=resource
     ^-  (unit time)
     ;;  (unit time)
@@ -69,13 +77,23 @@
       %+  weld  gra-p
       /update-log/(scot %p -.r)/(scot %tas +.r)/latest/noun
     ==
+  ::  +llaves - current graph keys
   ::
-  ++  llaves                                             ::  current graph keys
+  ++  llaves
     ^-  (set resource)
     =+  upd=(gra-s:pek update /keys)
     ?>  ?=(%keys -.q.upd)
     resources.q.upd
-  ++  mippet                                             ::  get shape, group of resource
+  ::  +mippet - get shape, group of resource, for mip
+  ::  this is confusing, because it's actually for a jag
+  ::  the name,
+  ::    i fear,
+  ::  comes from
+  ::   a prior design
+  ::  and i liked it
+  ::  forgive me.
+  ::
+  ++  mippet
     |=  r=resource
     ;;  (unit [shape (unit resource) resource])
     =;  u=[w=(unit @tas) b=(unit resource)]
@@ -91,19 +109,21 @@
         =-  ?~(emc=- ~ `group.u.emc)
         %.  `md-resource`[%graph r]
         %~  get  by
-        (met-s:pek (map md-resource association) /associations)   ::  fix this timing issue.
+        (met-s:pek (map md-resource association) /associations)
     %+  gra-s  (unit @tas)
     /graph/(scot %p entity.r)/(scot %tas name.r)/mark
+  ::  +stacks - what's in /hav (jug shape [@tas @ud])
   ::
-  ++  stacks                                             ::  what's in /hav (jug shape [name=@tas lent=@ud])
+  ++  stacks
     ^-  (jug shape [name=@tas lent=@ud])
     %-  ~(rep in dir:(arc-s /))
     |=  [p=[n=@ta %~] q=(jug shape [name=@tas lent=@ud])]
     ?~  dir=~(tap in dir:(arc-s:pek /[n.p]))  q
     ?~  dyt=(rush p.i.dir ;~((glue cab) sym sym dem))  q
     (~(put ju q) ;;(shape +<.u.dyt) [n.p (lent dir)])
+  ::  +tables - (set known-resources) -> (set resource length)
   ::
-  ++  tables                                             ::  in: (set known-resource) -> out: (set resource length)
+  ++  tables
     |=  p=resources
     ^-  (set [res=resource lent=@ud])
     %-  sy  %+  murn  ~(tap in p)
@@ -113,8 +133,9 @@
       ?.(?=(%add-nodes -.q.upd) ~ `[r (lent nodes.q.upd)])
     %+  gra-s:pek  update
     /graph/(scot %p entity.r)/(scot %tas name.r)
+  ::  +groups - groups where i'm admin
   ::
-  ++  groups                                             ::  groups where I'm admin
+  ++  groups
     ^-  (set resource)
     %-  ~(rep in .^((set resource) %gy (weld gro-p /groups)))
     |=  [r=resource q=(set resource)]
@@ -127,11 +148,13 @@
       ;:(welp gro-p /groups (en-path:res-lib r) /noun)
     ==
   --
+::  business logic - ask rabsef if you really want to know
+::
 ++  biz
   |%
   ++  add-to-old-group
     |=  [r=resource s=shape gr=resource]                ::  graph shape group
-    ?.  (~(has in groups:pek) gr)                       ::  - are we a group admin?
+    ?.  (~(has in groups:pek) gr)                       ::  - are we an admin?
       ~_(leaf+"%peat-fail -bad-group-remake" !!)
     :~  (graph name.r s)
         (metas r s gr)
