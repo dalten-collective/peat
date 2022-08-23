@@ -69,7 +69,7 @@
     %~  put  ju
     `(jug kax val)`(~(gut by a) b ~)
   ::
-  ++  put-s                                              ::  unify or put an incoming set
+  ++  put-s                                             ::  unify or put an incoming set
     |=  [b=kex c=kax d=(set val)]
     ::~>  %bout.[0 'put-s:ba:jag-moist']
     ?~  hab=(~(get by a) b)
@@ -86,8 +86,8 @@
     ?~  hab=(~(get by a) b)  a
     (~(put by a) b (~(del ju u.hab) c d))
   ::
-  ++  del-s                                              ::  compare set for set,
-    |=  [b=kex c=kax d=(set val)]                                    ::  deleting items from sample set
+  ++  del-s                                             ::  compare set for set,
+    |=  [b=kex c=kax d=(set val)]                       ::  deleting items from sample set
     ::~>  %bout.[0 'del-s:ba:jag-moist']
     ?~  hab=(~(get by a) b)  a
     ?~  haf=(~(get by u.hab) c)  a

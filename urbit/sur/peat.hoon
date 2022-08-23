@@ -1,18 +1,11 @@
 ::
-::  /sur/peat - a series of tubes - by Quartus Corporation
+::  /sur/peat - a series of tubeson
 ::
 /-  store=graph-store, metas=metadata-store, post
 /+  *jag
 ::
 ^?
 |%
-::    state-zero
-::  - saved  (map resource [@da @dr]) - resources that are being auto-saved
-::  - given  (jag ship shape resource) - resources shared with you
-::  - doled  (jag ship shape resource) - resources you've shared out
-::  - known  (jag shape (unit resource) resource)
-::    - resources you're aware of in graph store by shape, group
-::
 ::  cheat codes
 ::
 +$  index      index:store
@@ -25,34 +18,62 @@
 +$  shape  ?(%chat %link %publish %dm)
 ::
 ::  repete - peat's actions - user interface
+::    -  [%export res=resource rec=(unit @dr)]
+::      export files, recurring? (minimum/default ~d1)
+::    -  [%cancel res=resource]
+::      cancel auto-save
+::    -  [%import gol=path gro=(each resource term) wer=term]
+::      import files
+::        > clay path to import folder
+::        > extant group resource or new group name
+::        > new resource name - we'll make it for you
+::    -  [%permit per=(set ship) rys=resources]
+::      permit subscribers to some resources
+::    -  [%record ~]
+::      on permit, subscribe
+::    -  [%remove per=(set ship) rys=resources]
+::      remove subscribers from some resources
+::    -  [%depart p=ship]
+::      remove a subscription you have
+::    -  $:  %remake                                    
+::         wat=(each resource [p=ship q=shape r=resource]
+::         gro=(each resource term)                      
+::         wer=term                                      
+::       ==
+::      remakes a remote or local resource
+::        > which resource to remake, local or remote
+::        > group in which to place the new resource
+::        > new resource name - we'll make it for you
 ::
 +$  repete
-  $%  [%export res=resource rec=(unit @dr)]              ::  export files, recurring? (minimum/default ~d1)
-      [%cancel res=resource]                             ::  cancel auto-save
+  $%  [%export res=resource rec=(unit @dr)]
+      [%cancel res=resource]
     ::
-      $:  %import                                        ::  import files
-          fol=path                                       ::  - clay path to import folder
-          gro=(each resource term)                       ::  - group in which to place new resource, or name for new group
-          wer=term                                       ::  - new resource name - we'll make it for you
+      $:  %import
+          fol=path
+          gro=(each resource term)
+          wer=term
       ==
     ::
-      [%permit per=(set ship) rys=resources]             ::  permit subscribers to some resources
-      [%record ~]                                        ::  - on permit, subscribe
-      [%remove per=(set ship) rys=resources]             ::  remove subscribers from some resources
-      [%depart p=ship]                                   ::  remove a subscription you have
+      [%permit per=(set ship) rys=resources]
+      [%record ~]
+      [%remove per=(set ship) rys=resources]
+      [%depart p=ship]
     ::
-      $:  %remake                                        ::  remakes a remote or local resource
-          wat=(each resource [p=ship q=shape r=resource])::  - which resource to remake, local or remote
-          gro=(each resource term)                       ::  - group in which to place the new resource
-          wer=term                                       ::  - new resource name - we'll make it for you
+      $:  %remake
+          wat=(each resource [p=ship q=shape r=resource])
+          gro=(each resource term)
+          wer=term
       ==
       [%relay jon=json]
   ==
 ::
 ::  peat's facts - agent interface
+::  -  %kil - remove a resource from available set
+::  -  %hav - update, added resources/allresources
 ::
 +$  peep
-  $%  [%kil to=(set ship) res=resource sup=(unit shape)] ::  remove a resource from available set
-      [%hav to=(set ship) raj=(jug shape resource)]      ::  update, added resources/all resources
+  $%  [%kil to=(set ship) res=resource sup=(unit shape)]
+      [%hav to=(set ship) raj=(jug shape resource)]
   ==
 --
