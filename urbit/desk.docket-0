@@ -1,9 +1,9 @@
 :~  title+'peat'
     info+'Graph Backup and Restoration Utility'
     color+0x59.4d5b
-    glob-http+['https://freedom-club.sfo2.digitaloceanspaces.com/glob-0v1.ppi0c.lcs51.f8mmm.v10sp.9gov1.glob' 0v1.ppi0c.lcs51.f8mmm.v10sp.9gov1]
+    glob-http+['https://freedom-club.sfo2.digitaloceanspaces.com/glob-0v2.kl5s9.75jb4.r9u65.53lca.nnk28.glob' 0v2.kl5s9.75jb4.r9u65.53lca.nnk28]
     base+'peat'
     version+[1 0 0]
     website+'https://dalten.org/'
-    license+'Get Rekt'
+    license+'REKT'
 ==

@@ -1,5 +1,6 @@
 ::
-:: /app/graf - a graph backup and restoration agent - by Quartus Corporation
+:: /app/peat - a graph backup and restoration agent
+::   by Quartus Corporation
 ::
 /-  *peat,
     post,
@@ -21,11 +22,19 @@
   ==
 ::
 ::    state-zero
-::  - saved  (map resource [index @dr]) - resources that are being auto-saved
-::  - given  (jag ship shape resource) - resources shared with you
-::  - doled  (jag ship shape resource) - resources you've shared out
-::  - known  (jag shape (unit resource) resource)
-::    - resources you're aware of in graph store by shape, group
+::  - saved 
+::      > (map resource [index @dr])
+::      > resources that are being auto-saved
+::  - given 
+::      > (jag ship shape resource)
+::      > resources shared with you
+::  - doled 
+::      > (jag ship shape resource)
+::      > resources you've shared out
+::  - known 
+::      > (jag shape (unit resource) resource)
+::      > resources you're aware of in graph store,
+::          by shape, group
 ::
 +$  state-zero
   $:  %0
@@ -113,7 +122,7 @@
             %permit
           ?>  (team:title our.bowl src.bowl)  
           (permit:pete:hc per.pete rys.pete)
-            %record                                      ::  note: only foreign allowed
+            %record                                     ::  note: only foreign allowed
           ?>(!=(our.bowl src.bowl) record:pete:hc)
             %remove
           ?>  (team:title our.bowl src.bowl)  
@@ -219,19 +228,20 @@
         ==
       ==
     ::
-        [%remake @ @ @ *]                                ::  partial path parsing, see below
-      =/  n=resource  [our.bowl (slav %tas i.t.wire)]
+        [%remake @ @ @ *]                               ::  partial path parsing,
+      =/  n=resource  [our.bowl (slav %tas i.t.wire)]   ::    see below
       =+  s=;;(shape (slav %tas i.t.t.wire))
-      ?-    -.sign
-         %kick       `this                               ::  quiet failure on kick and
-         %watch-ack  `this                               ::  watch-ack to avoid duplication
-         %poke-ack   `this                               ::  - and this thrown in to avoid wutlus
+      ?-    -.sign                                      ::  we quiet pass on
+        %kick       `this                               ::    kick, watch-ack, 
+        %watch-ack  `this                               ::    and poke-ack
+      ::                                                ::  to avoid duplication
+        %poke-ack   `this                               ::  and wutlus
       ::
           %fact
         ?.  ?=(%jam p.cage.sign)
           ~_(leaf+"%peat-fail -bad-fact-on-remake" !!)
         =+  gra=;;(graph:store (cue !<(@ q.cage.sign)))
-        ?+    t.t.t.t.wire  (on-agent:def wire sign)     ::  finish path parsing, from above
+        ?+    t.t.t.t.wire  (on-agent:def wire sign)    ::  finish path parsing
             ~
           :_  this
           ;:  welp
@@ -544,8 +554,8 @@
       (slog leaf+"%peat-fail -binding-eyre-for-import" ~)
     ::
         [%keys ~]
-      ::  we're using a delay to avoid a timing issue with
-      ::  watching /keys on %graph-store.
+      ::  we're using a delay to avoid a timing issue
+      ::  with watching /keys on %graph-store.
       ::  the timing issue is a result of constructing
       ::  groups and graphs simultaneously in one series
       ::  of pokes, rather than using threads that allow
@@ -665,15 +675,18 @@
 ++  john
   =,  enjs:format
   |%
-  ++  gibbs                                              ::  got a new resource from a friend
+  ::  +gibbs - got a new resource from a friend
+  ::
+  ++  gibbs
     |=  [p=@p s=shape]
     :: ~>  %bout.[0 'gibbs-john']
     ^-  (list json)
     %+  turn  ~(tap in (~(get (ba _p _s resource) given) p s))
     |=  r=resource
     (pairs ~[entity+s+(scot %p entity.r) name+s+name.r])
+  ::  +jagon - shorthand for turning gupps/mupps
   ::
-  ++  jagon                                              ::  shorthand for turning gupps/mupps
+  ++  jagon
     |=  t=?(%given %doled %known)
     |^
     :: ~>  %bout.[0 'jagon-john']
@@ -683,7 +696,9 @@
         %doled  a+(turn ~(tap ba-s doled) gupps)
         %known  a+(turn ~(tap ba-k known) mupps)
       ==
-    ++  gupps                                            ::  translate (jag ship shape resource)
+    ::  +gupps - translate (jag ship shape resource)
+    ::
+    ++  gupps
       |=  [p=@p q=shape r=resources]
       :: ~>  %bout.[0 'gupps-jagon--john']
       ^-  json
@@ -699,8 +714,9 @@
         %-  pairs
         ~[entity+s+(scot %p e) name+s+(scot %tas n)]
       ==
+    ::  +mupps - translate (jag shape (unit resource resource))
     ::
-    ++  mupps                                            ::  translate (jag shape (unit resource) resource)
+    ++  mupps
       |=  [q=shape g=(unit resource) r=resources]
       :: ~>  %bout.[0 'mupps-jagon-john']
       ^-  json
@@ -723,8 +739,9 @@
         ~[ship+s+(scot %p e) name+s+(scot %tas n)]
       ==
     --
+  ::  +shave - all saved
   ::
-  ++  shave                                              ::  all saved
+  ++  shave
     ^-  json
     =/  shav=(list [r=resource [i=@da f=@dr]])
       ~(tap by saved)
@@ -764,7 +781,7 @@
     |=  [r=resource b=(unit @dr)]
     ^-  (quip card _state)
     :: ~>  %bout.[0 'export-pete']
-    ?>  (~(has in llaves:pek:pl) r)                      ::  the resource must exist
+    ?>  (~(has in llaves:pek:pl) r)                     ::  the resource must exist
     =/  coz=card:agent:gall
       :+  %pass  /peat/do/exp/(scot %p -.r)/[+.r]
       [%arvo %k %fard %peat %disk-out %noun !>([bol r])]
@@ -853,7 +870,7 @@
               name+s+(scot %tas name.r)
           ==
       ==
-    ++  add-dm                                           ::  reconcile dms (slide in)
+    ++  add-dm                                          ::  reconcile dms (slide in)
       |=  p=(list [p=@t q=~])
       :: ~>  %bout.[0 'add-do-import-pete']
       =|  q=(map index node:store)
@@ -1058,7 +1075,7 @@
     :: ~>  %bout.[0 'remake-pete']
     ^-  (quip card _state)
     ?<  (~(has in llaves:pek:pl) [our.bol n])
-    ?:  ?=(%.y -.w)                                      ::  local case first
+    ?:  ?=(%.y -.w)                                     ::  local case first
       ?>  (~(has in llaves:pek:pl) p.w)
       =/  mip=[q=shape *]
         (need (mippet:pek:pl p.w))
@@ -1133,7 +1150,7 @@
           ==
         ~
       (~(put by q) index.p.post.n n)
-    ?>  %.  r.p.w                                        ::  now remote case
+    ?>  %.  r.p.w                                       ::  now remote case
         ~(has in (~(gut ba-s given) p.p.w q.p.w ~))
     =*  ent  (scot %p entity.r.p.w)
     =*  nam  (scot %tas name.r.p.w)
@@ -1176,11 +1193,11 @@
     ?~  parts=(de-request:multipart [header-list body]:request)
       =-  [[400^~ `(make-upload-page -)] ~ state]
       ~['Missing Data in POST - Complete Form']
-    =/  form=(each (each resource term) ~)               :: (each extant-group nu-group-name)
+    =/  form=(each (each resource term) ~)              :: (each extant-group nu-group-name)
       (coax-repete-form (malt u.parts))
-    =/  shap=(each [shape @tas] ~)                       :: (each [shape old-resource-name] ~)
+    =/  shap=(each [shape @tas] ~)                      :: (each [shape old-resource-name] ~)
       (coax-prior-shape u.parts)
-    =/  rizo=(each term ~)                               ::  (each new-resource-name ~)
+    =/  rizo=(each term ~)                              ::  (each new-resource-name ~)
       (coax-import-name (malt u.parts))
     ?.  &(?=(%& -.form) ?=(%& -.shap) ?=(%& -.rizo))
       =-  [[400^~ `(make-upload-page -)] ~ state]
@@ -1342,7 +1359,8 @@
     |=  m=(map @t part:multipart)
     ^-  (each term ~)
     ?~  raw=(~(get by m) 'resource')  [%.n ~]
-    ?~  res=(rush body.u.raw ;~(pose ;~(pfix cen sym) sym))  [%.n ~]
+    ?~  res=(rush body.u.raw ;~(pose ;~(pfix cen sym) sym))
+      [%.n ~]
     [%.y u.res]
   ++  make-upload-page
     |=  errs=(list @t)
