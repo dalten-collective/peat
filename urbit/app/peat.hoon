@@ -96,21 +96,18 @@
      =-  [%pass /peat/keys %agent -]~
      [[our.bowl %graph-store] %watch /keys]
     ++  fix-timers
-      =-  ~&  >>  -  -
       %+  murn
         .^  (list [@da duct])
           %bx
           /(scot %p our.bowl)//(scot %da now.bowl)/debug/timers
         ==
       |=  [t=@da lw=duct]
-      ~&  >>>  t
       ?~  lw
         ~
       ?.  ?=([%gall %use %peat @ @ %peat @ @ @ ~] i.lw)
         ~
       `[%pass t.t.t.t.t.i.lw %arvo %b %rest t]
     ++  set-timers
-      =-  ~&  >  -  -
       %-  ~(rep by saved.old)
       |=  [[k=resource v=[@da @dr]] o=(list card)]
       =/  wir=path
@@ -564,7 +561,6 @@
     ==
   ++  on-arvo
     |=  [=wire sign=sign-arvo]
-    ~&  >>>  wire
     :: ~>  %bout.[0 'on-arvo-peat']
     ^-  (quip card _this)
     ?+    wire  (on-arvo:def wire sign)
@@ -596,8 +592,8 @@
       =*  ent  (slav %p i.t.wire)
       =*  nam  (slav %tas i.t.t.wire)
       =/  fre=@dr
-        ?.  (gte (slav %dr i.t.t.t.wire) ~s10)
-          ~s10
+        ?.  (gte (slav %dr i.t.t.t.wire) ~h12)
+          ~h12
         (slav %dr i.t.t.t.wire)
         ::
       =/  las=time
@@ -815,8 +811,8 @@
     ?~  b
       [~[coz] state]
     =?    u.b
-        (lth u.b ~s10)
-      ~s10
+        (lth u.b ~h12)
+      ~h12
     ?~  rep=(~(get by saved) r)
       =.  saved
         (~(put by saved) r [~2000.1.1 u.b])
