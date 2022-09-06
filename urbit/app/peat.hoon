@@ -591,10 +591,7 @@
         [%peat @ @ @ ~]
       =*  ent  (slav %p i.t.wire)
       =*  nam  (slav %tas i.t.t.wire)
-      =/  fre=@dr
-        ?.  (gte (slav %dr i.t.t.t.wire) ~h12)
-          ~h12
-        (slav %dr i.t.t.t.wire)
+      =*  fre  (slav %dr i.t.t.t.wire)
         ::
       =/  las=time
         %-  need  ;;  (unit time)
