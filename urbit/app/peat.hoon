@@ -70,7 +70,7 @@
     :_  this
     :~  :^  %pass  /peat/keys  %agent
         [[our.bowl %graph-store] %watch /keys]
-        (~(wait pass /init) (add now.bowl ~s1))
+        (~(wait pass /init) now.bowl)
     ==
   ::
   ++  on-save
@@ -81,11 +81,13 @@
     |=  ole=vase
     :: ~>  %bout.[0 'on-load-peat']
     ^-  (quip card _this)
-    |^  ^-  (quip card _this)
     =/  old=versioned-state  !<(versioned-state ole)
+    |^  ^-  (quip card _this)
     |-
     ?-  -.old
-     %0  [check-watch this(state old)]
+     %0  
+     :_  this(state old)
+     :(welp check-watch fix-timers set-timers)
     ==
     ++  check-watch
      ?:  %-  ~(has in wex.bowl)
@@ -93,6 +95,27 @@
        ~
      =-  [%pass /peat/keys %agent -]~
      [[our.bowl %graph-store] %watch /keys]
+    ++  fix-timers
+      =-  ~&  >>  -  -
+      %+  murn
+        .^  (list [@da duct])
+          %bx
+          /(scot %p our.bowl)//(scot %da now.bowl)/debug/timers
+        ==
+      |=  [t=@da lw=duct]
+      ~&  >>>  t
+      ?~  lw
+        ~
+      ?.  ?=([%gall %use %peat @ @ %peat @ @ @ ~] i.lw)
+        ~
+      `[%pass t.t.t.t.t.i.lw %arvo %b %rest t]
+    ++  set-timers
+      =-  ~&  >  -  -
+      %-  ~(rep by saved.old)
+      |=  [[k=resource v=[@da @dr]] o=(list card)]
+      =/  wir=path
+        /peat/(scot %p entity.k)/[name.k]/(scot %dr +.v)
+      [[%pass wir %arvo %b %wait (add now.bowl +.v)] o]
     --
   ::
   ++  on-poke
@@ -368,7 +391,7 @@
           :: =-  [%give %fact ~[/website] json+!>(`json`-)]~
           :: (frond known+(jagon:john:hc %known))
           :_  this
-           ~[(~(wait pass /keys) (add now.bowl ~s1))]
+           ~[(~(wait pass /keys) now.bowl)]
         ==
       ==
     ==
@@ -541,6 +564,7 @@
     ==
   ++  on-arvo
     |=  [=wire sign=sign-arvo]
+    ~&  >>>  wire
     :: ~>  %bout.[0 'on-arvo-peat']
     ^-  (quip card _this)
     ?+    wire  (on-arvo:def wire sign)
@@ -571,20 +595,23 @@
         [%peat @ @ @ ~]
       =*  ent  (slav %p i.t.wire)
       =*  nam  (slav %tas i.t.t.wire)
-      =*  fre  (slav %dr i.t.t.t.wire)
+      =/  fre=@dr
+        ?.  (gte (slav %dr i.t.t.t.wire) ~s10)
+          ~s10
+        (slav %dr i.t.t.t.wire)
+        ::
       =/  las=time
         %-  need  ;;  (unit time)
         =-  (gra-s:pek:pl * -)
         /update-log/(scot %p ent)/(scot %tas nam)/latest
+        ::
       ?.  ?=([%behn %wake *] sign)  (on-arvo:def wire sign)
       ?~  error.sign
         ?~  hab=(~(get by saved) [ent nam])  `this
         ?.  =(fre +.u.hab)  `this
         =^  cards  state
           (export:pete:hc [ent nam] ~)
-        :_  this(saved (~(put by saved) [ent nam] [las fre]))
-        :_  cards
-        [%pass wire %arvo %b [%wait (add now.bowl fre)]]
+        [cards this(saved (~(put by saved) [ent nam] [las fre]))]
       =.  saved
         (~(del by saved) [ent nam])
       %.  `this  %-  slog
@@ -788,8 +815,8 @@
     ?~  b
       [~[coz] state]
     =?    u.b
-        (lth u.b ~h12)
-      ~h12
+        (lth u.b ~s10)
+      ~s10
     ?~  rep=(~(get by saved) r)
       =.  saved
         (~(put by saved) r [~2000.1.1 u.b])
