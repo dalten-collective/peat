@@ -40,6 +40,9 @@ export default {
           if ('saved' in data) {
             dispatch("peat/setSaved", data.saved, { root: true })
           }
+          if ('status' in data) {
+            console.log('status: ', data)
+          }
         },
         (subscriptionNumber: number) => {
           dispatch("addSubscription", {

@@ -8,9 +8,14 @@ and this project adheres to
 
 ## UNRELEASED
 
+### Changed
+
+- Allow Remake to create new groups
+
 ### Fixed
 
 - Don't pass nonexistant data to state handlers
+- Don't allow Remaking to an existing group as if it were new
 
 ## [1.1.1-beta] - 2022-08-30
 
