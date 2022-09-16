@@ -34,8 +34,12 @@ export default {
       airlock.openAirlockTo(
         agentName,
         (data) => {
-          dispatch("peat/setKnown", data.known, { root: true })
-          dispatch("peat/setSaved", data.saved, { root: true })
+          if ('known' in data) {
+            dispatch("peat/setKnown", data.known, { root: true })
+          }
+          if ('saved' in data) {
+            dispatch("peat/setSaved", data.saved, { root: true })
+          }
         },
         (subscriptionNumber: number) => {
           dispatch("addSubscription", {
