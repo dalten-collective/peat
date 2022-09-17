@@ -2,9 +2,9 @@
     info+'Graph Backup and Restoration Utility'
     color+0x34.6681
     image+'https://freedom-club.sfo2.digitaloceanspaces.com/props/quartus/long-logo/ab_Quartus-05_only.png'
-    glob-http+['https://freedom-club.sfo2.digitaloceanspaces.com/glob-0v6.k6fjc.tkl50.dpr22.nnq4h.fg0lp.glob' 0v6.k6fjc.tkl50.dpr22.nnq4h.fg0lp]
+    glob-http+['https://freedom-club.sfo2.digitaloceanspaces.com/glob-0v5.k2753.3c8un.a9m65.1g6ld.27bfq.glob' 0v5.k2753.3c8un.a9m65.1g6ld.27bfq]
     base+'peat'
-    version+[1 1 2]
+    version+[1 1 3]
     website+'https://dalten.org/'
     license+'REKT'
 ==
