@@ -238,9 +238,6 @@ export default defineComponent({
 
   methods: {
     validateForm() {
-      console.log('grus ', this.groupOptions.map(g => g.name))
-      this.formValid = false;
-      return
       this.$refs.form.validate();
     },
 
@@ -265,7 +262,6 @@ export default defineComponent({
       } else {
         sanitizedGroupName = `${ this.chosenGroup }`
       }
-      console.log('san ', sanitizedGroupName)
 
       this.remakePending = true;
 
