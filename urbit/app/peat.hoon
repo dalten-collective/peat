@@ -1,16 +1,18 @@
-::
-:: /app/peat - a graph backup and restoration agent
-::   by Quartus Corporation
+::  peat - backup and restore socials
+::  by quartus
 ::
 /-  *peat,
     post,
     res=resource,
     store=graph-store,
-    metas=metadata-store
+    metas=metadata-store,
+    d=diary,
+    h=heap,
+    c=chat,
+    g=groups
 /+  agentio,
     default-agent,
     dbug,
-    *jag,
     multipart,
     plib=peat,
     *server
@@ -18,25 +20,42 @@
 |%
 +$  card  card:agent:gall
 +$  versioned-state
-  $%  state-zero
+  $%  state-0
+  ==
+::  $state-1: reducing complexity
+::
++$  state-1
+  $:  %1
+  ::
+    $=  saved
+    $:  graphs=(map resource [=shape:graphs (pair @da @dr)])
+        diaries=(map flag:d (pair @da @dr))
+        chats=(map flag:c (pair @da @dr))
+        heaps=(map flag (pair @da @dr))
+    ==
+  ::
+    $=  known
+    $:
+      $=  graphs
+      $:  chats=(jug (unit flag) flag)
+          notes=(jug (unit flag) flag)
+          halls=(jug (unit flag) flag)
+          dms=resource
+      ==
+    ::
+      $=  groups
+      $:  chats=(jug flag flag)
+          diaries=(jug flag flag)
+          heaps=(jug flag flag)
+      ==
+    ==
+
+
   ==
 ::
-::    state-zero
-::  - saved 
-::      > (map resource [index @dr])
-::      > resources that are being auto-saved
-::  - given 
-::      > (jag ship shape resource)
-::      > resources shared with you
-::  - doled 
-::      > (jag ship shape resource)
-::      > resources you've shared out
-::  - known 
-::      > (jag shape (unit resource) resource)
-::      > resources you're aware of in graph store,
-::          by shape, group
+::  $state-0: see last version
 ::
-+$  state-zero
++$  state-0
   $:  %0
       saved=(map resource [@da @dr])
       given=(jag ship shape resource)
@@ -46,19 +65,589 @@
 --
 ::
 %-  agent:dbug
-=|  state-zero
+=|  state-1
 =*  state  -
 ^-  agent:gall
 =<
   |_  =bowl:gall
   +*  this  .
       def   ~(. (default-agent this %|) bowl)
-      hc    ~(. +> bowl)
-      pl    ~(. plib bowl)
-      io    ~(. agentio bowl)
-      pass  pass:io
-      ba-k  (ba shape (unit resource) resource)
-      ba-s  (ba @p shape resource)
+      gen    ~(. +> bowl)
+  ::
+  ++  on-init
+    ^-  (quip card _this)
+    ~>  %bout.[0 '%hari +on-init']
+    =^  cards  state
+      abet:init:gen
+    [cards this]
+  ::
+  ++  on-save
+    ^-  vase
+    ~>  %bout.[0 '%hari +on-save']
+    !>(state)
+  ::
+  ++  on-load
+    |=  ole=vase
+    ~>  %bout.[0 '%hari +on-load']
+    ^-  (quip card _this)
+    =^  cards  state
+      abet:(load:gen ole)
+    [cards this]
+  ::
+  ++  on-poke
+    |=  [mar=mark vaz=vase]
+    ~>  %bout.[0 '%hari +on-poke']
+    ^-  (quip card _this)
+    =^  cards  state
+      abet:(poke:gen mar vaz)
+    [cards this]
+  ::
+  ++  on-peek
+    |=  =path
+    ~>  %bout.[0 '%hari +on-peek']
+    ^-  (unit (unit cage))
+    [~ ~]
+  ::
+  ++  on-arvo
+    |=  [wir=wire sig=sign-arvo]
+    ~>  %bout.[0 '%hari +on-arvo']
+    ^-  (quip card _this)
+    =^  cards  state
+      abet:(arvo:gen wir sig)
+    [cards this]
+  ::
+  ++  on-agent
+    |=  [wir=wire sig=sign:agent:gall]
+    ~>  %bout.[0 '%hari +on-agent']
+    ^-  (quip card _this)
+    =^  cards  state
+      abet:(dude:gen wir sig)
+    [cards this]
+  ::
+  ++  on-watch
+  |=  pat=path
+  ~>  %bout.[0 '%hari +on-watch']
+  ^-  (quip card _this)
+  =^  cards  state
+    abet:(peer:gen pat)
+  [cards this]
+  ::
+  ++  on-fail
+    ~>  %bout.[0 '%hari +on-fail']
+    on-fail:def
+  ++  on-leave
+    ~>  %bout.[0 '%hari +on-init']
+    on-leave:def
+  --
+|_  [bol=bowl:gall dek=(list card)]
++*  dat   .
+    dok   [our.bol %groups]
+    dia   [our.bol %diary]
+    hep   [our.bol %heap]
+    cha   [our.bol %chat]
+    gra   [our.bol %graph-store]
+    our   (scot %p our.bol)
+    now   (scot %da now.bol)
+::  +abet: flop the dek, produce [dek state]
+::
+++  abet  [(flop dek) state]
+::  +emit: add a single card to the dek
+::
+++  emit  |=(=card dat(dek [card dek]))
+::  +emil: add a list of cards to the dek
+::
+++  emil  |=(lac=(list card) dat(dek (welp lac dek)))
+::  +tick: tick-tock, next second
+::
+++  tick  (emit [%pass /tock %arvo %b %wait +(now.bol)])
+::  +next: set next timer for recurring save
+::
+++  next
+  |=  [f=flag t=@dr]
+  =+  pat=/peat/(scot %p p.f)/[q.f]/(scot %dr t)
+  (emit %pass pat %arvo %b %wait (add now.bol t))
+::  +eyre: connect eyre
+::
+++  eyre
+  %-  emit
+  [%pass /eyre %arvo %e %connect `/apps/peat/upload dap.bol]
+::  +show: forward to web-ui
+::
+++  show  |=(=cage (emit [%give %fact ~[/web-ui] cage]))
+::  +init: on-init
+::
+++  init
+  ^+  dat
+  %-  (slog leaf+"%peat started" ~)
+  (emil:eyre ~[watch:groups watch:graphs])
+::  +dude: on-agent handler
+::
+++  dude
+  |=  [pol=(pole knot) sig=sign-arvo]
+  ?+    pol  ~(bad-or-old-wire/pol !!)
+      [%peat %keys dude=@ ~]
+    ?+    (scot %tas dude.pol)  ~|(bad-keys/dude !!)
+        %group
+      ?+    -.sig  dat
+        %fact  (fact:groups cage.sig)
+        %kick  (emit watch:groups)
+      ::
+          %watch-ack
+        %.  dat
+        ?~  p.sig  same
+        (slog 'peat can\'t watch groups - maybe kick' ~)
+      ==
+    ::
+        %graph
+      ?+    -.sig  dat
+        %fact  (fact:graphs cage.sig)
+        %kick  (emit watch:graphs)
+      ::
+          %watch-ack
+        %.  dat
+        ?~  p.sig  same
+        (slog 'peat can\'t watch graphs - maybe kick' ~)
+      ==
+    ==
+  ==
+::  +arvo: on-arvo handler
+::
+++  arvo
+  |=  [pol=(pole knot) sig=sign-arvo]
+  ?+    pol  ~(bad-wire-arvo/pol !!)
+      [%eyre ~]
+    ?>  ?=([%eyre %bound *] sig)
+    %.  dat
+    ?:  accepted.sign  same
+    (slog leaf+"%peat-fail -bind-eyre-for-import" ~)
+  ::
+      [%tock ~]
+    ?>  ?=([%wake *] sig)
+    %.  churn
+    ?~  p.sig  same
+    (slog leaf+"%peat-fail -behn-fail-wat-happen" u.p.sig)
+  ::
+      [%peat who=@ wat=@ wen=@ ~]
+    ?.  ?=([%behn %wake *] sig)  ~|(weird-sign-arvo/sig !!)
+    =+  who=(slav %p who.pol)
+    =+  wat=(slav %tas wat.pol)
+    =+  wen=(slav %dr wen.pol)
+    =+  las=(need (last:scry who wat))
+    ?~  hav=(~(get by graphs.saved) [who wat])  dat
+    ?^  error.sig
+      =.  graphs.saved  (~(del by saved) [who wat])
+      %.  dat  %-  slog
+      :~  leaf+"%peat-fail -a-timer-broke"
+          leaf+"-check-resource [{<who>} {<wat>}]"
+      ==
+    ?.  =(wen q.u.hav)  dat
+
+
+
+    
+  ==
+::  +groups: groups handling
+::
+++  groups
+  |%
+  ++  watch
+    [%pass /peat/keys/groups %agent dok %watch /groups]
+  ++  scry
+    |%
+    ++  cha-p   /[our]/chat/[now]
+    ++  dia-p   /[our]/diary/[now]
+    ++  hea-p   /[our]/heap/[now]
+    ++  gro-p   /[our]/groups/[now]
+    ::
+    ++  chats   .^(chats:c %gx (weld cha-p /chats/noun))
+    ++  shelf   .^(shelf:d %gx (weld dia-p /shelf/noun))
+    ++  stash   .^(stash:h %gx (weld hea-p /stash/noun))
+    ++  groups  .^(groups:g %gx (weld gro-p /groups/noun))
+    --
+  ::  +setup: one time double-loop to get all channels
+  ::
+  ++  setup
+    =/  groups=(list [flag group:g])
+      ~(tap by groups:scry)
+    |-  ^+  dat
+    ?~  groups  dat
+    =/  channels=(list [nest:g c=channel:g])
+      ~(tap by channels.i.groups)
+    %=    $
+      groups  t.groups
+    ::
+        state
+      |-  ^+  state
+      ?~  channels  state
+      %=  $
+        channels  t.channels
+      ::
+          state
+        =+  new=[-.i.groups q.i.channels]
+        =,  groups.known
+        ?+    p.i.channels
+            %chat
+          state(chats.groups.known (~(put ju chats) new))
+            %heap
+          state(heaps.groups.known (~(put ju heaps) new))
+            %diary
+          state(diaries.groups.known (~(put ju diaries) new))
+        ==
+      ==
+    ==
+  ::  +fact: handle incoming facts
+  ::
+  ++  fact
+    |=  [mar=mark vaz=vase]
+    ^+  dat
+    ?+    mark  dat
+        %group-leave
+      =/  f=flag  !<(flag vaz)
+      =,  groups.known
+      %.  peat-groups-change+!>([%rem %all & f])
+      %=  show
+        chats.groups.known    (~(del by chats) f)
+        heaps.groups.known    (~(del by heaps) f)
+        diaries.groups.known  (~(del by diaries) f)
+      ==
+    ::
+        %group-action
+      =/  act=action:g  !<(action:g vaz)
+      ?+    -.q.q.act
+          %del
+        =,  groups.known
+        %.  peat-groups-change+!>([%rem %all & p.act])
+        %=  show
+          chats.groups.known    (~(del by chats) p.act)
+          heaps.groups.known    (~(del by heaps) p.act)
+          diaries.groups.known  (~(del by diaries) p.act)
+        ==
+      ::
+          %channel
+        =,  groups.known
+        =+  new=[p.act q.p.q.q.act]
+        ?:  ?=([%del ~] q.q.q.act)
+          ?+    p.p.q.q.act  dat
+              %chat
+            %.  peat-groups-change+!>([%rem %chat | new])
+            show(chats.groups.known (~(del ju chats) new))
+          ::
+              %heap
+            %.  peat-groups-change+!>([%rem %heap | new]
+            show(heaps.groups.known (~(del ju heaps) new))
+          ::
+              %diary
+            %.  peat-groups-change+!>([%rem %diary | new]
+            show(diaries.groups.known (~(del ju diaries) new))
+          ==
+        ?.  ?=([%add *] q.q.q.act)  dat
+        ?+    p.p.q.q.act  dat
+            %chat
+          %.  peat-groups-chage+!>([%add %chat | new])
+          show(chats.groups.known (~(put ju chats) new))
+        ::
+            %heap
+          %.  peat-groups-chage+!>([%add %chat | new])
+          show(heaps.groups.known (~(put ju heaps) new))
+        ::
+            %diary
+          %.  peat-groups-chage+!>([%add %chat | new])
+          show(diaries.groups.known (~(put ju diaries) new))
+        ==
+      ==
+    ==
+  --
+++  graphs
+  |%
+  ++  watch
+    [%pass /peat/keys/graphs %agent gra %watch /keys]
+  ++  scry
+    |%
+    ++  gra-p  /[our]/graph-store/[now]
+    ++  gro-p  /[our]/group-store/[now]
+    ++  met-p  /[our]/metadata-store/[now]
+    ::
+    ++  test
+      ^-  [gra=? gro=? met=?]
+      =;  online=$-(dude:gall ?)
+        :+  (online [%graph-store %.y])
+          (online [%group-store %.y])
+        (online [%metadata-store %.y])
+      |=  =dude:gall
+      .^(? %gu /[our]/[dude]/[now])
+    ++  keys
+      ^-  (set flag)
+      ?.  gra.test  ~
+      =;  upd=update:store
+        ?>  ?=(%keys -.q.upd)
+        resources.q.upd
+      .^(update:store %gx (weld gra-p /keys/noun))
+    ++  meta
+      ^-  (map md-resource:metas assocation:metas)
+      ?.  met.test  ~
+      ?.  gro.test  ~
+      .^  (map md-resource:metas association:metas)
+        %gx
+        (weld met-p /associations/noun)
+      ==
+    ++  mark
+      |=  flag
+      ^-  (unit term)
+      ?.  gra.test  ~
+      .^  (unit term)
+        %gx
+        (weld gra-p /graph/(scot %p p)/[q]/mark)
+      ==
+    ++  last
+      |=  flag
+      ;;  (unit time)
+      .^  *
+        %gx
+        (weld gra-p /update-log/(scot %p p)/[q]/latest/noun)
+      ==
+    --
+  ++  meta
+    |=  f=flag
+    ^-  (unit flag)
+    ?~(h=(~(get by meta:scry) [%graph f]) ~ `group.u.h)
+  ++  fact
+    |=  [mar=mark vaz=vase]
+    ?.  ?=(%graph-update-3 mar)  dat
+    =/  upd=update:store  !<(update:store vaz)
+    ?+    -.q.upd  dat
+      %keys          tick
+      %remove-graph  tick
+    ==
+  ++  run-thread
+    |=  flag
+    %-  emit
+    :+  %pass  /peat/do/exp/(scot %p p)/[q]
+    [%arvo %k %fard %peat %disk-out %noun !>([bol [p q]])]
+  ++  cancel
+    |=  flag
+    ^+  dat
+    =.  graphs.saved
+      (~(del by graphs.saved) [p q])
+    (show re-graph+!>([%cancel [p q]]))
+  ++  import
+    |=  [p=path g=(each flag term) n=term]
+    |^  ^+  dat
+      =/  arc=arch
+        .^(arch %cy (welp /[our]/peat/[now]/hav p))
+      ?<  |((~(has in keys:scry) [our.bol n]) ?=(~ dir.arc))
+      =+  jams=~(tap in dir.arc)
+      ?~  lid=(rush p:(head jams) ;~((glue cab) sym sym dem))
+        ~|(bad-files-found/p:(head jams) !!)
+      =/  sap=shape:graphs
+        ?+  +<.u.lid  !!
+          %dm       ;;(shape:graphs +<.u.lid)
+          %chat     ;;(shape:graphs +<.u.lid)
+          %link     ;;(shape:graphs +<.u.lid)
+          %publish  ;;(shape:graphs +<.u.lid)
+        ==
+      ?-  sap
+        %dm  (dm jams)
+      ::
+          ?(%chat %link %publish)
+        (do jams ?:(-.g p.g [our.bol p.g]) [our.bol n])
+      ==
+    ++  dm
+      |=  dem=(list [p=@t q=?])
+      =|  q=(map index node:store)
+      |-
+      ?~  dem
+        
+    --
+  ++  export
+    |=  [=flag fuse=(unit @dr)]
+    ^+  dat
+    ?>  (~(has in keys:scry) flag)
+    ?~  fuse
+      %-  show:(run-thread flag)
+      re-graph+!>([%export flag fuse]
+    =?    u.fuse
+        (lth u.fuse ~h12)
+      ~h12
+    ?~  ole=(~(get by graphs.saved) flag)
+      =;  sap=shape:graphs
+        =.  graphs.saved
+          %-  ~(put by graphs.saved)
+          [flag [sap ~2000.1.1 u.fuse]]
+        %-  show:(run-thread flag)
+        re-graph+!>([%export flag fuse]
+      %+  rash  (need (mark:scry flag))
+      ;~  pfix
+        (jest 'graph-validator-')
+        (cook |=(@tas ;;(shape:graphs +<)) sym)
+      ==
+    ?<  =(q.u.ole u.fuse)
+    =.  graphs.saved
+      %-  ~(put by graphs.saved)
+      [flag [shape.u.ole p.u.ole u.fuse]]
+    %-  show:(run-thread flag)
+    re-graph+!>([%export flag fuse])
+  ++  churn
+    =+  mine=~(tap in keys:scry)
+    =.  graphs.known  [~ ~ ~ [our.bol %dm-inbox]]
+    |-  ^+  dat
+    ?~  mine  (show known-graphs+!>(graphs.known))
+    ?~  mar=(mark:scry i.mine)  $(mine t.mine)
+    %=  $
+      mine t.mine
+    ::
+        state
+      ?+    u.mar  state
+          %graph-validator-dm
+        ?.  ?=([our.bol %dm-inbox] i.mine)  state
+        state(dms.graphs.known i.mine)
+      ::
+          %graph-validator-chat
+        %=    state
+            chats.graphs.known
+          %-  ~(put ju chats.graphs.known)
+          [(meta i.mine) i.mine]
+        ==
+      ::
+          %graph-validator-link
+        %=    state
+            halls.graphs.known
+          %-  ~(put ju halls.graphs.known)
+          [(meta i.mine) i.mine]
+        ==
+      ::
+          %graph-validator-publish
+        %=    state
+            notes.graphs.known
+          %-  ~(put ju notes.graphs.known)
+          [(meta i.mine) i.mine]
+        ==
+      ==
+    ==
+  --
+--
+
+
+
+
+
+  ++  on-arvo
+    |=  [=wire sign=sign-arvo]
+    :: ~>  %bout.[0 'on-arvo-peat']
+    ^-  (quip card _this)
+    ?+    wire  (on-arvo:def wire sign)
+        [%init ~]
+      :_  this
+      ~[(~(connect pass /eyre) [~ /apps/peat/upload] %peat)]
+        [%eyre ~]
+      ?>  ?=([%eyre %bound *] sign)
+      ?:  accepted.sign  `this
+      %.  `this
+      (slog leaf+"%peat-fail -binding-eyre-for-import" ~)
+    ::
+        [%keys ~]
+      ::  we're using a delay to avoid a timing issue
+      ::  with watching /keys on %graph-store.
+      ::  the timing issue is a result of constructing
+      ::  groups and graphs simultaneously in one series
+      ::  of pokes, rather than using threads that allow
+      ::  for new events.
+      ::
+      =.  known  
+        %-  ~(car (ba shape (unit resource) resource) ~)
+        (murn ~(tap in llaves:pek:pl) mippet:pek:pl)
+      :_  this
+      =-  [%give %fact ~[/website] json+!>(`json`-)]~
+      (frond:enjs:format known+(jagon:john:hc %known))
+    ::
+        [%peat @ @ @ ~]
+      =*  ent  (slav %p i.t.wire)
+      =*  nam  (slav %tas i.t.t.wire)
+      =*  fre  (slav %dr i.t.t.t.wire)
+        ::
+      =/  las=time
+        %-  need  ;;  (unit time)
+        =-  (gra-s:pek:pl * -)
+        /update-log/(scot %p ent)/(scot %tas nam)/latest
+        ::
+      ?.  ?=([%behn %wake *] sign)  (on-arvo:def wire sign)
+      ?~  error.sign
+        ?~  hab=(~(get by saved) [ent nam])  `this
+        ?.  =(fre +.u.hab)  `this
+        =^  cards  state
+          (export:pete:hc [ent nam] ~)
+        [cards this(saved (~(put by saved) [ent nam] [las fre]))]
+      =.  saved
+        (~(del by saved) [ent nam])
+      %.  `this  %-  slog
+      :~  leaf+"%peat-fail -a-timer-broke"
+          leaf+"-check-resource [{<ent>} %{<nam>}]"
+      ==
+    ::
+        [%peat %do *]
+      ?+    t.t.wire  (on-arvo:def wire sign)
+          [%exp @ @ ~]
+        ?.  ?=([%khan %arow %& *] sign)
+          ?>  ?=([%khan %arow %| @ *] sign)
+          ((slog tang.p.p.+.sign) `this)
+        ?>  ?=(%noun -.p.p.sign)
+        =/  res=resource
+          [(slav %p i.t.t.t.wire) (slav %tas i.t.t.t.t.wire)]
+        =/  tim=time  !<(time +.p.p.+.sign)
+        ?~  cur=(~(get by saved) res)
+          :_  this
+          =-  [%give %fact ~[/website] json+!>(`json`-)]~
+          %+  frond:enjs:format  'diff-export'
+          %-  pairs:enjs:format
+          :~  last+(sect:enjs:format tim)
+            :-  'resource'
+              %-  pairs:enjs:format
+              :~  name+s+(scot %tas name.res)
+                  entity+s+(scot %p entity.res)
+              ==
+            ::
+              frequency+s+'once'
+          ==
+        =.  saved
+          (~(put by saved) res [tim +.u.cur])
+        :_  this
+        :~  =-  [%give %fact ~[/website] json+!>(`json`-)]
+            %+  frond:enjs:format  'diff-export'
+            %-  pairs:enjs:format
+            :~  last+(sect:enjs:format tim)
+                :-  'resource'
+                %-  pairs:enjs:format
+                :~  name+s+(scot %tas name.res)
+                    entity+s+(scot %p entity.res)
+                ==
+              ::
+                :-  'frequency'
+                =+  yep=(yell +.u.cur)
+                %-  pairs:enjs:format
+                :~  ['days' n+(scot %ud d.yep)]
+                    ['hours' n+(scot %ud h.yep)]
+                    ['minutes' n+(scot %ud m.yep)]
+                ==
+            ==
+          ::
+            :+  %pass  /peat/(scot %p -.res)/[+.res]/(scot %dr +.u.cur)
+            [%arvo %b [%wait (add now.bowl +.u.cur)]]
+        ==
+      ==
+    ==
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ::
   ++  on-init
     ^-  (quip card _this)
@@ -1418,7 +2007,7 @@
             ;ol
               ;li:"""
                   %peat can import to either an extant group, or a new group.
-                  Based on your needs, please use the correct form, below.
+                  Based on your needs, please use the datrect form, below.
                   """
               ;li:"""
                   Make sure to select the folder in which your backups were
